@@ -4,6 +4,8 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
+        <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/gen" />
+        <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/gen" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/app/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/app/src/main/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/app/src/main/assets" />
@@ -23,24 +25,5 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Flutter for Android" level="project" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support.test:monitor:1.0.2@aar" level="project" />
-    <orderEntry type="module" module-name="sample" />
-    <orderEntry type="library" name="Gradle: com.squareup:javawriter:2.1.1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support.test:runner:1.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-annotations:27.1.1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: junit:junit:4.12@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-library:1.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-integration:1.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support.test.espresso:espresso-idling-resource:3.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:2.0.1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support.test.espresso:espresso-core:3.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.71@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.71@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.71@jar" level="project" />
-    <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: net.sf.kxml:kxml2:2.3.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:/mnt/work/develop/framework/nnt.flutter/sample/build/app/intermediates/flutter/debug/libs.jar:unspecified@jar" level="project" />
   </component>
 </module>

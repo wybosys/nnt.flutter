@@ -1,8 +1,8 @@
 name: nnt
-description: Nn Toolkit.
+description: A new Flutter package project.
 version: 0.0.1
-author: wybosys@gmail.com
-homepage: github.com/wybosys
+author:
+homepage:
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: '^0.12.0'
 
 dev_dependencies:
   flutter_test:
