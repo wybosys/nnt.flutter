@@ -1,4 +1,4 @@
-group 'com.example.impl'
+group 'com.nnt.impl'
 version '1.0-SNAPSHOT'
 
 buildscript {
