@@ -6,4 +6,7 @@ abstract class CoreApplication {
   CoreApplication() {
     _shared = this;
   }
+
+  // 启动游戏
+  Future<void> start();
 }
