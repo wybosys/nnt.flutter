@@ -13,9 +13,6 @@ class ClazzGenerator extends GeneratorForAnnotation<clazz> {
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {
-    return "xxxxxxxxxxxxxxx";
+    return "class XXXXXXXX {}";
   }
 }
-
-@clazz()
-class Test {}
