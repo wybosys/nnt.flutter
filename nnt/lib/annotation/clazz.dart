@@ -12,5 +12,10 @@ Builder clazzBuilder(BuilderOptions options) {
 class ClazzGenerator extends GeneratorForAnnotation<clazz> {
   @override
   generateForAnnotatedElement(
-      Element element, ConstantReader annotation, BuildStep buildStep) {}
+      Element element, ConstantReader annotation, BuildStep buildStep) {
+    return "xxxxxxxxxxxxxxx";
+  }
 }
+
+@clazz()
+class Test {}
