@@ -1,1 +1,11 @@
 #!/usr/bin/env python3
+
+def update_annotations():    
+    pass
+
+def gen_annotations():    
+    pass
+
+if __name__ == "__main__":
+    update_annotations()
+    gen_annotations()
