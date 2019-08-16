@@ -1,12 +1,15 @@
 part of nnt.annotation;
 
-class Clazzes {}
-
-Builder ClazzBuilder<T>(BuilderOptions options) {
-  return SharedPartBuilder([ClazzGenerator<T>()], 'clazz_generator');
+// 注册类
+class clazz {
+  const clazz();
 }
 
-class ClazzGenerator<T> extends GeneratorForAnnotation<T> {
+Builder clazzBuilder(BuilderOptions options) {
+  return SharedPartBuilder([ClazzGenerator()], 'clazz_generator');
+}
+
+class ClazzGenerator extends GeneratorForAnnotation<clazz> {
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {}
