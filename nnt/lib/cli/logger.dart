@@ -1,5 +1,3 @@
-library nnt.cli;
-
-import 'package:nnt/core/logger.dart';
+part of nnt.cli;
 
 class CliLogger extends Logger {}

@@ -1,6 +1,4 @@
-library nnt.gui;
-
-import 'package:flutter/material.dart';
+part of nnt.gui;
 
 class Fullscreen extends StatefulWidget {
   @override

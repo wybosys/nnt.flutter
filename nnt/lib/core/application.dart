@@ -1,6 +1,4 @@
-library nnt.core;
-
-import 'logger.dart';
+part of nnt.core;
 
 abstract class CoreApplication {
   static CoreApplication _shared;
@@ -12,4 +10,7 @@ abstract class CoreApplication {
 
   // 启动游戏
   Future<void> start();
+
+  // 当前配置
+  Config config = Config();
 }

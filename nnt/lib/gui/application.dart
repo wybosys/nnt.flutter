@@ -1,9 +1,4 @@
-library nnt.gui;
-
-import 'package:flutter/material.dart';
-import 'package:nnt/core/application.dart';
-
-import 'fullscreen.dart';
+part of nnt.gui;
 
 abstract class GuiApplication extends CoreApplication {
   Future<void> start() {

@@ -1,6 +1,7 @@
-library nnt.core;
+part of nnt.core;
 
-class _Config {
+// 应用配置
+class Config {
   void override(Map obj) {
     obj.forEach((k, v) {
       _cur[k] = v;
@@ -25,7 +26,5 @@ class _Config {
     return _cur.containsKey(key);
   }
 
-  Map<String, dynamic> _cur = new Map();
+  Map<String, dynamic> _cur = {};
 }
-
-final config = new _Config();

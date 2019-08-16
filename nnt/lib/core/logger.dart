@@ -1,4 +1,4 @@
-library nnt.core;
+part of nnt.core;
 
 // 基础的日志管理器
 class Logger {
