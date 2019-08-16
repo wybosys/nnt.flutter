@@ -5,6 +5,10 @@ class Logger {
   log(String msg) {
     print(msg);
   }
+
+  fatal(String msg) {
+    print(msg);
+  }
 }
 
 final Logger logger = new Logger();
