@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nnt/gui/application.dart';
+import 'package:nnt/gui/gui.dart';
 
 class App extends GuiApplication {}
 
