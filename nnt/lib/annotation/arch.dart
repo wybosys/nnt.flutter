@@ -14,12 +14,18 @@ class Clazz {
 
   // 构造函数
   FnClazzInstance instance;
+
+  // 类全名
+  String get fullname {
+    return "${library}.${name}";
+  }
 }
 
 Map<String, Clazz> _clazzes = new Map();
 
 void RegisterClazz(Clazz clz) {
   _clazzes[clz.name] = clz;
+  print("注册类 ${clz.fullname}");
 }
 
 Clazz FindClazz(String name) {

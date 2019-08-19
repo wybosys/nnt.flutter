@@ -19,4 +19,6 @@ class __clazz_Test extends Clazz {
 // Generator: Registers
 // **************************************************************************
 
-void _RegisterClazzes() {}
+void _RegisterClazzes() {
+  RegisterClazz(new __clazz_Test());
+}
