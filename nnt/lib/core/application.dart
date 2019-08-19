@@ -6,6 +6,14 @@ abstract class CoreApplication {
   CoreApplication() {
     $__shared = this;
     logger.log('应用启动');
+
+    // 初始化基础设置
+    config.override({
+      TOOLKIT_AUTHOR: "wybosys@gmail.com",
+      TOOLKIT_LICENSE: "BSD",
+      TOOLKIT_REPO: "github.com/wybosys/nnt.game.h5",
+      VERSION: '1.0.0'
+    });
   }
 
   // 获得全局对象
