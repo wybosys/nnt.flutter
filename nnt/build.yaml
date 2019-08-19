@@ -1,6 +1,6 @@
 builders:
   clazz_generator:
-    import: "package:nnt/annotation.dart"
+    import: "package:nnt/annotation/builder.dart"
     builder_factories: ["clazzBuilder"]
     build_extensions: {".dart": ["clazz.g.part"]}
     auto_apply: all_packages
