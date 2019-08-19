@@ -9,7 +9,7 @@ class SlotTunnel {
   dynamic payload;
 }
 
-typedef void FnSlotCallback(dynamic s);
+typedef void FnSlotCallback(Slot s);
 
 // 插槽对象
 class Slot {
@@ -159,5 +159,39 @@ class Slots {
   /** 添加一个插槽 */
   void add(Slot s) {
     slots.add(s);
+  }
+
+  /** 对所有插槽激发信号
+      @note 返回被移除的插槽的对象
+   */
+  Set<dynamic> emit(dynamic data, SlotTunnel tunnel) {
+    if (isblocked()) {
+      return null;
+    }
+
+    List<int> ids;
+    ArrayT.Foreach(List.of(slots), (Slot o, int idx) {
+      if (o.count != null && o.emitedCount >= o.count) {
+        return true;
+      }
+
+      o.signal = signal;
+      o.sender = owner;
+      o.emit(data, tunnel);
+
+      if (o.count != null && o.emitedCount >= o.count) {
+        if (ids == null) ids = [];
+        ids.add(idx);
+        return true;
+      }
+
+      return !o.veto;
+    });
+
+    if (ids != null) {
+      Set<dynamic> r = new Set();
+
+      return r;
+    }
   }
 }
