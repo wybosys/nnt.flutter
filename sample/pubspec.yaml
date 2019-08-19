@@ -23,6 +23,7 @@ dependencies:
     path: ../nnt
   impl:
     path: ../impl
+  webview_flutter: ^0.3.13
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
