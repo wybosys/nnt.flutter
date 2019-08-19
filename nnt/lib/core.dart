@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
+part 'core/env.dart';
 part 'core/application.dart';
 part 'core/bundle.dart';
 part 'core/clazz.dart';

@@ -4,6 +4,8 @@ class Fullscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'nnt.flutter', home: GuiApplication.shared.clazzHome.instance());
+        debugShowCheckedModeBanner: IS_DEBUG,
+        title: 'nnt.flutter',
+        home: GuiApplication.shared.clazzHome.instance());
   }
 }

@@ -23,7 +23,17 @@ abstract class CoreApplication {
 
   // 启动游戏
   Future<bool> start() async {
-    return await loadConfig();
+    if (!await loadConfig()) {
+      return false;
+    }
+
+    // 读取基础设置
+    IS_DEBUG = config.getValueByKeyPath('app.debug', false);
+    if (IS_DEBUG) print('DEBUG模式');
+    IS_RELEASE = !IS_DEBUG;
+    if (IS_RELEASE) print('RELEASE模式');
+
+    return true;
   }
 
   // 读取配置文件
@@ -33,6 +43,7 @@ abstract class CoreApplication {
       logger.fatal("没有找到应用配置 $fileConfig");
       return false;
     }
+
     // 读取文件的设置到全局设置
     config.override(cfg);
 
