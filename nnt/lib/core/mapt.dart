@@ -99,4 +99,26 @@ class MapT {
       print('遇到不支持的数据类型');
     }
   }
+
+  static void Clear<K, V>(Map<K, V> map, void proc(V v, K k)) {
+    map.forEach((k, v) {
+      proc(v, k);
+    });
+    map.clear();
+  }
+
+  static void Foreach<K, V>(Map<K, V> map, void proc(V v, K k)) {
+    map.forEach((k, v) {
+      proc(v, k);
+    });
+  }
+
+  static V QueryObject<K, V>(Map<K, V> map, bool proc(V v, K k)) {
+    for (var iter in map.entries) {
+      if (proc(iter.value, iter.key)) {
+        return iter.value;
+      }
+    }
+    return null;
+  }
 }

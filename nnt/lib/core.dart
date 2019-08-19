@@ -20,6 +20,7 @@ part 'core/signals.dart';
 part 'core/datetimet.dart';
 part 'core/arrayt.dart';
 part 'core/objectt.dart';
+part 'core/sett.dart';
 
 part 'core.g.dart';
 
