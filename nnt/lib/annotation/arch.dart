@@ -10,7 +10,7 @@ class Clazz {
   String library;
 
   // 类原型
-  Type clazz;
+  Type proto;
 
   // 构造函数
   FnClazzInstance instance;

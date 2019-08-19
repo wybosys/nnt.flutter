@@ -6,6 +6,11 @@ part of nnt.test;
 // ClazzGenerator
 // **************************************************************************
 
-var _Foo = new RegisterClazzByGenerator('Foo', 'nnt.test');
-
-var _Test = new RegisterClazzByGenerator('Test', 'nnt.test');
+class _CTest extends Clazz {
+  _CTest() {
+    name = 'Test';
+    library = 'nnt.test';
+    proto = Test;
+    instance = () => Test();
+  }
+}
