@@ -5,3 +5,7 @@ import 'package:nnt/annotation.dart';
 
 part 'app/home.dart';
 part 'app.g.dart';
+
+void libAppInit() {
+  _RegisterClazzes();
+}

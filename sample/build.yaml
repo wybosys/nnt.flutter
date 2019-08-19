@@ -1,12 +1,3 @@
-builders:
-  clazzes:
-    import: "package:nnt/annotation/builder.dart"
-    builder_factories: ["clazzes"]
-    build_extensions: {".dart": ["clazz.g.part"]}
-    auto_apply: root_package
-    build_to: cache
-    applies_builders: ["source_gen|combining_builder"]
-
 targets:
   $default:
     builders:
