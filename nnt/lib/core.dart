@@ -13,6 +13,8 @@ part 'core/json.dart';
 part 'core/logger.dart';
 part 'core/object.dart';
 
+part 'core.g.dart';
+
 void libCoreInit() {
   // pass
 }

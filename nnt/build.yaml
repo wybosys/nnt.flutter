@@ -1,7 +1,7 @@
 builders:
   clazz_generator:
     import: "package:nnt/annotation/builder.dart"
-    builder_factories: ["clazzBuilder"]
+    builder_factories: ["clazzToFactory"]
     build_extensions: {".dart": ["clazz.g.part"]}
     auto_apply: all_packages
     build_to: cache
