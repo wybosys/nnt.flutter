@@ -6,6 +6,7 @@ import 'package:nnt/annotation.dart';
 
 part 'gui/application.dart';
 part 'gui/fullscreen.dart';
+part 'gui/webview.dart';
 
 part 'gui.g.dart';
 
