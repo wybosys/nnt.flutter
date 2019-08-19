@@ -15,10 +15,20 @@ class __clazz_MyHomePage extends Clazz {
   }
 }
 
+class __clazz_MyWebPage extends Clazz {
+  __clazz_MyWebPage() {
+    name = 'MyWebPage';
+    library = 'app';
+    proto = MyWebPage;
+    instance = () => MyWebPage();
+  }
+}
+
 // **************************************************************************
 // Generator: Registers
 // **************************************************************************
 
 void _RegisterClazzes() {
   RegisterClazz(new __clazz_MyHomePage());
+  RegisterClazz(new __clazz_MyWebPage());
 }

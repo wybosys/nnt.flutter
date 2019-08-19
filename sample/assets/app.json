@@ -1,6 +1,6 @@
 {
   "home": {
-    "entry": "MyHomePage"
+    "entry": "MyWebPage"
   },
   "app": {
     "debug": true

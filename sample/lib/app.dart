@@ -5,6 +5,7 @@ import 'package:nnt/annotation.dart';
 import 'package:impl/gui.dart';
 
 part 'app/home.dart';
+part 'app/web.dart';
 part 'app.g.dart';
 
 void libAppInit() {
