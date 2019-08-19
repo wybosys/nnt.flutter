@@ -9,7 +9,7 @@ class SlotTunnel {
   dynamic payload;
 }
 
-typedef void FnSlotCallback(Slot s);
+typedef void FnSlotCallback(dynamic s);
 
 // 插槽对象
 class Slot {
@@ -114,5 +114,50 @@ class Slot {
     tunnel = null;
 
     ++emitedCount;
+  }
+}
+
+class Slots {
+  // 保存所有插槽
+  List<Slot> slots = [];
+
+  // 所有者，会传递到 Slot 的 sender
+  dynamic owner;
+
+  // 信号源
+  String signal;
+
+  void dispose() {
+    clear();
+    owner = null;
+  }
+
+  /** 清空连接 */
+  void clear() {
+    ArrayT.Clear(slots, (o) {
+      o.dispose();
+    });
+  }
+
+  /** 阻塞信号
+    @note emit被阻塞的信号将不会有任何作用 */
+  int _block = 0;
+
+  void block() {
+    _block += 1;
+  }
+
+  void unblock() {
+    _block -= 1;
+  }
+
+  /** 是否已经阻塞 */
+  bool isblocked() {
+    return _block != 0;
+  }
+
+  /** 添加一个插槽 */
+  void add(Slot s) {
+    slots.add(s);
   }
 }
