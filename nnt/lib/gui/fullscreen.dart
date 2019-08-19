@@ -6,6 +6,6 @@ class Fullscreen extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: IS_DEBUG,
         title: 'nnt.flutter',
-        home: SafeArea(child: GuiApplication.shared.clazzHome.instance()));
+        home: GuiApplication.shared.clazzHome.instance());
   }
 }
