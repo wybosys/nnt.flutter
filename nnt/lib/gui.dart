@@ -9,5 +9,5 @@ part 'gui/fullscreen.dart';
 part 'gui.g.dart';
 
 void libGuiInit() {
-  // pass
+  _RegisterFactoryClasses();
 }

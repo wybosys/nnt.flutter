@@ -5,4 +5,6 @@ import 'package:nnt/core.dart';
 part 'cli/logger.dart';
 part 'cli.g.dart';
 
-void libCliInit() {}
+void libCliInit() {
+  _RegisterFactoryClasses();
+}

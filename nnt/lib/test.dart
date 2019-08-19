@@ -5,4 +5,6 @@ import 'package:nnt/annotation.dart';
 part 'test/test.dart';
 part 'test.g.dart';
 
-void libTestInit() {}
+void libTestInit() {
+  _RegisterFactoryClasses();
+}
