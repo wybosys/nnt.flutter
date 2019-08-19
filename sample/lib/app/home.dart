@@ -34,12 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.display1,
             ),
-            Flex(
-              direction: Axis.horizontal,
-              children: <Widget>[
-                Expanded(child: WebView(initialUrl: "https://baidu.com"))
-              ],
-            )
           ],
         ),
       ),
