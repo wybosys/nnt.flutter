@@ -6,7 +6,7 @@ class clazz {
 }
 
 Builder clazzBuilder(BuilderOptions options) {
-  return SharedPartBuilder([ClazzGenerator()], 'clazz_generator');
+  return SharedPartBuilder([ClazzGenerator()], 'clazz');
 }
 
 class ClazzGenerator extends GeneratorForAnnotation<clazz> {
