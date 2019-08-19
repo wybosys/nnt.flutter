@@ -29,7 +29,7 @@ Map<String, Clazz> _clazzes = new Map();
 void RegisterClazz(Clazz clz) {
   var nm = clz.name;
   if (_clazzes.containsKey(nm)) {
-    print("遇到重名类 ${nm}");
+    print("遇到重名类 ${clz.fullname}");
     return;
   }
 
