@@ -6,4 +6,6 @@ part of nnt.test;
 // ClazzGenerator
 // **************************************************************************
 
-class XXXXXXXX {}
+var _Foo = new RegisterClazzByGenerator('Foo', 'nnt.test');
+
+var _Test = new RegisterClazzByGenerator('Test', 'nnt.test');

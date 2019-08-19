@@ -1,10 +1,13 @@
-library nnt.annotation;
+part of nnt.annotation;
 
 typedef dynamic FnClazzInstance();
 
 class Clazz {
   // 类名
   String name;
+
+  // 包名
+  String library;
 
   // 类原型
   Type clazz;
