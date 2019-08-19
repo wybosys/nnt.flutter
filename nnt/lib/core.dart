@@ -1,5 +1,6 @@
 library nnt.core;
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ part 'core/compat.dart';
 part 'core/mapt.dart';
 part 'core/consts.dart';
 part 'core/signals.dart';
+part 'core/datetimet.dart';
 
 part 'core.g.dart';
 
