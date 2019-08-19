@@ -16,5 +16,5 @@ part 'core/object.dart';
 part 'core.g.dart';
 
 void libCoreInit() {
-  _RegisterFactoryClasses();
+  _RegisterClazzes();
 }

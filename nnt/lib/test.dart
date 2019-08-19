@@ -6,5 +6,5 @@ part 'test/test.dart';
 part 'test.g.dart';
 
 void libTestInit() {
-  _RegisterFactoryClasses();
+  _RegisterClazzes();
 }

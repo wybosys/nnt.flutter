@@ -3,11 +3,11 @@
 part of nnt.test;
 
 // **************************************************************************
-// Generator: ClazzToFactory
+// Generator: Clazzes
 // **************************************************************************
 
-class __factory_Test extends Clazz {
-  __factory_Test() {
+class __clazz_Test extends Clazz {
+  __clazz_Test() {
     name = 'Test';
     library = 'nnt.test';
     proto = Test;
@@ -16,7 +16,7 @@ class __factory_Test extends Clazz {
 }
 
 // **************************************************************************
-// Generator: FactoryRegister
+// Generator: Registers
 // **************************************************************************
 
-void _RegisterFactoryClasses() {}
+void _RegisterClazzes() {}

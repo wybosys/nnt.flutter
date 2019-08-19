@@ -3,7 +3,7 @@
 part of nnt.gui;
 
 // **************************************************************************
-// Generator: FactoryRegister
+// Generator: Registers
 // **************************************************************************
 
-void _RegisterFactoryClasses() {}
+void _RegisterClazzes() {}

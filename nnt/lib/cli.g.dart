@@ -3,7 +3,7 @@
 part of nnt.cli;
 
 // **************************************************************************
-// Generator: FactoryRegister
+// Generator: Registers
 // **************************************************************************
 
-void _RegisterFactoryClasses() {}
+void _RegisterClazzes() {}

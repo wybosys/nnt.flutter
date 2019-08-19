@@ -6,5 +6,5 @@ part 'annotation/clazz.dart';
 part 'annotation.g.dart';
 
 void libAnnotationInit() {
-  _RegisterFactoryClasses();
+  _RegisterClazzes();
 }

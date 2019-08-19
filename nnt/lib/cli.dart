@@ -6,5 +6,5 @@ part 'cli/logger.dart';
 part 'cli.g.dart';
 
 void libCliInit() {
-  _RegisterFactoryClasses();
+  _RegisterClazzes();
 }

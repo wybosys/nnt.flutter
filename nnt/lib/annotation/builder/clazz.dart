@@ -1,8 +1,8 @@
 part of nnt.annotation.builder;
 
 const TPL_CLAZZ = '''
-class __factory_{{clazz}} extends Clazz {
-__factory_{{clazz}}() {
+class __clazz_{{clazz}} extends Clazz {
+__clazz_{{clazz}}() {
 name = '{{clazz}}';
 library = '{{lib}}';
 proto = {{clazz}};
@@ -12,16 +12,20 @@ instance = ()=>{{clazz}}();
 ''';
 
 const TPL_REGISTER = '''
-void _RegisterFactoryClasses() {
-
+void _RegisterClazzes() {
+{{#clazzes}}RegisterClazz(new {{.}}()){{/clazzes}}
 }
 ''';
 
-Builder clazzToFactory(BuilderOptions options) {
-  return SharedPartBuilder([ClazzToFactory(), FactoryRegister()], 'clazz');
+Builder clazzes(BuilderOptions options) {
+  return SharedPartBuilder([Clazzes()], 'clazz');
 }
 
-class ClazzToFactory extends GeneratorForAnnotation<clazz> {
+Builder registers(BuilderOptions options) {
+  return SharedPartBuilder([Registers()], 'registers');
+}
+
+class Clazzes extends GeneratorForAnnotation<clazz> {
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {
@@ -30,12 +34,18 @@ class ClazzToFactory extends GeneratorForAnnotation<clazz> {
   }
 }
 
-class FactoryRegister extends Generator {
+class Registers extends Generator {
   @override
   String generate(LibraryReader library, BuildStep buildStep) {
     // 遍历lib中所有的类，注册 __factory_ 作为类名的类
     var t = new Template(TPL_REGISTER);
-    print(library.element.name);
-    return t.renderString({});
+    return t.renderString({'clazzes': clazzes(library).map((ele) => ele.name)});
+  }
+
+  Iterable<ClassElement> clazzes(LibraryReader reader) {
+    return reader.allElements.whereType<ClassElement>().where((ele) {
+      print(ele.name);
+      return ele.name.indexOf('__clazz_') == 0;
+    });
   }
 }

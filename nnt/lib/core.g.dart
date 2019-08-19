@@ -3,7 +3,7 @@
 part of nnt.core;
 
 // **************************************************************************
-// Generator: FactoryRegister
+// Generator: Registers
 // **************************************************************************
 
-void _RegisterFactoryClasses() {}
+void _RegisterClazzes() {}

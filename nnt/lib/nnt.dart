@@ -10,7 +10,7 @@ part 'nnt.g.dart';
 // 框架初始化
 void libNntInit() {
   // 注册类厂
-  _RegisterFactoryClasses();
+  _RegisterClazzes();
 
   // 初始化类库
   libCoreInit();

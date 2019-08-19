@@ -1,15 +1,15 @@
 builders:
-  clazz_generator:
+  clazzes:
     import: "package:nnt/annotation/builder.dart"
-    builder_factories: ["clazzToFactory"]
+    builder_factories: ["clazzes"]
     build_extensions: {".dart": ["clazz.g.part"]}
     auto_apply: all_packages
     build_to: cache
     applies_builders: ["source_gen|combining_builder"]
-
-targets:
-  $default:
-    builders:
-      nnt:clazz_generator:
-        generate_for:
-          - lib/*.dart
+  registers:
+    import: "package:nnt/annotation/builder.dart"
+    builder_factories: ["registers"]
+    build_extensions: {".dart": ["register.g.part"]}
+    auto_apply: all_packages
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
