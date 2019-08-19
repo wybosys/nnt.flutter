@@ -5,3 +5,7 @@ import 'package:nnt/core.dart';
 
 part 'gui/application.dart';
 part 'gui/fullscreen.dart';
+
+void libGuiInit() {
+  // pass
+}

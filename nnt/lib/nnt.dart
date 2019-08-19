@@ -1,7 +1,22 @@
 library nnt;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+import 'package:nnt/cli.dart';
+import 'package:nnt/core.dart';
+import 'package:nnt/gui.dart';
+import 'package:nnt/test.dart';
+
+// 框架初始化
+void libNntInit() {
+  libCoreInit();
+  libCliInit();
+  libGuiInit();
+  libTestInit();
+}
+
+// 标准应用
+class NntApplication extends GuiApplication {
+  NntApplication() {
+    // 初始化框架
+    libNntInit();
+  }
 }

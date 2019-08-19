@@ -6,6 +6,6 @@ part 'test/foo.dart';
 part 'test/test.dart';
 part 'test.g.dart';
 
-void Init() {
-  // pass
+void libTestInit() {
+  var _Foo = new RegisterClazzByGenerator('Foo', 'nnt.test');
 }

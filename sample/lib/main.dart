@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nnt/gui.dart';
+import 'package:nnt/nnt.dart';
 
-class Main extends GuiApplication {}
+class Main extends NntApplication {}
 
 void main() {
   Main().start();
