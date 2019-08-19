@@ -7,11 +7,12 @@ class MapT {
       return def;
     }
     var ks = kp.split('.');
+    var r = any_cast(o);
     for (var i = 0; i < ks.length; ++i) {
-      o = o[ks[i]];
-      if (o == null) return def;
+      r = r[ks[i]];
+      if (r == null) return def;
     }
-    return o;
+    return r;
   }
 
   static dynamic GetValueByKeyPaths(Map o, List<String> ks,
@@ -19,11 +20,12 @@ class MapT {
     if (o == null) {
       return def;
     }
+    var r = any_cast(o);
     for (var i = 0; i < ks.length; ++i) {
-      o = o[ks[i]];
-      if (o == null) return def;
+      r = r[ks[i]];
+      if (r == null) return def;
     }
-    return o;
+    return r;
   }
 
   /** 根据查询路径设置值 */
@@ -34,16 +36,17 @@ class MapT {
     }
     final ks = kp.split('.');
     final l = ks.length - 1;
+    var r = any_cast(o);
     for (var i = 0; i < l; ++i) {
       var k = ks[i];
-      var t = o[k];
+      var t = any_cast(r[k]);
       if (t == null) {
         t = {};
-        o[k] = t;
+        r[k] = t;
       }
-      o = t;
+      r = t;
     }
-    o[ks[l]] = v;
+    r[ks[l]] = v;
     return true;
   }
 
@@ -53,16 +56,17 @@ class MapT {
       return false;
     }
     final l = ks.length - 1;
+    var r = any_cast(o);
     for (var i = 0; i < l; ++i) {
       var k = ks[i];
-      var t = o[k];
+      var t = any_cast(r[k]);
       if (t == null) {
         t = {};
-        o[k] = t;
+        r[k] = t;
       }
-      o = t;
+      r = t;
     }
-    o[ks[l]] = v;
+    r[ks[l]] = v;
     return true;
   }
 

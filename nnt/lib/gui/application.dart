@@ -15,9 +15,6 @@ abstract class GuiApplication extends CoreApplication {
     // 初始化根
     Fullscreen root = new Fullscreen();
 
-    // 初始化业务根页面
-    var spHome = clazzHome.instance();
-
     // 显示基础UI
     runApp(root);
 
@@ -32,7 +29,7 @@ abstract class GuiApplication extends CoreApplication {
 
     // 检查配置文件信息
     var clz = config.getValueByKeyPath('home.entry');
-    if (!clz) {
+    if (clz == null) {
       logger.fatal('没有配置默认页面 home.entry');
       return false;
     }

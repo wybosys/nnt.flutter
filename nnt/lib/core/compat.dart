@@ -20,3 +20,10 @@ bool IsPod(dynamic obj) {
   final rt = obj.runtimeType;
   return rt == int || rt == double || rt == bool || rt == String;
 }
+
+dynamic any_cast(dynamic obj) {
+  // dart会默认推导类型，将导致不同类型赋值时抛出类型不匹配的异常，先设置为null可以破坏这个过程
+  var r = null;
+  r = obj;
+  return r;
+}
