@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+part of app;
 
+@clazz()
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
