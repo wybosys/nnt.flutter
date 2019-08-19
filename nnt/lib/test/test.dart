@@ -1,4 +1,8 @@
 part of nnt.test;
 
 @clazz()
-class Test {}
+class Test {
+  void run() {
+    print('hello');
+  }
+}
