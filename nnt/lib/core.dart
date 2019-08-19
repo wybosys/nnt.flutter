@@ -16,6 +16,7 @@ part 'core/object.dart';
 part 'core/compat.dart';
 part 'core/mapt.dart';
 part 'core/consts.dart';
+part 'core/signals.dart';
 
 part 'core.g.dart';
 
