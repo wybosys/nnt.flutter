@@ -3,7 +3,9 @@ import 'package:nnt/gui.dart';
 
 class Main extends GuiApplication {}
 
-void main() => Main().start();
+void main() {
+  Main().start();
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
