@@ -1,11 +1,8 @@
 part of impl.gui;
 
-class WebViewU extends WebView with CWebView {
-  WebViewU({Key key, this.url})
-      : super(
-            key: key,
-            javascriptMode: JavascriptMode.unrestricted,
-            initialUrl: url);
+class WebViewU extends WebviewScaffold with CWebView {
+  WebViewU({Key key, this.url}) : super(key: key, url: url);
 
+  // 访问地址
   String url;
 }
