@@ -1,3 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
 
-flutter packages pub run build_runner build --delete-conflicting-outputs
+import os
+
+def FlushAnnotation():
+    os.system('flutter packages pub run build_runner build --delete-conflicting-outputs')
+
+if __name__ == "__main__":
+    FlushAnnotation()
