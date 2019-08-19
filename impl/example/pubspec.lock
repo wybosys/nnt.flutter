@@ -88,6 +88,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.6"
+  mustache:
+    dependency: transitive
+    description:
+      name: mustache
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.1"
   nnt:
     dependency: transitive
     description:
