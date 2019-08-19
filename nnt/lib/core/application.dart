@@ -1,16 +1,16 @@
 part of nnt.core;
 
 abstract class CoreApplication {
-  static CoreApplication _shared;
+  static var $__shared;
 
   CoreApplication() {
-    _shared = this;
+    $__shared = this;
     logger.log('应用启动');
   }
 
   // 获得全局对象
-  CoreApplication get shared {
-    return _shared;
+  static CoreApplication get shared {
+    return $__shared;
   }
 
   // 启动游戏
@@ -25,6 +25,8 @@ abstract class CoreApplication {
       logger.fatal("没有找到应用配置 $fileConfig");
       return false;
     }
+    // 读取文件的设置到全局设置
+    config.override(cfg);
 
     logger.log('应用配置加载完成');
     return true;

@@ -12,6 +12,8 @@ part 'core/default.dart';
 part 'core/json.dart';
 part 'core/logger.dart';
 part 'core/object.dart';
+part 'core/compat.dart';
+part 'core/mapt.dart';
 
 part 'core.g.dart';
 

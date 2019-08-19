@@ -26,5 +26,9 @@ class Config {
     return _cur.containsKey(key);
   }
 
+  dynamic getValueByKeyPath(String kp, [dynamic def = null]) {
+    return MapT.GetValueByKeyPath(_cur, kp, def);
+  }
+
   Map<String, dynamic> _cur = {};
 }
