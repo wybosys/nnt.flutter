@@ -36,7 +36,7 @@ void RegisterClazz(Clazz clz) {
   _clazzes[nm] = clz;
   _clazzes[clz.fullname] = clz;
 
-  print("注册类 ${nm}");
+  // print("注册类 ${nm}");
 }
 
 // 查找类描述
