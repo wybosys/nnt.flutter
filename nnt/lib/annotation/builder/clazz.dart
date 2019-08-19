@@ -18,11 +18,7 @@ void _RegisterClazzes() {
 ''';
 
 Builder clazzes(BuilderOptions options) {
-  return SharedPartBuilder([Clazzes()], 'clazz');
-}
-
-Builder registers(BuilderOptions options) {
-  return SharedPartBuilder([Registers()], 'registers');
+  return SharedPartBuilder([Clazzes(), Registers()], 'clazz');
 }
 
 // 保存找到的需要注册到类长的类全名
