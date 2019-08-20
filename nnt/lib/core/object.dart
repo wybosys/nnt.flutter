@@ -1,9 +1,9 @@
 part of nnt.core;
 
-int _hashCode = 0;
+int _objectCounter = 0;
 
-mixin HashObject {
-  final int hashCode = ++_hashCode;
+mixin CounterObject {
+  final int objectId = ++_objectCounter;
 }
 
 mixin RefObject {

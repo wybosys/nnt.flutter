@@ -8,7 +8,7 @@ from PIL import Image
 def FlushAnnotation():
     if os.path.basename(os.path.abspath('.')) == 'nnt':    
         # 只有nnt框架自身项目需要处理
-        #os.system(flutter packages pub run build_runner clean)
+        os.system('flutter packages pub run build_runner clean')
         open('lib/annotation.g.dart', 'w').write("part of nnt.annotation;void _RegisterClazzes() {}")
     os.system('flutter packages pub run build_runner build --delete-conflicting-outputs')
 
@@ -183,5 +183,5 @@ def ResizeImage(src, dst, size):
 
 if __name__ == "__main__":
     FlushAnnotation()
-    FlushProject()
-    os.system('flutter pub get')
+    #FlushProject()
+    #os.system('flutter pub get')

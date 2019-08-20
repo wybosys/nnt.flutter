@@ -2,6 +2,27 @@ part of nnt.annotation;
 
 typedef dynamic FnClazzInstance();
 
+// 用于注册的成员描述
+class Func {
+  // 函数名
+  String name;
+
+  // 函数实体
+  Function instance;
+}
+
+typedef dynamic FnVarGet(dynamic obj);
+typedef void FnVarSet(dynamic obj);
+
+class Varc {
+  // 变量名
+  String name;
+
+  // 获得和设置数据
+  FnVarGet getval;
+  FnVarSet setval;
+}
+
 // 用于注册的类描述
 class Clazz {
   // 类名
@@ -20,6 +41,10 @@ class Clazz {
   String get fullname {
     return "${library}.${name}";
   }
+
+  // 成员描述
+  Map<String, Func> funcs = new Map();
+  Map<String, Varc> vars = new Map();
 }
 
 // 短名称
