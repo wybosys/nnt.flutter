@@ -1,11 +1,187 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-import os
+import os, yaml, re, json
+from PIL import Image
 
+# 使用标注生成代码
 def FlushAnnotation():
-    #os.system(flutter packages pub run build_runner clean)
-    open('lib/annotation.g.dart', 'w').write("part of nnt.annotation;void _RegisterClazzes() {}")
+    if os.path.basename(os.path.abspath('.')) == 'nnt':    
+        # 只有nnt框架自身项目需要处理
+        #os.system(flutter packages pub run build_runner clean)
+        open('lib/annotation.g.dart', 'w').write("part of nnt.annotation;void _RegisterClazzes() {}")
     os.system('flutter packages pub run build_runner build --delete-conflicting-outputs')
+
+# 是否是APP项目
+def IsApp():
+    # 如果存在assets/app.json既可以认为是app
+    return os.path.isfile('assets/app.json')
+
+# 更新应用配置
+def FlushProject():
+    FlushPackage()
+    if IsApp():
+        FlushApp()
+
+# 更新package配置
+def FlushPackage():
+    # 读取yaml文件，优化成标准样式
+    ybuild = yaml.load(open('pubspec.yaml'))
+    YamlDump(ybuild, 'pubspec.yaml')
+
+WL_ASSETS = [re.compile(r'\.json|\.png|\.jpg|\.jpeg|\.gif|\.ico$')]
+
+# 更新APP配置
+def FlushApp():
+    # 便利assets下的文件，添加到pubspec中
+    ybuild = yaml.load(open('pubspec.yaml'))
+    assets = listfiles('assets', whitelist=WL_ASSETS)
+    node = GetKeypath(ybuild, 'flutter.assets', [])
+    for e in assets:
+        if e not in node:
+            node.append(e)
+    YamlDump(ybuild, 'pubspec.yaml')
+    if os.path.isdir('android'):
+        FlushAndroid()
+
+# 刷新Android资源
+def FlushAndroid():
+    jsobj = loadjson('assets/app.json')
+    icon = GetKeypath(jsobj, 'app.icon', None)
+    launch = GetKeypath(jsobj, 'app.launch', None)
+    if icon:
+        if not os.path.isfile(icon):
+            print("没有找到图片 " + icon)
+        else:
+            # 处理为指定大小的图标
+            ResizeImage(icon, 'android/app/src/main/res/mipmap-hdpi/ic_launcher.png', (72, 72))
+            ResizeImage(icon, 'android/app/src/main/res/mipmap-mdpi/ic_launcher.png', (48, 48))
+            ResizeImage(icon, 'android/app/src/main/res/mipmap-xhdpi/ic_launcher.png', (96, 96))
+            ResizeImage(icon, 'android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png', (144, 144))
+            ResizeImage(icon, 'android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png', (192, 192))        
+    if launch:
+        if not os.path.isfile(launch):
+            print("没有找到图片 " + launch)
+        else:            
+            ResizeImage(launch, 'android/app/src/main/res/mipmap-hdpi/launch_image.png', (480, 800))
+            ResizeImage(launch, 'android/app/src/main/res/mipmap-mdpi/launch_image.png', (480, 800))
+            ResizeImage(launch, 'android/app/src/main/res/mipmap-xhdpi/launch_image.png', (720, 1280))
+            ResizeImage(launch, 'android/app/src/main/res/mipmap-xxhdpi/launch_image.png', (1080, 1920))
+            ResizeImage(launch, 'android/app/src/main/res/mipmap-xxxhdpi/launch_image.png', (1440, 2560))        
+
+# yaml.dump输出为\u的中文，进行修复
+def YamlDump(yh, file):
+    yaml.dump(yh, open(file, 'w'))
+    cnt = ''.join(open(file).readlines())
+    open(file, 'w').write(cnt.encode('utf-8').decode('unicode_escape'))
+
+# 从yaml按照路径获取
+def GetKeypath(yh, kp, defv):
+    kps = kp.split('.')    
+    for i in range(len(kps)):
+        k = kps[i]
+        if k not in yh:
+            if i == len(kps):
+                yh[k] = defv
+                return defv
+            else:
+                yh[k] = []
+                yh = yh[k]
+        else:
+            yh = yh[k]
+    return yh
+
+# 读取json配置
+def loadjson(file):
+    return json.loads(''.join(open(file).readlines()))
+
+# 判断是否符合一组re的判定
+def ismatchs(str, rexs, non=False):
+    if rexs == None:
+        return non
+    for be in rexs:
+        bl = len(be.findall(str))
+        if bl:
+            return True
+    return False
+
+# 列出文件夹下所有文件，黑名单为rex
+def listfiles(dir, rets = None, blacklist = None, whitelist = None, depth = -1):
+    if depth == 0:
+        return rets
+    elif depth != -1:
+        depth -= 1
+    if rets == None:
+        rets = []
+    if os.path.isdir(dir) == False:
+        return rets
+    for each in os.listdir(dir):
+        # 如果是文件夹则不过滤直接迭代
+        path = dir + '/' + each
+        if os.path.isdir(path):
+            listfiles(path, rets, blacklist, whitelist, depth)
+        else:
+            # 黑名单过滤
+            ignore = False
+            if blacklist:
+                for be in blacklist:
+                    ignore = len(be.findall(each))
+                    if ignore:
+                        break        
+                if ignore:
+                    continue
+            # 白名单过滤
+            if whitelist:
+                for we in whitelist:
+                    ignore = not len(we.findall(each))
+                    if not ignore:
+                        break
+                if ignore:
+                    continue
+            rets.append(path)
+    return rets
+
+def listdirs(dir, rets = None, blacklist = None, depth = -1):
+    if depth == 0:
+        return rets
+    elif depth != -1:
+        depth -= 1
+    if rets == None:
+        rets = []
+    if os.path.isdir(dir) == False:
+        return rets
+    for each in os.listdir(dir):
+        bl = False
+        if blacklist:
+            for be in blacklist:
+                bl = len(be.findall(each))
+                if bl:
+                    break
+        if bl:
+            continue
+        path = dir + '/' + each
+        if os.path.isdir(path):
+            rets.append(path)
+            listdirs(path, rets, blacklist, depth)
+    return rets
+
+# 缩放图片并保存
+def ResizeImage(src, dst, size):    
+    src = Image.open(src)
+    src_sz = src.size        
+    # 计算居中拉伸
+    rx = size[0] / src_sz[0]
+    ry = size[1] / src_sz[1]
+    r = min(rx, ry)
+    dst_sz = (int(src_sz[0] * r), int(src_sz[1] * r))
+    src = src.resize(dst_sz)
+    wb = Image.new('RGBA', size, (0, 0, 0, 0))
+    offx = size[0] - dst_sz[0]
+    offy = size[1] - dst_sz[1]
+    wb.paste(src, (int(offx / 2), int(offy / 2)))
+    wb.save(dst)
 
 if __name__ == "__main__":
     FlushAnnotation()
+    FlushProject()
+    os.system('flutter pub get')

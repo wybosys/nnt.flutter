@@ -1,1 +1,9 @@
-part of nnt.annotation;void _RegisterClazzes() {}
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of nnt.annotation;
+
+// **************************************************************************
+// Generator: Registers
+// **************************************************************************
+
+void _RegisterClazzes() {}
