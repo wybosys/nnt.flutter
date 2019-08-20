@@ -1,6 +1,12 @@
 part of nnt.core;
 
-abstract class RefObject {
+int _hashCode = 0;
+
+mixin HashObject {
+  final int hashCode = ++_hashCode;
+}
+
+mixin RefObject {
   int _refcount = 1;
 
   void dispose() {

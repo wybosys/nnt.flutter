@@ -33,7 +33,7 @@ abstract class GuiApplication extends CoreApplication {
       logger.fatal('没有配置默认页面 home.entry');
       return false;
     }
-    clazzHome = FindClazz(clz);
+    clazzHome = ClazzOfName(clz);
     if (clazzHome == null) {
       logger.fatal('没有找到类 $clz');
       return false;

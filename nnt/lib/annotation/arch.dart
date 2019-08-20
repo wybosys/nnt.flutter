@@ -25,6 +25,9 @@ class Clazz {
 // 短名称
 Map<String, Clazz> _clazzes = new Map();
 
+// 映射类对象到类描述
+Map<Type, Clazz> _protos = new Map();
+
 // 注册类
 void RegisterClazz(Clazz clz) {
   var nm = clz.name;
@@ -35,11 +38,16 @@ void RegisterClazz(Clazz clz) {
 
   _clazzes[nm] = clz;
   _clazzes[clz.fullname] = clz;
+  _protos[clz.proto] = clz;
 
   // print("注册类 ${nm}");
 }
 
 // 查找类描述
-Clazz FindClazz(String name) {
-  return _clazzes[name];
+Clazz ClazzOfName(String name) {
+  return _clazzes.containsKey(name) ? _clazzes[name] : null;
+}
+
+Clazz ClazzOfType(Type clz) {
+  return _protos.containsKey(clz) ? _protos[clz] : null;
 }
