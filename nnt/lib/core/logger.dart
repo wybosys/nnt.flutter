@@ -6,6 +6,10 @@ class Logger {
     print(msg);
   }
 
+  warn(String msg) {
+    print(msg);
+  }
+
   fatal(String msg) {
     print(msg);
   }
