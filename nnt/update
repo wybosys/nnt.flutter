@@ -183,5 +183,5 @@ def ResizeImage(src, dst, size):
 
 if __name__ == "__main__":
     FlushAnnotation()
-    #FlushProject()
-    #os.system('flutter pub get')
+    FlushProject()
+    os.system('flutter pub get')
