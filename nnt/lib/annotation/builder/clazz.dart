@@ -5,15 +5,21 @@ class __clazz_{{clazz}} extends Clazz {
 __clazz_{{clazz}}() {
 name = '{{clazz}}';
 library = '{{lib}}';
-proto = {{clazz}};
+dynamic _p = proto = {{clazz}};
 instance = ()=>{{clazz}}();
+{{#funcs}}
+funcs['{{name}}'] = Func('{{name}}', _p.{{name}});
+{{/funcs}}
+{{#vars}}
+vars['{{name}}'] = Varc('{{name}}');
+{{/vars}}
 }
 }
 ''';
 
 const TPL_REGISTER = '''
 void _RegisterClazzes() {
-{{#clazzes}}RegisterClazz(new {{.}}());{{/clazzes}}
+{{#clazzes}}RegisterClazz(new __clazz_{{name}}());{{/clazzes}}
 }
 ''';
 
@@ -21,94 +27,37 @@ Builder clazzes(BuilderOptions options) {
   return SharedPartBuilder([Clazzes(), Registers()], 'clazz');
 }
 
-// 保存找到的需要注册到类长的类全名
-var __clazzes = new Set();
+// 保存找到的需要注册到类厂的类
+var __clazzes = new Map<String, Clazz>();
 
-class ClazzChildVisitor<R> extends ElementVisitor<R> {
-  R visitClassElement(ClassElement element) {
-    print("class: ${element.name}");
+class _ClazzChildVisitor extends EmptyVisitor<void> {
+  _ClazzChildVisitor(this._clazz);
+
+  // 用来处理找到的类信息
+  Clazz _clazz;
+
+  void visitFieldElement(FieldElement element) {
+    // 判断是否是显式标注，没有标注的函数认为是私有函数，跳过处理
+    if (element.metadata.length == 0) return;
+    var first = element.metadata[0].element.enclosingElement;
+    // 通过varc标注需要暴露的变量
+    if (first.name != 'varc') return;
+    // 读取变量信息
+    var vc = new Varc();
+    vc.name = element.name;
+    _clazz.vars[vc.name] = vc;
   }
 
-  R visitCompilationUnitElement(CompilationUnitElement element) {
-    print("compilation-unit: ${element.name}");
-  }
-
-  R visitConstructorElement(ConstructorElement element) {
-    print("constructor: ${element.name}");
-  }
-
-  R visitExportElement(ExportElement element) {
-    print("export: ${element.name}");
-  }
-
-  R visitExtensionElement(ExtensionElement element) {
-    print("extension: ${element.name}");
-  }
-
-  R visitFieldElement(FieldElement element) {
-    print("field: ${element.name}");
-    Log.field(element);
-  }
-
-  R visitFieldFormalParameterElement(FieldFormalParameterElement element) {
-    print("field-formal-parameter: ${element.name}");
-  }
-
-  R visitFunctionElement(FunctionElement element) {
-    print("function: ${element.name}");
-  }
-
-  R visitFunctionTypeAliasElement(FunctionTypeAliasElement element) {
-    print("function-type-alias: ${element.name}");
-  }
-
-  R visitGenericFunctionTypeElement(GenericFunctionTypeElement element) {
-    print("generic-function-type: ${element.name}");
-  }
-
-  R visitImportElement(ImportElement element) {
-    print("import: ${element.name}");
-  }
-
-  R visitLabelElement(LabelElement element) {
-    print("label: ${element.name}");
-  }
-
-  R visitLibraryElement(LibraryElement element) {
-    print("library: ${element.name}");
-  }
-
-  R visitLocalVariableElement(LocalVariableElement element) {
-    print("local-variable: ${element.name}");
-  }
-
-  R visitMethodElement(MethodElement element) {
-    print("method: ${element.name}");
-    Log.method(element);
-  }
-
-  R visitMultiplyDefinedElement(MultiplyDefinedElement element) {
-    print("multiply-defined: ${element.name}");
-  }
-
-  R visitParameterElement(ParameterElement element) {
-    print("parameter: ${element.name}");
-  }
-
-  R visitPrefixElement(PrefixElement element) {
-    print("prefix: ${element.name}");
-  }
-
-  R visitPropertyAccessorElement(PropertyAccessorElement element) {
-    print("property-accessor: ${element.name}");
-  }
-
-  R visitTopLevelVariableElement(TopLevelVariableElement element) {
-    print("top-level-variable: ${element.name}");
-  }
-
-  R visitTypeParameterElement(TypeParameterElement element) {
-    print("type-parameter: ${element.name}");
+  void visitMethodElement(MethodElement element) {
+    // 判断是否是显式标注，没有标注的函数认为是私有函数，跳过处理
+    if (element.metadata.length == 0) return;
+    var first = element.metadata[0].element.enclosingElement;
+    // 通过func标注需要暴露的函数
+    if (first.name != 'func') return;
+    // 读取函数信息
+    var fn = new Func();
+    fn.name = element.name;
+    _clazz.funcs[fn.name] = fn;
   }
 }
 
@@ -116,11 +65,33 @@ class Clazzes extends GeneratorForAnnotation<clazz> {
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {
-    var visitor = new ClazzChildVisitor();
+    var clz = new Clazz();
+    clz.name = element.name;
+    clz.library = element.library.name;
+    __clazzes[clz.fullname] = clz;
+
+    var visitor = new _ClazzChildVisitor(clz);
     element.visitChildren(visitor);
+
     var t = new Template(TPL_CLAZZ);
-    __clazzes.add("${element.library.name}.${element.name}");
-    return t.renderString({'clazz': element.name, 'lib': element.library.name});
+    return t.renderString(_paramlizeOne(clz));
+  }
+
+  Map _paramlizeOne(Clazz clz) {
+    var funcs = [];
+    clz.funcs.forEach((k, fn) {
+      funcs.add({'name': fn.name});
+    });
+    var vars = [];
+    clz.vars.forEach((k, v) {
+      vars.add({'name': v.name});
+    });
+    return {
+      'clazz': clz.name,
+      'lib': clz.library,
+      'funcs': funcs,
+      'vars': vars
+    };
   }
 }
 
@@ -129,15 +100,24 @@ class Registers extends Generator {
   String generate(LibraryReader library, BuildStep buildStep) {
     // 遍历lib中所有的类，注册 __factory_ 作为类名的类
     var t = new Template(TPL_REGISTER);
+    // 构造用来输出到模板的参数
     return t.renderString(
-        {'clazzes': clazzes(library).map((ele) => "__clazz_${ele.name}")});
+        {'clazzes': clazzes(library).map((ele) => _paramlizeOne(ele))});
   }
 
-  Iterable<ClassElement> clazzes(LibraryReader reader) {
+  Map _paramlizeOne(Clazz clz) {
+    return {'name': clz.name};
+  }
+
+  List<Clazz> clazzes(LibraryReader reader) {
+    var ret = List<Clazz>();
     var lib = reader.element.name;
-    return reader.allElements.whereType<ClassElement>().where((ele) {
+    for (var ele in reader.allElements) {
       final full = "$lib.${ele.name}";
-      return __clazzes.contains(full);
-    });
+      if (__clazzes.containsKey(full)) {
+        ret.add(__clazzes[full]);
+      }
+    }
+    return ret;
   }
 }

@@ -10,8 +10,10 @@ class __clazz_Test extends Clazz {
   __clazz_Test() {
     name = 'Test';
     library = 'nnt.test';
-    proto = Test;
+    dynamic _p = proto = Test;
     instance = () => Test();
+    funcs['run'] = Func('run', _p.run);
+    vars['msg'] = Func('msg', _p.msg);
   }
 }
 

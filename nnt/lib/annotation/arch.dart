@@ -4,6 +4,8 @@ typedef dynamic FnClazzInstance();
 
 // 用于注册的成员描述
 class Func {
+  Func([this.name, this.instance]);
+
   // 函数名
   String name;
 
@@ -15,6 +17,8 @@ typedef dynamic FnVarGet(dynamic obj);
 typedef void FnVarSet(dynamic obj);
 
 class Varc {
+  Varc([this.name, this.getval, this.setval]);
+
   // 变量名
   String name;
 

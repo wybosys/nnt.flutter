@@ -13,3 +13,4 @@ import 'package:source_gen/source_gen.dart';
 part 'builder/clazz.dart';
 part 'builder/log.dart';
 part 'builder/util.dart';
+part 'builder/visitor.dart';
