@@ -9,7 +9,7 @@ namespace nnt.flutter {
     const SCHEME = 'nf20w';
 
     // jsobj的函数形式
-    type FnJsObject = (params:IndexedObject) => void;
+    type FnJsObject = (params: IndexedObject) => void;
 
     export class JsObject {
 
@@ -18,6 +18,11 @@ namespace nnt.flutter {
     }
 
     export class Message {
+
+        constructor(action?: string, params?: IndexedObject) {
+            this.action = action;
+            this.params = params;
+        }
 
         // 对象id
         objectId: int;
@@ -33,7 +38,7 @@ namespace nnt.flutter {
             let raw = JSON.stringify({
                 o: this.objectId,
                 a: this.action,
-                p: this.params
+                p: this.params ? this.params : {}
             });
             raw = encodeURI(raw);
             return `${SCHEME}://${raw}`;
@@ -100,4 +105,7 @@ namespace nnt.flutter {
     }
 
     export const jsb = new _JsBridge();
+
+    // 为了使ts生成对应的工具头
+    export class _JsObject extends JsObject { }
 }

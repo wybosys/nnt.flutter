@@ -1,6 +1,18 @@
 part of nnt.core;
 
 class ArrayT {
+  static List<R> Convert<L, R>(List<L> arr, R proc(L e, int idx)) {
+    var r = new List<R>();
+    if (arr != null) {
+      for (var i = 0, l = arr.length; i < l; ++i) {
+        var e = arr[i];
+        var t = proc(e, i);
+        r.add(t);
+      }
+    }
+    return r;
+  }
+
   static void Foreach<T>(List<T> arr, bool proc(T e, int idx)) {
     if (arr != null) {
       final l = arr.length;

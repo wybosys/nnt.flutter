@@ -17,13 +17,20 @@ abstract class CWebView extends StatefulWidget with SObject {
 
   // 添加一个交叉对象
   void addJsObj(JsObject obj) {
-    // 找到对象的定义类
-    var clz = ClazzOfName(obj.className);
-    if (clz == null) {
-      logger.fatal("没有找到该对象的类定义 ${obj.className}");
+    if (!jsb.addJsObj(obj)) {
       return;
     }
+
+    var code = jsb.jscode(obj);
+    if (code == null) {
+      return;
+    }
+
+    eval(code);
   }
+
+  // jsb
+  JsBridge jsb = new JsBridge();
 
   // 地址
   String url;

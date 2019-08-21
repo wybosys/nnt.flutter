@@ -1,13 +1,26 @@
-var nnt;
-(function (nnt) {
-    var flutter;
-    (function (flutter) {
-        // 映射dart类到js中的模板
-        var Clazz = /** @class */ (function () {
-            function Clazz() {
-            }
-            return Clazz;
-        }());
-        flutter.Clazz = Clazz;
-    })(flutter = nnt.flutter || (nnt.flutter = {}));
-})(nnt || (nnt = {}));
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+// 映射dart类到js中的模板
+var Test = /** @class */ (function (_super) {
+    __extends(Test, _super);
+    function Test() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Test.prototype.hello = function () {
+        nnt.flutter.jsb.toApp(new nnt.flutter.Message('hello'));
+    };
+    return Test;
+}(nnt.flutter.JsObject));
+exports.Test = Test;

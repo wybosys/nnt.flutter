@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var nnt;
 (function (nnt) {
     var flutter;
@@ -11,14 +24,16 @@ var nnt;
         }());
         flutter.JsObject = JsObject;
         var Message = /** @class */ (function () {
-            function Message() {
+            function Message(action, params) {
+                this.action = action;
+                this.params = params;
             }
             // 序列化和反序列化
             Message.prototype.serialize = function () {
                 var raw = JSON.stringify({
                     o: this.objectId,
                     a: this.action,
-                    p: this.params
+                    p: this.params ? this.params : {}
                 });
                 raw = encodeURI(raw);
                 return SCHEME + "://" + raw;
@@ -77,5 +92,14 @@ var nnt;
             return _JsBridge;
         }());
         flutter.jsb = new _JsBridge();
+        // 为了使ts生成对应的工具头
+        var _JsObject = /** @class */ (function (_super) {
+            __extends(_JsObject, _super);
+            function _JsObject() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return _JsObject;
+        }(JsObject));
+        flutter._JsObject = _JsObject;
     })(flutter = nnt.flutter || (nnt.flutter = {}));
 })(nnt || (nnt = {}));
