@@ -47,6 +47,7 @@ class ClazzChildVisitor<R> extends ElementVisitor<R> {
 
   R visitFieldElement(FieldElement element) {
     print("field: ${element.name}");
+    Log.field(element);
   }
 
   R visitFieldFormalParameterElement(FieldFormalParameterElement element) {

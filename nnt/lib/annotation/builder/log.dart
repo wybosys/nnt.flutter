@@ -66,8 +66,8 @@ class Log {
     tree['name'] = ele.name;
 
     if (ele.displayName != null) tree['displayName'] = ele.displayName;
-    if (ele.documentationComment != null)
-      tree['documentationComment'] = ele.documentationComment;
+    //if (ele.documentationComment != null)
+    //  tree['documentationComment'] = ele.documentationComment;
     if (ele.hasAlwaysThrows) tree['hasAlwaysThrows'] = true;
     if (ele.hasDeprecated) tree['hasDeprecated'] = true;
     if (ele.hasFactory) tree['hasFactory'] = true;
@@ -458,6 +458,69 @@ class Log {
     if (ele.type != null) type(ele.type, AvaMap(tree, 'type', Map()));
 
     element(ele, tree);
+    if (p) log(tree);
+  }
+
+  static void field(FieldElement ele, [Map tree = null]) {
+    var p = false;
+    if (tree == null) {
+      tree = new Map();
+      p = true;
+    }
+
+    if (ele.isCovariant) tree['isCovariant'] = true;
+    if (ele.isEnumConstant) tree['isEnumConstant'] = true;
+    if (ele.isStatic) tree['isStatic'] = true;
+
+    classmember(ele, tree);
+    propertyinducing(ele, tree);
+
+    if (p) log(tree);
+  }
+
+  static void propertyinducing(PropertyInducingElement ele, [Map tree = null]) {
+    var p = false;
+    if (tree == null) {
+      tree = new Map();
+      p = true;
+    }
+
+    if (ele.getter != null)
+      propertyaccessor(ele.getter, AvaMap(tree, 'getter', Map()));
+    if (ele.setter != null)
+      propertyaccessor(ele.setter, AvaMap(tree, 'setter', Map()));
+    if (ele.isLate) tree['isLate'] = true;
+    variable(ele, tree);
+
+    if (p) log(tree);
+  }
+
+  static void propertyaccessor(PropertyAccessorElement ele, [Map tree = null]) {
+    var p = false;
+    if (tree == null) {
+      tree = new Map();
+      p = true;
+    }
+
+    /*
+    if (ele.correspondingGetter != null)
+      propertyaccessor(
+          ele.correspondingGetter, AvaMap(tree, 'correspondingGetter', Map()));
+    if (ele.correspondingSetter != null)
+      propertyaccessor(
+          ele.correspondingSetter, AvaMap(tree, 'correspondingSetter', Map()));
+          */
+
+    if (ele.isGetter) tree['isGetter'] = true;
+    if (ele.isSetter) tree['isSetter'] = true;
+
+    /*
+    if (ele.variable != null)
+      propertyinducing(ele.variable, AvaMap(tree, 'variable', Map()));
+      */
+
+    executable(ele, tree);
+
     if (p) log(tree);
   }
 }
