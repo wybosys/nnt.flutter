@@ -19,7 +19,7 @@ var Test = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Test.prototype.hello = function () {
-        nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, 'hello'));
+        return nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, 'hello'));
     };
     return Test;
 }(nnt.flutter.JsObject));

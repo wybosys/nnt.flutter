@@ -1,7 +1,7 @@
 // 映射dart类到js中的模板
 export class Test extends nnt.flutter.JsObject {
     hello() {
-        nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, 'hello'));
+        return nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, 'hello'));
     }
 }
 

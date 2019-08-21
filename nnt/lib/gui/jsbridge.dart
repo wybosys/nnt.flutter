@@ -86,16 +86,18 @@ class JsBridge {
     }
 
     var func = clz.funcs[msg.action];
-
+    String code;
     try {
       var ret = func.invoke(jsobj, msg.params);
-      print(ret);
+      // 放回成功消息
+      msg.params = {'ok': ret};
     } catch (err) {
       logger.warn("jsb的对象运行异常 ${err}");
-      return null;
+      // 放回失败消息
+      msg.params = {'err': err.toString()};
     }
 
-    return null;
+    return msg.serialize();
   }
 
   // 当前保存的jsobj
@@ -115,6 +117,9 @@ class Message {
   // 对象id
   int objectId;
 
+  // 消息id
+  int id;
+
   // 动作
   String action;
 
@@ -123,8 +128,12 @@ class Message {
 
   // 序列化和饭序列化
   String serialize() {
-    var raw = toJson(
-        {'o': objectId, 'a': action, 'p': (params != null ? params : {})});
+    var raw = toJson({
+      'o': objectId,
+      'a': action,
+      'p': (params != null ? params : {}),
+      'i': id
+    });
     raw = Uri.encodeFull(raw);
     return "$SCHEME://$raw";
   }
@@ -136,5 +145,6 @@ class Message {
     objectId = obj['o'];
     action = obj['a'];
     params = obj['p'];
+    id = obj['i'];
   }
 }

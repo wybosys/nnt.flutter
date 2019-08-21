@@ -17,6 +17,8 @@ namespace nnt.flutter {
         objectId: int;
     }
 
+    let _msgid = 0;
+
     export class Message {
 
         constructor(objid: int, action: string, params?: IndexedObject) {
@@ -28,6 +30,9 @@ namespace nnt.flutter {
         // 对象id
         objectId: int;
 
+        // 消息的id
+        id: int;
+
         // 动作
         action: string;
 
@@ -38,6 +43,7 @@ namespace nnt.flutter {
         serialize(): string {
             let raw = JSON.stringify({
                 o: this.objectId,
+                i: this.id,
                 a: this.action,
                 p: this.params ? this.params : {}
             });
@@ -50,6 +56,7 @@ namespace nnt.flutter {
             raw = decodeURI(raw);
             var obj = JSON.parse(raw);
             this.objectId = obj.o;
+            this.id = obj.i;
             this.action = obj.a;
             this.params = obj.p;
         }
@@ -98,12 +105,42 @@ namespace nnt.flutter {
 
         // 给app发送消息
         toApp(msg: Message) {
+            // 分配新的id
+            msg.id = ++_msgid;
             let raw = msg.serialize();
+
+            // 监听消息
+            let pm = new Promise((resolve, reject) => {
+                this._waitings[msg.id] = { resolve, reject };
+            });
 
             // app通过拦截href来实现
             // console.log('msg: ' + raw);
             location.href = raw;
+
+            return pm;
         }
+
+        // app发送结果
+        resule(raw: string) {
+            let msg = new Message(0, null);
+            msg.unserialize(raw);
+
+            let s = this._waitings[msg.id];
+            if (s) {
+                delete this._waitings[msg.id];
+                let p = s.params;
+                if (p.ok) {
+                    s.resole(p.ok);
+                } else {
+                    s.reject(p.err);
+                }
+            } else {
+                console.log('没有找到数据回调');
+            }
+        }
+
+        private _waitings: IndexedObject = {};
     }
 
     export const jsb = new _JsBridge();
@@ -112,7 +149,7 @@ namespace nnt.flutter {
     type PromiseInitT<T> = (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void;
 
     // Reentrant Promise 可以重入的Promise，解决标准Promise的resolve/reject只能调用一次的问题
-    class Promise<T> {
+    export class Promise<T> {
 
         constructor(executor: PromiseInitT<T>) {
             this._executor = executor;

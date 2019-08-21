@@ -23,7 +23,7 @@ abstract class CWebView extends StatefulWidget with SObject {
     }
 
     await eval(code);
-    await eval('ptsdk.hello("abc")');
+    await eval('ptsdk.hello("abc").then(function(res){console.log(res);})');
   }
 
   // jsb

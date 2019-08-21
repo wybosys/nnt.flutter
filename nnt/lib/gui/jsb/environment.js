@@ -58,6 +58,7 @@ var nnt;
             return JsObject;
         }());
         flutter.JsObject = JsObject;
+        var _msgid = 0;
         var Message = /** @class */ (function () {
             function Message(objid, action, params) {
                 this.objectId = objid;
@@ -68,6 +69,7 @@ var nnt;
             Message.prototype.serialize = function () {
                 var raw = JSON.stringify({
                     o: this.objectId,
+                    i: this.id,
                     a: this.action,
                     p: this.params ? this.params : {}
                 });
@@ -79,6 +81,7 @@ var nnt;
                 raw = decodeURI(raw);
                 var obj = JSON.parse(raw);
                 this.objectId = obj.o;
+                this.id = obj.i;
                 this.action = obj.a;
                 this.params = obj.p;
             };
@@ -89,6 +92,7 @@ var nnt;
         var _objects = {};
         var _JsBridge = /** @class */ (function () {
             function _JsBridge() {
+                this._waitings = {};
             }
             // 添加对象到js中
             _JsBridge.prototype.addJsObj = function (obj) {
@@ -121,10 +125,37 @@ var nnt;
             };
             // 给app发送消息
             _JsBridge.prototype.toApp = function (msg) {
+                var _this = this;
+                // 分配新的id
+                msg.id = ++_msgid;
                 var raw = msg.serialize();
+                // 监听消息
+                var pm = new Promise(function (resolve, reject) {
+                    _this._waitings[msg.id] = { resolve: resolve, reject: reject };
+                });
                 // app通过拦截href来实现
                 // console.log('msg: ' + raw);
                 location.href = raw;
+                return pm;
+            };
+            // app发送结果
+            _JsBridge.prototype.resule = function (raw) {
+                var msg = new Message(0, null);
+                msg.unserialize(raw);
+                var s = this._waitings[msg.id];
+                if (s) {
+                    delete this._waitings[msg.id];
+                    var p = s.params;
+                    if (p.ok) {
+                        s.resole(p.ok);
+                    }
+                    else {
+                        s.reject(p.err);
+                    }
+                }
+                else {
+                    console.log('没有找到数据回调');
+                }
             };
             return _JsBridge;
         }());
@@ -185,6 +216,7 @@ var nnt;
             };
             return Promise;
         }());
+        flutter.Promise = Promise;
         // 为了使ts生成对应的工具头
         var _JsObject = /** @class */ (function (_super) {
             __extends(_JsObject, _super);
