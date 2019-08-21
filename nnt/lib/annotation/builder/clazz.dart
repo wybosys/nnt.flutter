@@ -18,87 +18,112 @@ void _RegisterClazzes() {
 ''';
 
 Builder clazzes(BuilderOptions options) {
-  return SharedPartBuilder(
-      [Clazzes(), Functions(), Variables(), Registers()], 'clazz');
+  return SharedPartBuilder([Clazzes(), Registers()], 'clazz');
 }
 
 // 保存找到的需要注册到类长的类全名
 var __clazzes = new Set();
 
 class ClazzChildVisitor<R> extends ElementVisitor<R> {
-  R visitClassElement(ClassElement element) {}
+  R visitClassElement(ClassElement element) {
+    print("class: ${element.name}");
+  }
 
-  R visitCompilationUnitElement(CompilationUnitElement element) {}
+  R visitCompilationUnitElement(CompilationUnitElement element) {
+    print("compilation-unit: ${element.name}");
+  }
 
-  R visitConstructorElement(ConstructorElement element) {}
+  R visitConstructorElement(ConstructorElement element) {
+    print("constructor: ${element.name}");
+  }
 
-  R visitExportElement(ExportElement element) {}
+  R visitExportElement(ExportElement element) {
+    print("export: ${element.name}");
+  }
 
-  R visitExtensionElement(ExtensionElement element) {}
+  R visitExtensionElement(ExtensionElement element) {
+    print("extension: ${element.name}");
+  }
 
   R visitFieldElement(FieldElement element) {
-    print(element.name);
+    print("field: ${element.name}");
   }
 
-  R visitFieldFormalParameterElement(FieldFormalParameterElement element) {}
+  R visitFieldFormalParameterElement(FieldFormalParameterElement element) {
+    print("field-formal-parameter: ${element.name}");
+  }
 
   R visitFunctionElement(FunctionElement element) {
-    print(element.name);
+    print("function: ${element.name}");
   }
 
-  R visitFunctionTypeAliasElement(FunctionTypeAliasElement element) {}
+  R visitFunctionTypeAliasElement(FunctionTypeAliasElement element) {
+    print("function-type-alias: ${element.name}");
+  }
 
-  R visitGenericFunctionTypeElement(GenericFunctionTypeElement element) {}
+  R visitGenericFunctionTypeElement(GenericFunctionTypeElement element) {
+    print("generic-function-type: ${element.name}");
+  }
 
-  R visitImportElement(ImportElement element) {}
+  R visitImportElement(ImportElement element) {
+    print("import: ${element.name}");
+  }
 
-  R visitLabelElement(LabelElement element) {}
+  R visitLabelElement(LabelElement element) {
+    print("label: ${element.name}");
+  }
 
-  R visitLibraryElement(LibraryElement element) {}
+  R visitLibraryElement(LibraryElement element) {
+    print("library: ${element.name}");
+  }
 
-  R visitLocalVariableElement(LocalVariableElement element) {}
+  R visitLocalVariableElement(LocalVariableElement element) {
+    print("local-variable: ${element.name}");
+  }
 
-  R visitMethodElement(MethodElement element) {}
+  R visitMethodElement(MethodElement element) {
+    print("method: ${element.name}");
+    if (element.type == func) {
+      print('xxxxxxxxxxxxxxxxx');
+    } else {
+      print('yyyyyyyyyyyyyyy');
+    }
+  }
 
-  R visitMultiplyDefinedElement(MultiplyDefinedElement element) {}
+  R visitMultiplyDefinedElement(MultiplyDefinedElement element) {
+    print("multiply-defined: ${element.name}");
+  }
 
-  R visitParameterElement(ParameterElement element) {}
+  R visitParameterElement(ParameterElement element) {
+    print("parameter: ${element.name}");
+  }
 
-  R visitPrefixElement(PrefixElement element) {}
+  R visitPrefixElement(PrefixElement element) {
+    print("prefix: ${element.name}");
+  }
 
-  R visitPropertyAccessorElement(PropertyAccessorElement element) {}
+  R visitPropertyAccessorElement(PropertyAccessorElement element) {
+    print("property-accessor: ${element.name}");
+  }
 
-  R visitTopLevelVariableElement(TopLevelVariableElement element) {}
+  R visitTopLevelVariableElement(TopLevelVariableElement element) {
+    print("top-level-variable: ${element.name}");
+  }
 
-  R visitTypeParameterElement(TypeParameterElement element) {}
+  R visitTypeParameterElement(TypeParameterElement element) {
+    print("type-parameter: ${element.name}");
+  }
 }
 
 class Clazzes extends GeneratorForAnnotation<clazz> {
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {
-    element.visitChildren(new ClazzChildVisitor());
+    var visitor = new ClazzChildVisitor();
+    element.visitChildren(visitor);
     var t = new Template(TPL_CLAZZ);
     __clazzes.add("${element.library.name}.${element.name}");
     return t.renderString({'clazz': element.name, 'lib': element.library.name});
-  }
-}
-
-class Functions extends GeneratorForAnnotation<func> {
-  @override
-  generateForAnnotatedElement(
-      Element element, ConstantReader annotation, BuildStep buildStep) {
-    print('xxxxxxxxxxxxxxxxxxx' + element.name);
-    return '';
-  }
-}
-
-class Variables extends GeneratorForAnnotation<varc> {
-  @override
-  generateForAnnotatedElement(
-      Element element, ConstantReader annotation, BuildStep buildStep) {
-    print('yyyyyyyy' + element.name);
-    return '';
   }
 }
 
