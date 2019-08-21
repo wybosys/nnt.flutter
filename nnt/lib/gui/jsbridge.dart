@@ -97,7 +97,7 @@ class JsBridge {
       msg.params = {'err': err.toString()};
     }
 
-    return msg.serialize();
+    return "nnt.flutter.jsb.result('${msg.serialize()}');";
   }
 
   // 当前保存的jsobj

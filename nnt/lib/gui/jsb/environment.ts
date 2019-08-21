@@ -122,16 +122,16 @@ namespace nnt.flutter {
         }
 
         // app发送结果
-        resule(raw: string) {
+        result(raw: string) {
             let msg = new Message(0, null);
             msg.unserialize(raw);
 
             let s = this._waitings[msg.id];
             if (s) {
                 delete this._waitings[msg.id];
-                let p = s.params;
+                let p = msg.params;
                 if (p.ok) {
-                    s.resole(p.ok);
+                    s.resolve(p.ok);
                 } else {
                     s.reject(p.err);
                 }
@@ -207,7 +207,7 @@ namespace nnt.flutter {
 
     // 为了使ts生成对应的工具头
     export class _JsObject extends JsObject {
-        async test() {
+        test() {
             return false;
         }
     }
