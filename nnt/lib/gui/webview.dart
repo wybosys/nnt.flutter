@@ -28,6 +28,12 @@ abstract class CWebView extends StatefulWidget with SObject {
   }
 
   void _cbStarting(Slot s) {
+    print("准备打开 ${url}");
+  }
+
+  void _cbStarted(Slot s) {
+    print("开始打开 ${s.data}");
+
     if (s.data != url) {
       _stdlibLoaded = false;
       url = s.data;
@@ -37,12 +43,6 @@ abstract class CWebView extends StatefulWidget with SObject {
       _stdlibLoaded = true;
       eval(JS_ENVIRONMENT);
     }
-
-    print("准备打开 ${url}");
-  }
-
-  void _cbStarted(Slot s) {
-    print("开始打开 ${s.data}");
   }
 
   void _cbAbort(Slot s) {
