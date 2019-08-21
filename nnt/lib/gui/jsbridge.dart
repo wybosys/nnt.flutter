@@ -1,18 +1,43 @@
 part of nnt.gui;
 
 class JsBridge {
-  bool addJsObj(JsObject obj) {
+  // 添加一个js实例，返回需要浏览器运行的代码
+  String addJsObj(JsObject obj, String varnm) {
     if (_jsobjects.containsKey(obj.objectId)) {
-      return false;
+      return null;
+    }
+    _jsobjects[obj.objectId] = obj;
+
+    List<String> codes = [];
+
+    // 构造类
+    var code = codeClazz(obj);
+    if (code != null) {
+      codes.add(code);
     }
 
-    _jsobjects[obj.objectId] = obj;
-    return true;
+    // 实例化对象
+    var clz = ClazzOfName(obj.className);
+    if (tpl_var == null) {
+      tpl_var = new Template(TPL_VARIABLE);
+    }
+    codes.add(tpl_var.renderString(
+        {'name': varnm, 'clazz': clz.name, 'objid': obj.objectId}));
+
+    return codes.length != 0 ? codes.join(';\n') : null;
   }
 
   static Template tpl_clazz;
+  static Template tpl_var;
 
-  String jscode(JsObject obj) {
+  // 生成类的代码
+  String codeClazz(JsObject obj) {
+    if (_clazzloaded.containsKey(obj.className)) {
+      // 已经加载
+      return null;
+    }
+    _clazzloaded[obj.className] = true;
+
     // 找到对象的定义类
     var clz = ClazzOfName(obj.className);
     if (clz == null) {
@@ -36,6 +61,9 @@ class JsBridge {
 
   // 当前保存的jsobj
   Map<int, JsObject> _jsobjects = new Map();
+
+  // 当前已经加入的类
+  Map<String, bool> _clazzloaded = new Map();
 }
 
 const SCHEME = 'nf20w';

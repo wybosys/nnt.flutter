@@ -16,12 +16,8 @@ abstract class CWebView extends StatefulWidget with SObject {
   Future<bool> eval(String code);
 
   // 添加一个交叉对象
-  void addJsObj(JsObject obj) {
-    if (!jsb.addJsObj(obj)) {
-      return;
-    }
-
-    var code = jsb.jscode(obj);
+  void addJsObj(JsObject obj, String varnm) {
+    var code = jsb.addJsObj(obj, varnm);
     if (code == null) {
       return;
     }

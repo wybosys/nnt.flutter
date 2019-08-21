@@ -24,3 +24,5 @@ var Test = /** @class */ (function (_super) {
     return Test;
 }(nnt.flutter.JsObject));
 exports.Test = Test;
+var test = new Test();
+test.objectId = 123;

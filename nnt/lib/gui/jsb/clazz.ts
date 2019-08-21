@@ -4,3 +4,6 @@ export class Test extends nnt.flutter.JsObject {
         nnt.flutter.jsb.toApp(new nnt.flutter.Message('hello'));
     }
 }
+
+var test = new Test();
+test.objectId = 123;

@@ -14,3 +14,8 @@ var {{clazz}} = (function (_super) {
     return {{clazz}};
 }(nnt.flutter.JsObject));
 ''';
+
+const TPL_VARIABLE = '''
+var {{name}} = new {{clazz}}();
+{{name}}.objectId = {{objid}};
+''';
