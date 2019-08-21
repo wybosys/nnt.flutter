@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+tsc
+uglify -s environment.js -o environment.min.js >/dev/null
+js_environment=`cat environment.min.js`
+
+echo 'part of nnt.gui;'> ../jsbridge.raw.dart
+echo "const JS_ENVIRONMENT='''$js_environment''';" >> ../jsbridge.raw.dart
