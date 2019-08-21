@@ -12,7 +12,21 @@ class __clazz_Test extends Clazz {
     library = 'nnt.test';
     proto = Test;
     instance = () => Test();
-    funcs['run'] = Func('run', (obj) => obj.run());
+    funcs['run'] = Func(
+        'run',
+        (Test obj, [String arg]) => obj.run(arg),
+        [Varc('arg', String, false, true, false)],
+        Varc('', String, false, false, false));
+    funcs['foo'] = Func(
+        'foo',
+        (
+          Test obj,
+          String arg,
+        ) =>
+            obj.foo(arg),
+        [Varc('arg', String, false, false, false)],
+        Varc('', int, false, false, true));
+    funcs['hello'] = Func('hello', (Test obj) => obj.hello(), [], null);
     vars['msg'] = Varc('msg', String, false);
   }
 }

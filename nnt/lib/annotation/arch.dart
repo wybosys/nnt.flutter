@@ -4,10 +4,16 @@ typedef dynamic FnClazzInstance();
 
 // 用于注册的成员描述
 class Func {
-  Func([this.name, this.instance]);
+  Func([this.name, this.instance, this.args, this.ret]);
 
   // 函数名
   String name;
+
+  // 参数表
+  List<Varc> args;
+
+  // 返回数据
+  Varc ret;
 
   // 函数实体
   Function instance;
@@ -17,7 +23,12 @@ typedef dynamic FnVarGet(dynamic obj);
 typedef void FnVarSet(dynamic obj);
 
 class Varc {
-  Varc([this.name, this.type, this.readonly]);
+  Varc(
+      [this.name,
+      this.type,
+      this.readonly = false,
+      this.optional = false,
+      this.async = false]);
 
   // 变量名
   String name;
@@ -27,10 +38,16 @@ class Varc {
 
   // 只读
   bool readonly;
+
+  // 可选
+  bool optional;
+
+  // 异步处理
+  bool async;
 }
 
 // 用于注册的类描述
-class Clazz<F extends Func, V extends Varc> {
+class Clazz {
   // 类名
   String name;
 
@@ -49,8 +66,8 @@ class Clazz<F extends Func, V extends Varc> {
   }
 
   // 成员描述
-  Map<String, F> funcs = new Map();
-  Map<String, V> vars = new Map();
+  Map<String, Func> funcs = new Map();
+  Map<String, Varc> vars = new Map();
 }
 
 // 短名称

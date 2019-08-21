@@ -109,6 +109,7 @@ class LogVisitor<R> extends ElementVisitor<R> {
 
   R visitFieldElement(FieldElement element) {
     print("field: ${element.name}");
+    Log.field(element);
   }
 
   R visitFieldFormalParameterElement(FieldFormalParameterElement element) {
@@ -145,6 +146,7 @@ class LogVisitor<R> extends ElementVisitor<R> {
 
   R visitMethodElement(MethodElement element) {
     print("method: ${element.name}");
+    Log.method(element);
   }
 
   R visitMultiplyDefinedElement(MultiplyDefinedElement element) {
