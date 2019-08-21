@@ -307,11 +307,12 @@ class Signals {
   }
 
   Slots _avaslots(String sig) {
-    var ss = _slots[sig];
-    if (ss == null) {
+    if (!_slots.containsKey(sig)) {
       logger.warn("对象信号 " + sig + " 不存在");
       return null;
     }
+
+    var ss = _slots[sig];
     if (ss == null) {
       ss = new Slots();
       ss.signal = sig;
@@ -356,12 +357,22 @@ class Signals {
 
   /** 该信号是否存在连接上的插槽 */
   bool isConnected(String sig) {
+    if (!_slots.containsKey(sig)) {
+      logger.warn("对象信号 " + sig + " 不存在");
+      return false;
+    }
+
     var ss = _slots[sig];
     return ss != null && ss.slots.length != 0;
   }
 
   /** 激发信号 */
   void emit(String sig, [dynamic d = null, SlotTunnel tunnel = null]) {
+    if (!_slots.containsKey(sig)) {
+      logger.warn("对象信号 " + sig + " 不存在");
+      return;
+    }
+
     var ss = _slots[sig];
     if (ss != null) {
       var targets = ss.emit(d, tunnel);
@@ -373,9 +384,6 @@ class Signals {
           }
         });
       }
-    } else if (ss == null) {
-      logger.warn("对象信号 " + sig + " 不存在");
-      return;
     }
   }
 
@@ -418,6 +426,11 @@ class Signals {
   /** 断开连接 */
   void disconnect(String sig,
       [FnSlotCallback cb = null, dynamic target = null]) {
+    if (!_slots.containsKey(sig)) {
+      logger.warn("对象信号 " + sig + " 不存在");
+      return;
+    }
+
     var ss = _slots[sig];
     if (ss == null) {
       return;
@@ -450,6 +463,11 @@ class Signals {
 
   /** 阻塞一个信号，将不响应激发 */
   void block(String sig) {
+    if (!_slots.containsKey(sig)) {
+      logger.warn("对象信号 " + sig + " 不存在");
+      return;
+    }
+
     Slots ss = _slots[sig];
     if (ss != null) {
       ss.block();
@@ -457,6 +475,11 @@ class Signals {
   }
 
   void unblock(String sig) {
+    if (!_slots.containsKey(sig)) {
+      logger.warn("对象信号 " + sig + " 不存在");
+      return;
+    }
+
     Slots ss = _slots[sig];
     if (ss != null) {
       ss.unblock();
@@ -464,6 +487,11 @@ class Signals {
   }
 
   bool isblocked(String sig) {
+    if (!_slots.containsKey(sig)) {
+      logger.warn("对象信号 " + sig + " 不存在");
+      return false;
+    }
+
     Slots ss = _slots[sig];
     if (ss != null) {
       return ss.isblocked();
@@ -483,3 +511,8 @@ class Signals {
     tgt.signals.__invtargets.delete(this);
   }
 }
+
+const kSignalStarting = '::nn::starting';
+const kSignalStarted = '::nn::started';
+const kSignalAbort = '::nn::abort';
+const kSignalDone = '::nn:done';

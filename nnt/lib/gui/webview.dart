@@ -6,4 +6,14 @@ abstract class CWebView {
 
   // 添加一个交叉对象
   void addObject(JsObject obj);
+
+  Signals get signals;
+
+  // 初始化信号
+  void initSignals() {
+    signals.register(kSignalStarted);
+    signals.register(kSignalStarting);
+    signals.register(kSignalAbort);
+    signals.register(kSignalDone);
+  }
 }

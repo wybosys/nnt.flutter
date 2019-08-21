@@ -26,12 +26,14 @@ mixin RefObject {
   }
 }
 
-mixin SObject on RefObject {
+class SObject {
   Signals _signals;
 
-  @override
+  void initSignals() {
+    // pass
+  }
+
   dispose() {
-    super.dispose();
     if (_signals != null) {
       _signals.dispose();
       _signals = null;
@@ -41,7 +43,14 @@ mixin SObject on RefObject {
   Signals get signals {
     if (_signals == null) {
       _signals = new Signals(this);
+      initSignals();
     }
     return _signals;
+  }
+
+  void emit(String sig, [dynamic d = null, SlotTunnel tunnel = null]) {
+    if (_signals != null) {
+      _signals.emit(sig, d, tunnel);
+    }
   }
 }
