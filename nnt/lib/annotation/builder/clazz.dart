@@ -5,10 +5,10 @@ class __clazz_{{clazz}} extends Clazz {
 __clazz_{{clazz}}() {
 name = '{{clazz}}';
 library = '{{lib}}';
-dynamic _p = proto = {{clazz}};
+proto = {{clazz}};
 instance = ()=>{{clazz}}();
 {{#funcs}}
-funcs['{{name}}'] = Func('{{name}}', _p.{{name}});
+funcs['{{name}}'] = Func('{{name}}', (obj) => obj.{{name}}());
 {{/funcs}}
 {{#vars}}
 vars['{{name}}'] = Varc('{{name}}', {{type}}, {{readonly}});
