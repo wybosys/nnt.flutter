@@ -83,11 +83,6 @@ class ClazzChildVisitor<R> extends ElementVisitor<R> {
 
   R visitMethodElement(MethodElement element) {
     print("method: ${element.name}");
-    if (element.type == func) {
-      print('xxxxxxxxxxxxxxxxx');
-    } else {
-      print('yyyyyyyyyyyyyyy');
-    }
   }
 
   R visitMultiplyDefinedElement(MultiplyDefinedElement element) {
