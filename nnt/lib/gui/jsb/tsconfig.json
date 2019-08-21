@@ -7,7 +7,7 @@
     "noImplicitAny": true,
     "noImplicitUseStrict": true,
     "noImplicitReturns": true,
-    "sourceMap": false,
+    "sourceMap": false
   },
   "include": [
     "*.ts"

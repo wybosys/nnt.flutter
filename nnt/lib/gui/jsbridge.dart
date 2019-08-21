@@ -88,7 +88,8 @@ class JsBridge {
     var func = clz.funcs[msg.action];
 
     try {
-      func.invoke(jsobj, msg.params);
+      var ret = func.invoke(jsobj, msg.params);
+      print(ret);
     } catch (err) {
       logger.warn("jsb的对象运行异常 ${err}");
       return null;

@@ -108,6 +108,70 @@ namespace nnt.flutter {
 
     export const jsb = new _JsBridge();
 
+    // 兼容实现promise
+    type PromiseInitT<T> = (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void;
+
+    // Reentrant Promise 可以重入的Promise，解决标准Promise的resolve/reject只能调用一次的问题
+    class Promise<T> {
+
+        constructor(executor: PromiseInitT<T>) {
+            this._executor = executor;
+
+            // 延迟执行，业务会设置then等后处理
+            setTimeout(() => {
+                this._do();
+            }, 0);
+        }
+
+        private _executor: PromiseInitT<T>;
+        private _thens: Function[] = [];
+        private _catchs: Function[] = [];
+
+        then(func: Function): this {
+            this._thens.push(func);
+            return this;
+        }
+
+        catch(func: Function): this {
+            this._catchs.push(func);
+            return this;
+        }
+
+        private _do() {
+            try {
+                this._executor(obj => {
+                    this._thens.forEach(e => {
+                        e(obj);
+                    });
+                }, reason => {
+                    if (this._catchs.length) {
+                        this._catchs.forEach(e => {
+                            try {
+                                e(reason);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        console.log(reason);
+                    }
+                });
+            } catch (err) {
+                if (this._catchs.length) {
+                    this._catchs.forEach(e => {
+                        e(err);
+                    });
+                } else {
+                    throw err;
+                }
+            }
+        }
+    }
+
     // 为了使ts生成对应的工具头
-    export class _JsObject extends JsObject { }
+    export class _JsObject extends JsObject {
+        async test() {
+            return false;
+        }
+    }
 }
