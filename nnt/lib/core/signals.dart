@@ -516,3 +516,4 @@ const kSignalStarting = '::nn::starting';
 const kSignalStarted = '::nn::started';
 const kSignalAbort = '::nn::abort';
 const kSignalDone = '::nn:done';
+const kSignalChanged = '::nn::changed';

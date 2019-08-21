@@ -7,6 +7,7 @@ import 'package:nnt/annotation.dart';
 part 'gui/application.dart';
 part 'gui/fullscreen.dart';
 part 'gui/webview.dart';
+part 'gui/webpage.dart';
 part 'gui/jsobject.dart';
 part 'gui/jsbridge.dart';
 part 'gui/jsbridge.raw.dart';

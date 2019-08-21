@@ -33,7 +33,7 @@ class SObject {
     // pass
   }
 
-  dispose() {
+  void disposeSignals() {
     if (_signals != null) {
       _signals.dispose();
       _signals = null;

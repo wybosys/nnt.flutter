@@ -1,5 +1,6 @@
 library impl.gui;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:nnt/gui.dart';
 import 'package:nnt/core.dart';
