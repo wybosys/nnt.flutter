@@ -59,6 +59,31 @@ class JsBridge {
     return code;
   }
 
+  // 调用本地函数，并返回需要web运行的code
+  String invoke(Message msg) {
+    if (!_jsobjects.containsKey(msg.objectId)) {
+      logger.warn("没有找到jsb中设置的对象 ${msg.objectId}");
+      return null;
+    }
+
+    var jsobj = _jsobjects[msg.objectId];
+    var clz = ClazzOfName(jsobj.className);
+    if (!clz.funcs.containsKey(msg.action)) {
+      logger.warn("没有找到jsb中对象的方法 ${jsobj.className}:${msg.action}");
+      return null;
+    }
+    var func = clz.funcs[msg.action];
+
+    try {
+      func.instance(jsobj);
+    } catch (err) {
+      logger.warn("jsb的对象运行异常 ${err}");
+      return null;
+    }
+
+    return null;
+  }
+
   // 当前保存的jsobj
   Map<int, JsObject> _jsobjects = new Map();
 
@@ -66,9 +91,13 @@ class JsBridge {
   Map<String, bool> _clazzloaded = new Map();
 }
 
+// 协议头
 const SCHEME = 'nf20w';
 
+// 用于app/js间交换消息
 class Message {
+  Message(this.objectId, this.action, [this.params]);
+
   // 对象id
   int objectId;
 
@@ -88,6 +117,7 @@ class Message {
 
   void unserialize(String raw) {
     raw = raw.substring(SCHEME.length + 3);
+    raw = Uri.decodeFull(raw);
     var obj = toJsonObj(raw);
     objectId = obj['o'];
     action = obj['a'];

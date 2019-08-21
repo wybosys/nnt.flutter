@@ -54,8 +54,6 @@ class _State extends State<WebViewU> {
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
-        key: widget.key,
-        url: widget.url,
-        invalidUrlRegex: "r'^${SCHEME}://.*'");
+        key: widget.key, url: widget.url, invalidUrlRegex: "^${SCHEME}://.*");
   }
 }

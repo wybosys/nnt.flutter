@@ -24,7 +24,8 @@ var nnt;
         }());
         flutter.JsObject = JsObject;
         var Message = /** @class */ (function () {
-            function Message(action, params) {
+            function Message(objid, action, params) {
+                this.objectId = objid;
                 this.action = action;
                 this.params = params;
             }
@@ -68,7 +69,7 @@ var nnt;
                     alert("\u6536\u5230\u4E86\u4E0D\u652F\u6301\u7684\u6570\u636E " + raw);
                     return;
                 }
-                var msg = new Message();
+                var msg = new Message(0, null);
                 msg.unserialize(raw);
                 // 查找池子里的对象
                 var obj = _objects[msg.objectId];
@@ -87,6 +88,7 @@ var nnt;
             _JsBridge.prototype.toApp = function (msg) {
                 var raw = msg.serialize();
                 // app通过拦截href来实现
+                console.log('msg: ' + raw);
                 location.href = raw;
             };
             return _JsBridge;

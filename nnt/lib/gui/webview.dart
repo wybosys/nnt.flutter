@@ -16,13 +16,14 @@ abstract class CWebView extends StatefulWidget with SObject {
   Future<bool> eval(String code);
 
   // 添加一个交叉对象
-  void addJsObj(JsObject obj, String varnm) {
+  void addJsObj(JsObject obj, String varnm) async {
     var code = jsb.addJsObj(obj, varnm);
     if (code == null) {
       return;
     }
 
-    eval(code);
+    await eval(code);
+    await eval('ptsdk.hello()');
   }
 
   // jsb
@@ -62,6 +63,19 @@ abstract class CWebView extends StatefulWidget with SObject {
 
   void _cbAbort(Slot s) {
     print("停止打开 ${s.data}");
+
+    String raw = s.data;
+    if (raw.indexOf("${SCHEME}://") == 0) {
+      // 收到消息
+      var msg = new Message(0, null);
+      msg.unserialize(raw);
+      String code = jsb.invoke(msg);
+      if (code != null) {
+        eval(code);
+      }
+    } else {
+      logger.warn("jsb消息头错误: ${raw}");
+    }
   }
 
   void _cbDone(Slot s) {

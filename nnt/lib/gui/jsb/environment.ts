@@ -19,7 +19,8 @@ namespace nnt.flutter {
 
     export class Message {
 
-        constructor(action?: string, params?: IndexedObject) {
+        constructor(objid: int, action: string, params?: IndexedObject) {
+            this.objectId = objid;
             this.action = action;
             this.params = params;
         }
@@ -76,7 +77,7 @@ namespace nnt.flutter {
                 return;
             }
 
-            let msg = new Message();
+            let msg = new Message(0, null);
             msg.unserialize(raw);
 
             // 查找池子里的对象
@@ -100,6 +101,7 @@ namespace nnt.flutter {
             let raw = msg.serialize();
 
             // app通过拦截href来实现
+            console.log('msg: ' + raw);
             location.href = raw;
         }
     }
