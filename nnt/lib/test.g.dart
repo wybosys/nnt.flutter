@@ -13,7 +13,7 @@ class __clazz_Test extends Clazz {
     dynamic _p = proto = Test;
     instance = () => Test();
     funcs['run'] = Func('run', _p.run);
-    vars['msg'] = Varc('msg');
+    vars['msg'] = Varc('msg', String, false);
   }
 }
 

@@ -11,7 +11,7 @@ instance = ()=>{{clazz}}();
 funcs['{{name}}'] = Func('{{name}}', _p.{{name}});
 {{/funcs}}
 {{#vars}}
-vars['{{name}}'] = Varc('{{name}}');
+vars['{{name}}'] = Varc('{{name}}', {{type}}, {{readonly}});
 {{/vars}}
 }
 }
@@ -30,6 +30,11 @@ Builder clazzes(BuilderOptions options) {
 // 保存找到的需要注册到类厂的类
 var __clazzes = new Map<String, Clazz>();
 
+class DevVarc extends Varc {
+  // 类型名称
+  String typeName;
+}
+
 class _ClazzChildVisitor extends EmptyVisitor<void> {
   _ClazzChildVisitor(this._clazz);
 
@@ -43,8 +48,10 @@ class _ClazzChildVisitor extends EmptyVisitor<void> {
     // 通过varc标注需要暴露的变量
     if (first.name != 'varc') return;
     // 读取变量信息
-    var vc = new Varc();
+    var vc = new DevVarc();
     vc.name = element.name;
+    vc.typeName = element.type.name;
+    vc.readonly = element.getter == null;
     _clazz.vars[vc.name] = vc;
   }
 
@@ -65,7 +72,7 @@ class Clazzes extends GeneratorForAnnotation<clazz> {
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {
-    var clz = new Clazz();
+    var clz = new Clazz<Func, DevVarc>();
     clz.name = element.name;
     clz.library = element.library.name;
     __clazzes[clz.fullname] = clz;
@@ -77,14 +84,14 @@ class Clazzes extends GeneratorForAnnotation<clazz> {
     return t.renderString(_paramlizeOne(clz));
   }
 
-  Map _paramlizeOne(Clazz clz) {
+  Map _paramlizeOne(Clazz<Func, DevVarc> clz) {
     var funcs = [];
     clz.funcs.forEach((k, fn) {
       funcs.add({'name': fn.name});
     });
     var vars = [];
     clz.vars.forEach((k, v) {
-      vars.add({'name': v.name});
+      vars.add({'name': v.name, 'type': v.typeName, 'readonly': v.readonly});
     });
     return {
       'clazz': clz.name,

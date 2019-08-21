@@ -17,18 +17,20 @@ typedef dynamic FnVarGet(dynamic obj);
 typedef void FnVarSet(dynamic obj);
 
 class Varc {
-  Varc([this.name, this.getval, this.setval]);
+  Varc([this.name, this.type, this.readonly]);
 
   // 变量名
   String name;
 
-  // 获得和设置数据
-  FnVarGet getval;
-  FnVarSet setval;
+  // 变量类型
+  Type type;
+
+  // 只读
+  bool readonly;
 }
 
 // 用于注册的类描述
-class Clazz {
+class Clazz<F extends Func, V extends Varc> {
   // 类名
   String name;
 
@@ -47,8 +49,8 @@ class Clazz {
   }
 
   // 成员描述
-  Map<String, Func> funcs = new Map();
-  Map<String, Varc> vars = new Map();
+  Map<String, F> funcs = new Map();
+  Map<String, V> vars = new Map();
 }
 
 // 短名称
