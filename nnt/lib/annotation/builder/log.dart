@@ -2,8 +2,8 @@ part of nnt.annotation.builder;
 
 class Log {
   static void log(dynamic obj) {
-    var str = toJson(obj);
-    print(str);
+    //var str = toJson(obj);
+    //print(str);
   }
 
   static void metadata(List<ElementAnnotation> md, [List tree = null]) {
