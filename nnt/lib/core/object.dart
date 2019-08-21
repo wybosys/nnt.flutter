@@ -27,12 +27,15 @@ mixin RefObject {
 }
 
 class SObject {
+  // 信号实例
   Signals _signals;
 
+  // 初始化信号
   void initSignals() {
     // pass
   }
 
+  // 释放
   void disposeSignals() {
     if (_signals != null) {
       _signals.dispose();
@@ -48,6 +51,7 @@ class SObject {
     return _signals;
   }
 
+  // 带保护的激发
   void emit(String sig, [dynamic d = null, SlotTunnel tunnel = null]) {
     if (_signals != null) {
       _signals.emit(sig, d, tunnel);

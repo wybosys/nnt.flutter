@@ -3,7 +3,7 @@ part of nnt.core;
 // 用于穿透整个emit流程的对象
 class SlotTunnel {
   /** 是否请求中断了emit过程 */
-  bool veto;
+  bool veto = false;
 
   /** 附加数据 */
   dynamic payload;
@@ -13,17 +13,11 @@ typedef void FnSlotCallback(Slot s);
 
 // 插槽对象
 class Slot {
-  /** 重定向的信号 */
-  String redirect;
+  /** 所有者 */
+  dynamic owner;
 
   /** 回调 */
   FnSlotCallback cb;
-
-  /** 回调的上下文 */
-  dynamic target;
-
-  /** 激发者 */
-  dynamic sender;
 
   /** 数据 */
   dynamic data;
@@ -45,7 +39,8 @@ class Slot {
   int _epstms;
 
   /** 是否中断掉信号调用树 */
-  bool _veto;
+  bool _veto = false;
+
   bool get veto {
     return _veto;
   }
@@ -63,8 +58,6 @@ class Slot {
 
   dispose() {
     cb = null;
-    target = null;
-    sender = null;
     data = null;
     payload = null;
     tunnel = null;
@@ -100,13 +93,7 @@ class Slot {
   }
 
   _doEmit() {
-    if (target != null) {
-      if (cb != null) {
-        cb(this);
-      } else if (redirect != null && target.signals) {
-        target.signals.emit(redirect, data);
-      }
-    } else if (cb != null) {
+    if (cb != null) {
       cb(this);
     }
 
@@ -140,7 +127,7 @@ class Slots {
   }
 
   /** 阻塞信号
-    @note emit被阻塞的信号将不会有任何作用 */
+      @note emit被阻塞的信号将不会有任何作用 */
   int _block = 0;
 
   void block() {
@@ -161,12 +148,10 @@ class Slots {
     slots.add(s);
   }
 
-  /** 对所有插槽激发信号
-      @note 返回被移除的插槽的对象
-   */
-  Set<dynamic> emit(dynamic data, SlotTunnel tunnel) {
+  /** 对所有插槽激发信号*/
+  void emit(dynamic data, SlotTunnel tunnel) {
     if (isblocked()) {
-      return null;
+      return;
     }
 
     List<int> ids;
@@ -176,7 +161,6 @@ class Slots {
       }
 
       o.signal = signal;
-      o.sender = owner;
       o.emit(data, tunnel);
 
       if (o.count != null && o.emitedCount >= o.count) {
@@ -189,50 +173,25 @@ class Slots {
     });
 
     if (ids != null) {
-      Set<dynamic> r = new Set();
-      ArrayT.RemoveObjectsInIndexArray(slots, ids).forEach((o) {
-        if (o.target != null) {
-          r.add(o.target);
-        }
-        o.dispose();
-      });
-      return r;
+      ArrayT.RemoveObjectsInIndexArray(slots, ids);
     }
-
-    return null;
   }
 
-  bool disconnect(FnSlotCallback cb, dynamic target) {
+  bool disconnect(FnSlotCallback cb) {
     var rmd = ArrayT.RemoveObjectsByFilter(slots, (Slot o, idx) {
       if (cb != null && o.cb != cb) {
         return false;
       }
-      if (o.target == target) {
-        o.dispose();
-        return true;
-      }
+      o.dispose();
       return false;
     });
     return rmd.length != 0;
   }
 
-  Slot find_connected_function(FnSlotCallback cb, dynamic target) {
+  Slot find_connected_function(FnSlotCallback cb) {
     return ArrayT.QueryObject(slots, (Slot s, idx) {
-      return s.cb == cb && s.target == target;
+      return s.cb == cb;
     });
-  }
-
-  Slot find_redirected(String sig, dynamic target) {
-    return ArrayT.QueryObject(slots, (Slot s, idx) {
-      return s.redirect == sig && s.target == target;
-    });
-  }
-
-  bool is_connected(dynamic target) {
-    return ArrayT.QueryObject(slots, (Slot s, idx) {
-          return s.target == target;
-        }) !=
-        null;
   }
 }
 
@@ -243,27 +202,18 @@ abstract class SignalsDelegate {
 class Signals {
   Signals(this.owner);
 
-  Map<String, Slots> _slots = new Map();
-
-  // 信号的主体
+  // 所有者
   dynamic owner;
+
+  Map<String, Slots> _slots = new Map();
 
   // 监听信号
   SignalsDelegate delegate;
-
-  // 反向登记，当自身 dispose 时，需要和对方断开
-  Set<Signals> __invtargets = new Set<Signals>();
 
   Set<String> _castings;
 
   // 析构
   void dispose() {
-    // 反向断开连接
-    SetT.Clear(__invtargets, (o) {
-      if (o.owner && o.owner._signals)
-        o.owner._signals.disconnectOfTarget(owner, false);
-    });
-
     // 清理信号，不能直接用clear的原因是clear不会断开对于ower的引用
     MapT.Clear(_slots, (Slots o, String k) {
       if (o != null) {
@@ -271,18 +221,11 @@ class Signals {
       }
     });
 
-    owner = null;
     delegate = null;
     _castings = null;
   }
 
   void clear() {
-    // 清空反向的连接
-    SetT.Clear(__invtargets, (o) {
-      if (o.owner && o.owner._signals)
-        o.owner._signals.disconnectOfTarget(owner, false);
-    });
-
     // 清空slot的连接
     MapT.Foreach(_slots, (Slots o, k) {
       if (o != null) {
@@ -323,35 +266,34 @@ class Signals {
   }
 
   /** 只连接一次 */
-  Slot once(String sig, FnSlotCallback cb, dynamic target) {
-    var r = connect(sig, cb, target);
+  Slot once(String sig, FnSlotCallback cb) {
+    var r = connect(sig, cb);
     r.count = 1;
     return r;
   }
 
   /** 连接信号插槽 */
-  Slot connect(String sig, FnSlotCallback cb, dynamic target) {
+  Slot connect(String sig, FnSlotCallback cb) {
     var ss = _avaslots(sig);
     if (ss == null) {
       logger.warn("对象信号 " + sig + " 不存在");
       return null;
     }
 
-    Slot s = ss.find_connected_function(cb, target);
+    Slot s = ss.find_connected_function(cb);
     if (s != null) {
       return s;
     }
 
     s = new Slot();
     s.cb = cb;
-    s.target = target;
+    s.owner = owner;
     ss.add(s);
 
     if (delegate != null) {
       delegate._signalConnected(sig, s);
     }
 
-    __inv_connect(target);
     return s;
   }
 
@@ -375,15 +317,7 @@ class Signals {
 
     var ss = _slots[sig];
     if (ss != null) {
-      var targets = ss.emit(d, tunnel);
-      if (targets != null) {
-        // 收集所有被移除的target，并断开反向连接
-        targets.forEach((target) {
-          if (isConnectedOfTarget(target) == false) {
-            __inv_disconnect(target);
-          }
-        });
-      }
+      ss.emit(d, tunnel);
     }
   }
 
@@ -407,25 +341,7 @@ class Signals {
   }
 
   /** 断开连接 */
-  void disconnectOfTarget(dynamic target, [bool inv = true]) {
-    if (target == null) {
-      return;
-    }
-
-    MapT.Foreach(_slots, (ss, k) {
-      if (ss != null) {
-        ss.disconnect(null, target);
-      }
-    });
-
-    if (inv) {
-      __inv_disconnect(target);
-    }
-  }
-
-  /** 断开连接 */
-  void disconnect(String sig,
-      [FnSlotCallback cb = null, dynamic target = null]) {
+  void disconnect(String sig, [FnSlotCallback cb = null]) {
     if (!_slots.containsKey(sig)) {
       logger.warn("对象信号 " + sig + " 不存在");
       return;
@@ -436,29 +352,11 @@ class Signals {
       return;
     }
 
-    if (cb == null && target == null) {
-      // 清除sig的所有插槽，自动断开反向引用
-      var targets = new Set<dynamic>();
+    if (cb == null) {
       ArrayT.Clear(ss.slots, (Slot o) {
-        if (o.target) targets.add(o.target);
         o.dispose();
       });
-      targets.forEach((target) {
-        if (!isConnectedOfTarget(target)) __inv_disconnect(target);
-      });
-    } else {
-      // 先清除对应的slot，再判断是否存在和target相连的插槽，如过不存在，则断开反向连接
-      if (ss.disconnect(cb, target) && target && !isConnectedOfTarget(target)) {
-        __inv_disconnect(target);
-      }
     }
-  }
-
-  bool isConnectedOfTarget(dynamic target) {
-    return MapT.QueryObject(_slots, (ss, k) {
-          return ss ? ss.is_connected(target) : false;
-        }) !=
-        null;
   }
 
   /** 阻塞一个信号，将不响应激发 */
@@ -499,25 +397,18 @@ class Signals {
     return false;
   }
 
-  void __inv_connect(dynamic tgt) {
-    if (tgt == null || tgt.signals == null) {
-      return;
+  void connects(Map<String, FnSlotCallback> m) {
+    if (m != null) {
+      m.forEach((k, v) {
+        connect(k, v);
+      });
     }
-    if (tgt.signals == this) {
-      return;
-    }
-    tgt.signals.__invtargets.add(this);
   }
+}
 
-  void __inv_disconnect(dynamic tgt) {
-    if (tgt == null || tgt.signals == null) {
-      return;
-    }
-    if (tgt.signals == this) {
-      return;
-    }
-    tgt.signals.__invtargets.delete(this);
-  }
+// 返回sig=》function
+Map<String, FnSlotCallback> ss(Map<String, FnSlotCallback> m) {
+  return m;
 }
 
 const kSignalStarting = '::nn::starting';

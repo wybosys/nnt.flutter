@@ -1,19 +1,29 @@
 part of nnt.gui;
 
 abstract class CWebView extends StatefulWidget with SObject {
-  CWebView({Key key, this.url}) : super(key: key) {
-    signals.connect(kSignalStarting, _cbStarting, this);
-    signals.connect(kSignalStarted, _cbStarted, this);
-    signals.connect(kSignalAbort, _cbAbort, this);
-    signals.connect(kSignalDone, _cbDone, this);
-    signals.connect(kSignalChanged, _cbChanged, this);
+  CWebView({Key key, this.url, Map ss}) : super(key: key) {
+    signals.connect(kSignalStarting, _cbStarting);
+    signals.connect(kSignalStarted, _cbStarted);
+    signals.connect(kSignalAbort, _cbAbort);
+    signals.connect(kSignalDone, _cbDone);
+    signals.connect(kSignalChanged, _cbChanged);
+
+    // 绑定信号实现
+    signals.connects(ss);
   }
 
   // 执行js代码
   Future<bool> eval(String code);
 
   // 添加一个交叉对象
-  void addObject(JsObject obj);
+  void addJsObj(JsObject obj) {
+    // 找到对象的定义类
+    var clz = ClazzOfName(obj.className);
+    if (clz == null) {
+      logger.fatal("没有找到该对象的类定义 ${obj.className}");
+      return;
+    }
+  }
 
   // 地址
   String url;
@@ -25,6 +35,7 @@ abstract class CWebView extends StatefulWidget with SObject {
     signals.register(kSignalAbort);
     signals.register(kSignalDone);
     signals.register(kSignalChanged);
+    signals.register(kSignalWebViewNewPage);
   }
 
   void _cbStarting(Slot s) {
@@ -42,6 +53,7 @@ abstract class CWebView extends StatefulWidget with SObject {
     if (!_stdlibLoaded) {
       _stdlibLoaded = true;
       eval(JS_ENVIRONMENT);
+      signals.emit(kSignalWebViewNewPage, url);
     }
   }
 
@@ -60,3 +72,6 @@ abstract class CWebView extends StatefulWidget with SObject {
   // 是否已经加载基础库
   bool _stdlibLoaded = false;
 }
+
+// 当打开新页面时调用
+const kSignalWebViewNewPage = '::nn::webview::newpage';

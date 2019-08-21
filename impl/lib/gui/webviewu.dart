@@ -1,7 +1,7 @@
 part of impl.gui;
 
 class WebViewU extends CWebView {
-  WebViewU({Key key, String url}) : super(key: key, url: url) {
+  WebViewU({Key key, String url, Map ss}) : super(key: key, url: url, ss: ss) {
     _self.onStateChanged.listen((viewState) async {
       switch (viewState.type) {
         case WebViewState.startLoad:
@@ -27,9 +27,6 @@ class WebViewU extends CWebView {
 
   @override
   State<StatefulWidget> createState() => _State();
-
-  @override
-  void addObject(JsObject obj) {}
 
   @override
   Future<bool> eval(String code) async {
