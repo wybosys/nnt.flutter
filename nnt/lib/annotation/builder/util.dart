@@ -6,3 +6,17 @@ V AvaMap<K, V>(Map<K, V> m, K k, [V def = null]) {
   m[k] = def;
   return def;
 }
+
+String toJson(dynamic obj, [String def = '']) {
+  if (obj is String) {
+    return obj;
+  }
+  if (obj is Map) {
+    try {
+      return json.encode(obj);
+    } catch (err) {
+      return def;
+    }
+  }
+  return def;
+}

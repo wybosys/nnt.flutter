@@ -83,6 +83,7 @@ class ClazzChildVisitor<R> extends ElementVisitor<R> {
 
   R visitMethodElement(MethodElement element) {
     print("method: ${element.name}");
+    Log.method(element);
   }
 
   R visitMultiplyDefinedElement(MultiplyDefinedElement element) {

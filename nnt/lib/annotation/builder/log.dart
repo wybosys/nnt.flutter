@@ -1,6 +1,11 @@
 part of nnt.annotation.builder;
 
 class Log {
+  static void log(dynamic obj) {
+    var str = toJson(obj);
+    print(str);
+  }
+
   static void metadata(List<ElementAnnotation> md, [List tree = null]) {
     var p = false;
     if (tree == null) {
@@ -14,7 +19,7 @@ class Log {
       tree.add(m);
     });
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void annotation(ElementAnnotation ele, [Map tree = null]) {
@@ -39,7 +44,7 @@ class Log {
     if (ele.element != null)
       element(ele.element, AvaMap(tree, 'element', Map()));
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void element(Element ele, [Map tree = null]) {
@@ -73,7 +78,7 @@ class Log {
     if (ele.enclosingElement != null)
       element(ele.enclosingElement, AvaMap(tree, 'enclosingElement', Map()));
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void kind(ElementKind ele, [Map tree = null]) {
@@ -87,7 +92,7 @@ class Log {
     tree['ordinal'] = ele.ordinal;
     tree['displayName'] = ele.displayName;
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void method(MethodElement ele, [Map tree = null]) {
@@ -100,7 +105,7 @@ class Log {
     classmember(ele, tree);
     executable(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void classmember(ClassMemberElement ele, [Map tree = null]) {
@@ -113,7 +118,7 @@ class Log {
     if (ele.isStatic) tree['isStatic'] = true;
     element(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void executable(ExecutableElement ele, [Map tree = null]) {
@@ -135,7 +140,7 @@ class Log {
     functiontyped(ele, tree);
     element(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void functiontyped(FunctionTypedElement ele, [Map tree = null]) {
@@ -150,7 +155,7 @@ class Log {
     if (ele.type != null) functontype(ele.type, AvaMap(tree, 'type', Map()));
 
     element(ele, tree);
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void typeparameterized(TypeParameterizedElement ele,
@@ -167,7 +172,7 @@ class Log {
           ele.typeParameters, AvaMap(tree, 'typeParameters', List()));
 
     element(ele, tree);
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void typeparameters(List<TypeParameterElement> eles,
@@ -184,7 +189,7 @@ class Log {
       tree.add(m);
     });
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void parameter(ParameterElement ele, [Map tree = null]) {
@@ -216,7 +221,7 @@ class Log {
     variable(ele, tree);
     element(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void parameters(List<ParameterElement> eles, [List tree = null]) {
@@ -232,7 +237,7 @@ class Log {
       tree.add(m);
     });
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void local(LocalElement ele, [Map tree = null]) {
@@ -243,7 +248,7 @@ class Log {
     }
 
     element(ele, tree);
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void variable(VariableElement ele, [Map tree = null]) {
@@ -265,7 +270,7 @@ class Log {
       object(ele.constantValue, AvaMap(tree, 'constantValue', Map()));
 
     element(ele, tree);
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void function(FunctionElement ele, [Map tree = null]) {
@@ -280,7 +285,7 @@ class Log {
     executable(ele, tree);
     local(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void object(DartObject ele, [Map tree = null]) {
@@ -296,7 +301,7 @@ class Log {
     if (ele.type != null)
       parameterizedtype(ele.type, AvaMap(tree, 'type', Map()));
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void types(List<DartType> eles, [List tree = null]) {
@@ -312,7 +317,7 @@ class Log {
       tree.add(m);
     });
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void maptypes(Map<String, DartType> eles, [Map tree = null]) {
@@ -328,7 +333,7 @@ class Log {
       tree[k] = m;
     });
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void type(DartType ele, [Map tree = null]) {
@@ -362,7 +367,7 @@ class Log {
     if (ele.element != null)
       element(ele.element, AvaMap(tree, 'element', Map()));
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void functontype(FunctionType ele, [Map tree = null]) {
@@ -401,7 +406,7 @@ class Log {
 
     parameterizedtype(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void parameterizedtype(ParameterizedType ele, [Map tree = null]) {
@@ -420,7 +425,7 @@ class Log {
 
     type(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void typeparameter(TypeParameterElement ele, [Map tree = null]) {
@@ -433,7 +438,7 @@ class Log {
     if (ele.bound != null) type(ele.bound, AvaMap(tree, 'bound', Map()));
     typedefining(ele, tree);
 
-    if (p) print(tree);
+    if (p) log(tree);
   }
 
   static void typedefining(TypeDefiningElement ele, [Map tree = null]) {
@@ -446,6 +451,6 @@ class Log {
     if (ele.type != null) type(ele.type, AvaMap(tree, 'type', Map()));
 
     element(ele, tree);
-    if (p) print(tree);
+    if (p) log(tree);
   }
 }
