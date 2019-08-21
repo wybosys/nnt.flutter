@@ -52,7 +52,19 @@ class JsBridge {
     var code = tpl_clazz.renderString({
       'clazz': clz.name,
       'funcs': ArrayT.Convert(clz.funcs.values.toList(), (Func e, i) {
-        return {'name': e.name};
+        List<String> args = [];
+        List<String> params = [];
+        if (e.args != null && e.args.length > 0) {
+          e.args.forEach((e) {
+            args.add(e.name);
+            params.add('"${e.name}": ${e.name}');
+          });
+        }
+        return {
+          'name': e.name,
+          'args': args.join(','),
+          'params': "{${params.join(',')}}"
+        };
       })
     });
 
@@ -72,10 +84,11 @@ class JsBridge {
       logger.warn("没有找到jsb中对象的方法 ${jsobj.className}:${msg.action}");
       return null;
     }
+
     var func = clz.funcs[msg.action];
 
     try {
-      func.instance(jsobj);
+      func.invoke(jsobj, msg.params);
     } catch (err) {
       logger.warn("jsb的对象运行异常 ${err}");
       return null;

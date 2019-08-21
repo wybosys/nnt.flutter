@@ -7,8 +7,8 @@ var {{clazz}} = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     {{#funcs}}
-    {{clazz}}.prototype.{{name}} = function () {
-        nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, '{{name}}'));
+    {{clazz}}.prototype.{{name}} = function ({{args}}) {
+        nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, '{{name}}', {{&params}}));
     };
     {{/funcs}}
     return {{clazz}};

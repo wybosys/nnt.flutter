@@ -17,6 +17,91 @@ class Func {
 
   // 函数实体
   Function instance;
+
+  // 获得输入的制定位置参数的数据
+  dynamic pos(Map params, int idx) {
+    var arg = args[idx];
+    return params[arg.name];
+  }
+
+  // 运行
+  dynamic invoke(dynamic obj, Map params) {
+    switch (args.length) {
+      case 0:
+        {
+          return instance(obj);
+        }
+        break;
+      case 1:
+        {
+          return instance(obj, pos(params, 0));
+        }
+        break;
+      case 2:
+        {
+          return instance(obj, pos(params, 0), pos(params, 1));
+        }
+        break;
+      case 3:
+        {
+          return instance(obj, pos(params, 0), pos(params, 1), pos(params, 2));
+        }
+        break;
+      case 4:
+        {
+          return instance(obj, pos(params, 0), pos(params, 1), pos(params, 2),
+              pos(params, 3));
+        }
+        break;
+      case 5:
+        {
+          return instance(obj, pos(params, 0), pos(params, 1), pos(params, 2),
+              pos(params, 3), pos(params, 4));
+        }
+        break;
+      case 6:
+        {
+          return instance(obj, pos(params, 0), pos(params, 1), pos(params, 2),
+              pos(params, 3), pos(params, 4), pos(params, 5));
+        }
+        break;
+      case 7:
+        {
+          return instance(obj, pos(params, 0), pos(params, 1), pos(params, 2),
+              pos(params, 3), pos(params, 4), pos(params, 5), pos(params, 6));
+        }
+        break;
+      case 8:
+        {
+          return instance(
+              obj,
+              pos(params, 0),
+              pos(params, 1),
+              pos(params, 2),
+              pos(params, 3),
+              pos(params, 4),
+              pos(params, 5),
+              pos(params, 6),
+              pos(params, 7));
+        }
+        break;
+      case 9:
+        {
+          return instance(
+              obj,
+              pos(params, 0),
+              pos(params, 1),
+              pos(params, 2),
+              pos(params, 3),
+              pos(params, 4),
+              pos(params, 5),
+              pos(params, 6),
+              pos(params, 7),
+              pos(params, 8));
+        }
+        break;
+    }
+  }
 }
 
 typedef dynamic FnVarGet(dynamic obj);

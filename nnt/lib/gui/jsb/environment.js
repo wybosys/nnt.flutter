@@ -88,7 +88,7 @@ var nnt;
             _JsBridge.prototype.toApp = function (msg) {
                 var raw = msg.serialize();
                 // app通过拦截href来实现
-                console.log('msg: ' + raw);
+                // console.log('msg: ' + raw);
                 location.href = raw;
             };
             return _JsBridge;
