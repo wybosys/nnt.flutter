@@ -170,7 +170,7 @@ class Slots {
     }
 
     List<int> ids;
-    ArrayT.Foreach(List.of(slots), (Slot o, int idx) {
+    ArrayT.Foreach(slots, (Slot o, int idx) {
       if (o.count != null && o.emitedCount >= o.count) {
         return true;
       }
@@ -500,14 +500,22 @@ class Signals {
   }
 
   void __inv_connect(dynamic tgt) {
-    if (tgt == null || tgt.signals == null) return;
-    if (tgt.signals == this) return;
+    if (tgt == null || tgt.signals == null) {
+      return;
+    }
+    if (tgt.signals == this) {
+      return;
+    }
     tgt.signals.__invtargets.add(this);
   }
 
   void __inv_disconnect(dynamic tgt) {
-    if (tgt == null || tgt.signals == null) return;
-    if (tgt.signals == this) return;
+    if (tgt == null || tgt.signals == null) {
+      return;
+    }
+    if (tgt.signals == this) {
+      return;
+    }
     tgt.signals.__invtargets.delete(this);
   }
 }

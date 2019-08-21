@@ -1,16 +1,22 @@
 part of nnt.gui;
 
-abstract class CWebView {
+abstract class CWebView extends StatefulWidget with SObject {
+  CWebView({Key key, this.url}) : super(key: key) {
+    signals.connect(kSignalStarting, _cbStarting, this);
+    signals.connect(kSignalStarted, _cbStarted, this);
+    signals.connect(kSignalAbort, _cbAbort, this);
+    signals.connect(kSignalDone, _cbDone, this);
+    signals.connect(kSignalChanged, _cbChanged, this);
+  }
+
   // 执行js代码
   Future<bool> eval(String code);
 
   // 添加一个交叉对象
   void addObject(JsObject obj);
 
-  // 当前的路径
+  // 地址
   String url;
-
-  Signals get signals;
 
   // 初始化信号
   void initSignals() {
@@ -19,38 +25,38 @@ abstract class CWebView {
     signals.register(kSignalAbort);
     signals.register(kSignalDone);
     signals.register(kSignalChanged);
-
-    signals.connect(kSignalStarting, _cbStarting, this);
-    signals.connect(kSignalStarted, _cbStarted, this);
-    signals.connect(kSignalAbort, _cbAbort, this);
-    signals.connect(kSignalDone, _cbDone, this);
-    signals.connect(kSignalChanged, _cbChanged, this);
   }
-
-  void _cbStarted(Slot s) {}
 
   void _cbStarting(Slot s) {
     if (s.data != url) {
-      _libraryloaded = false;
+      _stdlibLoaded = false;
       url = s.data;
     }
 
-    if (!_libraryloaded) {
-      _libraryloaded = true;
+    if (!_stdlibLoaded) {
+      _stdlibLoaded = true;
       eval(JS_ENVIRONMENT);
     }
 
     print("准备打开 ${url}");
   }
 
-  void _cbAbort(Slot s) {}
+  void _cbStarted(Slot s) {
+    print("开始打开 ${s.data}");
+  }
 
-  void _cbDone(Slot s) {}
+  void _cbAbort(Slot s) {
+    print("停止打开 ${s.data}");
+  }
+
+  void _cbDone(Slot s) {
+    print("已经打开 ${s.data}");
+  }
 
   void _cbChanged(Slot s) {
-    print("跳转 ${url}");
+    print("跳转 ${s.data}");
   }
 
   // 是否已经加载基础库
-  bool _libraryloaded;
+  bool _stdlibLoaded = false;
 }

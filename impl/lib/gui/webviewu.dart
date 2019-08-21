@@ -1,14 +1,14 @@
 part of impl.gui;
 
-class WebViewU extends WebviewScaffold with SObject, CWebView {
+class WebViewU extends CWebView {
   WebViewU({Key key, String url}) : super(key: key, url: url) {
     _self.onStateChanged.listen((viewState) async {
       switch (viewState.type) {
         case WebViewState.startLoad:
-          emit(kSignalStarting, viewState.url);
+          emit(kSignalStarted, viewState.url);
           break;
         case WebViewState.shouldStart:
-          emit(kSignalStarted, viewState.url);
+          emit(kSignalStarting, viewState.url);
           break;
         case WebViewState.finishLoad:
           emit(kSignalDone, viewState.url);
@@ -23,16 +23,36 @@ class WebViewU extends WebviewScaffold with SObject, CWebView {
     });
   }
 
-  // 全局单件
   final FlutterWebviewPlugin _self = new FlutterWebviewPlugin();
 
-  // 执行js代码
+  @override
+  State<StatefulWidget> createState() => _State();
+
+  @override
+  void addObject(JsObject obj) {}
+
+  @override
   Future<bool> eval(String code) async {
     String res = await _self.evalJavascript(code);
     logger.log("webviewjs: $res");
     return res != null;
   }
+}
 
-  // 添加一个交叉对象
-  void addObject(JsObject obj) {}
+class _State extends State<WebViewU> {
+  final FlutterWebviewPlugin _self = new FlutterWebviewPlugin();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _self.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WebviewScaffold(
+        key: widget.key,
+        url: widget.url,
+        invalidUrlRegex: "r'^${SCHEME}://.*'");
+  }
 }
