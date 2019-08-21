@@ -2,8 +2,8 @@ part of nnt.annotation.builder;
 
 class Log {
   static void log(dynamic obj) {
-    //var str = toJson(obj);
-    //print(str);
+    var str = toJson(obj);
+    print(str);
   }
 
   static void metadata(List<ElementAnnotation> md, [List tree = null]) {
@@ -47,12 +47,23 @@ class Log {
     if (p) log(tree);
   }
 
+  static Set _element_processed = Set();
+
   static void element(Element ele, [Map tree = null]) {
+    // 如果已经处理过，则跳过（很多element会同时实现element接口）
+    if (_element_processed.contains(ele.hashCode)) {
+      return;
+    } else {
+      _element_processed.add(ele.hashCode);
+    }
+
     var p = false;
     if (tree == null) {
       tree = new Map();
       p = true;
     }
+
+    tree['name'] = ele.name;
 
     if (ele.displayName != null) tree['displayName'] = ele.displayName;
     if (ele.documentationComment != null)
@@ -66,11 +77,7 @@ class Log {
     if (ele.hasProtected) tree['hasProtected'] = true;
     if (ele.hasRequired) tree['hasRequired'] = true;
     if (ele.hasSealed) tree['hasSealed'] = true;
-
-    tree['id'] = ele.id;
-    tree['name'] = ele.name;
-
-    kind(ele.kind, AvaMap(tree, 'kind', Map()));
+    if (ele.kind != null) kind(ele.kind, AvaMap(tree, 'kind', Map()));
 
     if (ele.metadata.length != 0)
       metadata(ele.metadata, AvaMap(tree, "metadata", List()));
