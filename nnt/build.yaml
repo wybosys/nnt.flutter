@@ -12,4 +12,4 @@ targets:
     builders:
       nnt:clazzes:
         generate_for:
-          - lib/*.dart
+          - lib/**.dart

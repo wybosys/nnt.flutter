@@ -58,3 +58,8 @@ class SObject {
     }
   }
 }
+
+abstract class ToJsonObj {
+  // 转换到json对象
+  Map<String, dynamic> toJsonObj();
+}
