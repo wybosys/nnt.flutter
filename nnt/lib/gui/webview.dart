@@ -42,7 +42,7 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
     }
 
     await eval(code);
-    //await eval('ptsdk.hello("abc").then(function(res){console.log(res);})');
+    await eval('ptsdk.getDeviceInfo().then(function(res){console.log(res);})');
   }
 
   // jsb
@@ -80,7 +80,7 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
     }
   }
 
-  void _cbAbort(Slot s) {
+  void _cbAbort(Slot s) async {
     print("停止打开 ${s.data}");
 
     String raw = s.data;
@@ -88,9 +88,9 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
       // 收到消息
       var msg = new Message(0, null);
       msg.unserialize(raw);
-      String code = jsb.invoke(msg);
+      String code = await jsb.invoke(msg);
       if (code != null) {
-        eval(code);
+        await eval(code);
       }
     } else {
       logger.warn("jsb消息头错误: ${raw}");

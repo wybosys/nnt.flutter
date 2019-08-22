@@ -72,7 +72,7 @@ class JsBridge {
   }
 
   // 调用本地函数，并返回需要web运行的code
-  String invoke(Message msg) {
+  Future<String> invoke(Message msg) async {
     if (!_jsobjects.containsKey(msg.objectId)) {
       logger.warn("没有找到jsb中设置的对象 ${msg.objectId}");
       return null;
@@ -85,10 +85,15 @@ class JsBridge {
       return null;
     }
 
-    var func = clz.funcs[msg.action];
+    Func func = clz.funcs[msg.action];
     String code;
     try {
-      var ret = func.invoke(jsobj, msg.params);
+      dynamic ret;
+      if (func.ret.async) {
+        ret = await func.invoke(jsobj, msg.params);
+      } else {
+        ret = func.invoke(jsobj, msg.params);
+      }
       // 放回成功消息
       msg.params = {'ok': ret};
     } catch (err) {
@@ -99,7 +104,7 @@ class JsBridge {
       };
     }
 
-    return "nnt.flutter.jsb.result('${msg.serialize()}');";
+    return '''nnt.flutter.jsb.result("${msg.serialize()}");''';
   }
 
   // 当前保存的jsobj

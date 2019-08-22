@@ -51,7 +51,7 @@ namespace nnt.flutter {
             return `${SCHEME}://${raw}`;
         }
 
-        unserialize(raw: string) {
+        unserialize(raw: string) {            
             raw = raw.substr(SCHEME.length + 3);
             raw = decodeURI(raw);
             var obj = JSON.parse(raw);
@@ -172,7 +172,7 @@ namespace nnt.flutter {
         }
 
         // app发送结果
-        result(raw: string) {
+        result(raw: string) {            
             let msg = new Message(0, null);
             msg.unserialize(raw);
 
