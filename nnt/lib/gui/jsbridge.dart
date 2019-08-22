@@ -94,7 +94,9 @@ class JsBridge {
     } catch (err) {
       logger.warn("jsb的对象运行异常 ${err}");
       // 放回失败消息
-      msg.params = {'err': err.toString()};
+      msg.params = {
+        'err': {'msg': err.toString(), 'code': STATUS.EXCEPTION}
+      };
     }
 
     return "nnt.flutter.jsb.result('${msg.serialize()}');";
