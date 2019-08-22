@@ -58,9 +58,14 @@ abstract class SObject {
   }
 }
 
+// 转换到json对象
 abstract class ToJsonObj {
-  // 转换到json对象
   Map<String, dynamic> toJsonObj();
+}
+
+// 转换到标准对象
+abstract class ToObject {
+  dynamic toObject();
 }
 
 class StackedObject<T> {

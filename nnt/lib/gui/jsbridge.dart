@@ -94,6 +94,16 @@ class JsBridge {
       } else {
         ret = func.invoke(jsobj, msg.params);
       }
+
+      // 需要将ret抓换成标准map对象
+      if (ret is Object) {
+        if (!(ret is Map) && ret is ToObject) {
+          ret = ret.toObject();
+        } else {
+          throw new Exception('无法将返回值转换为js标准对象');
+        }
+      }
+
       // 放回成功消息
       msg.params = {'ok': ret};
     } catch (err) {
