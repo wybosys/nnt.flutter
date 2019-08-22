@@ -1,7 +1,9 @@
 part of nnt.gui;
 
-abstract class CWebView extends StatefulWidget with SObject {
+abstract class CWebView extends StatefulWidget with SObject, RefObject {
   CWebView({Key key, this.url, Map ss}) : super(key: key) {
+    Instances.push(this);
+
     signals.connect(kSignalStarting, _cbStarting);
     signals.connect(kSignalStarted, _cbStarted);
     signals.connect(kSignalAbort, _cbAbort);
@@ -12,8 +14,25 @@ abstract class CWebView extends StatefulWidget with SObject {
     signals.connects(ss);
   }
 
+  // 当前运行的webview副本
+  static var Instances = StackedObject<CWebView>();
+
+  void fin() {
+    Instances.popAll(this);
+    disposeSignals();
+  }
+
   // 执行js代码
-  Future<bool> eval(String code);
+  Future<String> eval(String code);
+
+  // 在当前浏览器中执行代码
+  Future<String> Eval(String code) {
+    var wv = Instances.top();
+    if (wv == null) {
+      throw Exception('当前环境中没有正在运行的WebView');
+    }
+    return wv.eval(code);
+  }
 
   // 添加一个交叉对象
   void addJsObj(JsObject obj, String varnm) async {

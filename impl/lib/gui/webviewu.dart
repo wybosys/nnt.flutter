@@ -7,10 +7,10 @@ class WebViewU extends CWebView {
   State<StatefulWidget> createState() => _State();
 
   @override
-  Future<bool> eval(String code) async {
+  Future<String> eval(String code) async {
     String res = await _self.evalJavascript(code);
     logger.log("webviewjs: $res");
-    return res != null;
+    return res;
   }
 
   final FlutterWebviewPlugin _self = new FlutterWebviewPlugin();
@@ -49,6 +49,7 @@ class _State extends State<WebViewU> {
   void dispose() {
     super.dispose();
     _self.dispose();
+    widget.fin();
   }
 
   @override

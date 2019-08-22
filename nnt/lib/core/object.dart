@@ -9,16 +9,17 @@ mixin CounterObject {
 mixin RefObject {
   int _refcount = 1;
 
-  void dispose() {
-    // pass
-  }
+  // 析够
+  void fin();
 
+  // 释放计数
   void drop() {
     if (--_refcount == 0) {
-      dispose();
+      fin();
     }
   }
 
+  // 增加技术
   void grab() {
     if (_refcount > 0) {
       ++_refcount;
@@ -26,14 +27,12 @@ mixin RefObject {
   }
 }
 
-class SObject {
+abstract class SObject {
   // 信号实例
   Signals _signals;
 
   // 初始化信号
-  void initSignals() {
-    // pass
-  }
+  void initSignals();
 
   // 释放
   void disposeSignals() {
@@ -62,4 +61,25 @@ class SObject {
 abstract class ToJsonObj {
   // 转换到json对象
   Map<String, dynamic> toJsonObj();
+}
+
+class StackedObject<T> {
+  void push(T obj) {
+    __objs.add(obj);
+  }
+
+  T pop() {
+    return __objs.removeLast();
+  }
+
+  void popAll(T obj) {
+    __objs.removeWhere((e) => e == obj);
+  }
+
+  T top([T def = null]) {
+    if (__objs.length == 0) return def;
+    return __objs.last;
+  }
+
+  List<T> __objs = new List();
 }
