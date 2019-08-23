@@ -17,7 +17,7 @@ class Test {
   }
 
   @func()
-  void hello() {
+  Future<void> hello() {
     print(msg);
   }
 

@@ -184,3 +184,6 @@ Clazz ClazzOfName(String name) {
 Clazz ClazzOfType(Type clz) {
   return _protos.containsKey(clz) ? _protos[clz] : null;
 }
+
+// dart中 void 不能用来作为类型，所以需要实现一个类代替
+class Void {}

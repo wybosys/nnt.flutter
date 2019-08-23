@@ -80,6 +80,7 @@ class _ClazzChildVisitor extends EmptyVisitor<void> {
       if (v.async) {
         // Future<xxx>
         v.typeName = rt.displayName.substring(7, rt.displayName.length - 1);
+        if (v.typeName == 'void') v.typeName = 'Void';
       }
       fn.ret = v;
     }
@@ -96,6 +97,7 @@ class _ClazzChildVisitor extends EmptyVisitor<void> {
           // Future<xxx>
           v.typeName =
               e.type.displayName.substring(7, e.type.displayName.length - 1);
+          if (v.typeName == 'void') v.typeName = 'Void';
         }
         args.add(v);
       });

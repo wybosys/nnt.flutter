@@ -26,7 +26,8 @@ class __clazz_Test extends Clazz {
             obj.foo(arg),
         [Varc('arg', String, false, false, false)],
         Varc('', int, false, false, true));
-    funcs['hello'] = Func('hello', (Test obj) => obj.hello(), [], null);
+    funcs['hello'] = Func('hello', (Test obj) => obj.hello(), [],
+        Varc('', Void, false, false, true));
     vars['msg'] = Varc('msg', String, false);
   }
 }
