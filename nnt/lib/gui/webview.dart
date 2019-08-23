@@ -81,10 +81,10 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
   }
 
   void _cbAbort(Slot s) async {
-    print("停止打开 ${s.data}");
-
     String raw = s.data;
     if (raw.indexOf("${SCHEME}://") == 0) {
+      print("收到jsb调用 ${s.data}");
+
       // 收到消息
       var msg = new Message(0, null);
       msg.unserialize(raw);
@@ -93,7 +93,7 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
         await eval(code);
       }
     } else {
-      logger.warn("jsb消息头错误: ${raw}");
+      print("中止打开 ${s.data}");
     }
   }
 
