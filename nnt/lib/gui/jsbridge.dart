@@ -96,7 +96,7 @@ class JsBridge {
       }
 
       // 需要将ret抓换成标准map对象
-      if (ret is Object) {
+      if (ret != null && ret is Object) {
         if (!(ret is Map) && ret is ToObject) {
           ret = ret.toObject();
         } else {
