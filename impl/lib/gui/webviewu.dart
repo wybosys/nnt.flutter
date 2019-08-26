@@ -46,6 +46,9 @@ class _State extends State<WebViewU> {
     });
   }
 
+  bool clearCache = true;
+  bool appCacheEnabled = false;
+
   @override
   void dispose() {
     super.dispose();
@@ -59,6 +62,8 @@ class _State extends State<WebViewU> {
         key: widget.key,
         url: widget.url,
         invalidUrlRegex: "^${SCHEME}://.*",
-        userAgent: '');
+        userAgent: '',
+        clearCache: clearCache,
+        appCacheEnabled: appCacheEnabled);
   }
 }
