@@ -241,5 +241,56 @@ var nnt;
             return _JsObject;
         }(JsObject));
         flutter._JsObject = _JsObject;
+        // 基础函数
+        function LoadStyle(src) {
+            return new Promise(function (resolve) {
+                var s = document.createElement('link');
+                s.rel = 'stylesheet';
+                s.href = src;
+                document.body.appendChild(s);
+                resolve(true);
+            });
+        }
+        flutter.LoadStyle = LoadStyle;
+        function LoadScript(src, async) {
+            if (async === void 0) { async = true; }
+            return new Promise(function (resolve) {
+                var s = document.createElement('script');
+                // 如果默认不是异步
+                if ('async' in s) {
+                    s.async = async;
+                }
+                else {
+                    async = false;
+                }
+                s.src = src;
+                if (async) {
+                    var suc_1 = function () {
+                        this.removeEventListener('load', suc_1, false);
+                        this.removeEventListener('error', err_1, false);
+                        resolve(true);
+                    };
+                    var err_1 = function () {
+                        this.removeEventListener('load', suc_1, false);
+                        this.removeEventListener('error', err_1, false);
+                        resolve(false);
+                    };
+                    s.addEventListener('load', suc_1, false);
+                    s.addEventListener('error', err_1, false);
+                }
+                document.body.appendChild(s);
+                if (!async)
+                    resolve(true);
+            });
+        }
+        flutter.LoadScript = LoadScript;
+        // 打开调试
+        function OpenInstrument() {
+            console.log('打开调试面板');
+            LoadScript('https://cdn.bootcss.com/vConsole/3.3.2/vconsole.min.js').then(function () {
+                new VConsole();
+            });
+        }
+        flutter.OpenInstrument = OpenInstrument;
     })(flutter = nnt.flutter || (nnt.flutter = {}));
 })(nnt || (nnt = {}));

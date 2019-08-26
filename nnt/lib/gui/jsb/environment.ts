@@ -1,3 +1,5 @@
+declare let VConsole: any;
+
 namespace nnt.flutter {
 
     type int = number;
@@ -51,7 +53,7 @@ namespace nnt.flutter {
             return `${SCHEME}://${raw}`;
         }
 
-        unserialize(raw: string) {            
+        unserialize(raw: string) {
             raw = raw.substr(SCHEME.length + 3);
             raw = decodeURI(raw);
             var obj = JSON.parse(raw);
@@ -172,7 +174,7 @@ namespace nnt.flutter {
         }
 
         // app发送结果
-        result(raw: string) {            
+        result(raw: string) {
             let msg = new Message(0, null);
             msg.unserialize(raw);
 
@@ -260,5 +262,61 @@ namespace nnt.flutter {
         test() {
             return false;
         }
+    }
+
+    // 基础函数
+    export function LoadStyle(src: string): Promise<boolean> {
+        return new Promise<boolean>(resolve => {
+            let s = document.createElement('link');
+            s.rel = 'stylesheet';
+            s.href = src;
+            document.body.appendChild(s);
+            resolve(true);
+        });
+    }
+
+    export function LoadScript(src: string, async: boolean = true): Promise<boolean> {
+        return new Promise<boolean>(resolve => {
+            let s = document.createElement('script');
+
+            // 如果默认不是异步
+            if ('async' in s) {
+                s.async = async;
+            } else {
+                async = false;
+            }
+
+            s.src = src;
+
+            if (async) {
+                let suc = function () {
+                    this.removeEventListener('load', suc, false);
+                    this.removeEventListener('error', err, false);
+                    resolve(true);
+                };
+
+                let err = function () {
+                    this.removeEventListener('load', suc, false);
+                    this.removeEventListener('error', err, false);
+                    resolve(false);
+                };
+
+                s.addEventListener('load', suc, false);
+                s.addEventListener('error', err, false);
+            }
+
+            document.body.appendChild(s);
+
+            if (!async)
+                resolve(true);
+        });
+    }
+
+    // 打开调试
+    export function OpenInstrument() {
+        console.log('打开调试面板');
+        LoadScript('https://cdn.bootcss.com/vConsole/3.3.2/vconsole.min.js').then(() => {
+            new VConsole();
+        });
     }
 }

@@ -78,7 +78,10 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
 
     if (!_stdlibLoaded) {
       _stdlibLoaded = true;
+
+      // 添加默认执行环境
       await eval(JS_ENVIRONMENT);
+
       signals.emit(kSignalWebViewNewPage, url);
     }
   }
