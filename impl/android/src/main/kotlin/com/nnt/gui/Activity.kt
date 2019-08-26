@@ -20,17 +20,20 @@ open class Activity : FlutterActivity() {
         }
 
         if (turnon) {
-            _wakelck = _powermgr.newWakeLock(PowerManager.FULL_WAKE_LOCK, "::nnt::activity::wakelock") as PowerManager.WakeLock
+            _wakelck = _powermgr.newWakeLock(PowerManager.FULL_WAKE_LOCK, "::nnt::activity::light")
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
-            if (_wakelck?.isHeld() == true)
+            //getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            if (_wakelck?.isHeld() == true) {
                 _wakelck?.release()
-            _wakelck = null
+                _wakelck = null
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        _wakelck?.acquire();
+        _wakelck?.acquire(30000);
     }
 
     override fun onPause() {
