@@ -64,26 +64,22 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
     signals.register(kSignalWebViewNewPage);
   }
 
+  // 加载标准库
+  void _loadStdLib() async {
+    // 添加默认执行环境
+    await eval(JS_ENVIRONMENT);
+
+    signals.emit(kSignalWebViewNewPage, url);
+  }
+
   void _cbStarting(Slot s) {
-    print("准备打开 ${url}");
+    print("准备打开 ${s.data}");
   }
 
   void _cbStarted(Slot s) async {
     print("开始打开 ${s.data}");
 
-    if (s.data != url) {
-      _stdlibLoaded = false;
-      url = s.data;
-    }
-
-    if (!_stdlibLoaded) {
-      _stdlibLoaded = true;
-
-      // 添加默认执行环境
-      await eval(JS_ENVIRONMENT);
-
-      signals.emit(kSignalWebViewNewPage, url);
-    }
+    _loadStdLib();
   }
 
   void _cbAbort(Slot s) async {
@@ -110,9 +106,6 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
   void _cbChanged(Slot s) {
     print("跳转 ${s.data}");
   }
-
-  // 是否已经加载基础库
-  bool _stdlibLoaded = false;
 }
 
 // 当打开新页面时调用
