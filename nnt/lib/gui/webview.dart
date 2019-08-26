@@ -1,7 +1,7 @@
 part of nnt.gui;
 
 abstract class CWebView extends StatefulWidget with SObject, RefObject {
-  CWebView({Key key, this.url, Map ss}) : super(key: key) {
+  CWebView({Key key, this.url, this.userAgent, Map ss}) : super(key: key) {
     Instances.push(this);
 
     signals.connect(kSignalStarting, _cbStarting);
@@ -50,6 +50,9 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
 
   // 地址
   String url;
+
+  // 用户代理
+  String userAgent;
 
   // 初始化信号
   void initSignals() {

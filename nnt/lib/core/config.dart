@@ -2,6 +2,12 @@ part of nnt.core;
 
 // 应用配置
 class Config {
+  Config([Map obj]) {
+    if (obj != null) {
+      override(obj);
+    }
+  }
+
   void override(Map obj) {
     obj.forEach((k, v) {
       _cur[k] = v;

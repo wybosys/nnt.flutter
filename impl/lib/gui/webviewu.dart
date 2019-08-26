@@ -1,7 +1,8 @@
 part of impl.gui;
 
 class WebViewU extends CWebView {
-  WebViewU({Key key, String url, Map ss}) : super(key: key, url: url, ss: ss);
+  WebViewU({Key key, String url, String userAgent, Map ss})
+      : super(key: key, url: url, ss: ss, userAgent: userAgent);
 
   @override
   State<StatefulWidget> createState() => _State();
@@ -55,6 +56,9 @@ class _State extends State<WebViewU> {
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
-        key: widget.key, url: widget.url, invalidUrlRegex: "^${SCHEME}://.*");
+        key: widget.key,
+        url: widget.url,
+        invalidUrlRegex: "^${SCHEME}://.*",
+        userAgent: '');
   }
 }
