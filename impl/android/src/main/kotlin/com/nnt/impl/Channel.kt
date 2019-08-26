@@ -8,10 +8,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 
 open class Channel(registrar: Registrar, channname: String) : MethodChannel.MethodCallHandler {
 
-    val _registrar: Registrar
+    val _registrar: Registrar = registrar
 
     init {
-        _registrar = registrar
         val t = MethodChannel(registrar.messenger(), channname)
         t.setMethodCallHandler(this)
     }
