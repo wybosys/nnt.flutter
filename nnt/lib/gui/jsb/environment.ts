@@ -185,7 +185,7 @@ namespace nnt.flutter {
                 if (p.ok) {
                     s.resolve(p.ok);
                 } else {
-                    s.reject(p.err);
+                    s.reject(new Error(p.err.code, p.err.msg));
                 }
             } else {
                 console.log('没有找到数据回调');
@@ -193,6 +193,20 @@ namespace nnt.flutter {
         }
 
         private _waitings: IndexedObject = {};
+    }
+
+    export class Error {
+        constructor(code: number, msg: string) {
+            this.code = code;
+            this.msg = msg;
+        }
+        
+        toString() {
+            return `code: ${this.code} msg: ${this.msg}`;
+        }
+
+        code: number;
+        msg: string;
     }
 
     export const jsb = new _JsBridge();
