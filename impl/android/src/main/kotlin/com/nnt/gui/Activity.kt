@@ -20,7 +20,7 @@ open class Activity : FlutterActivity() {
         }
 
         if (turnon) {
-            _wakelck = _powermgr.newWakeLock(PowerManager.FULL_WAKE_LOCK, "::nnt::activity::light")
+            _wakelck = _powermgr.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "::nnt::activity::light")
             //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
             //getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
