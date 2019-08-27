@@ -25,7 +25,7 @@ class _State extends State<WebViewU> {
     super.initState();
     _self.close();
 
-    _self.onStateChanged.listen((viewState) async {
+    _self.onStateChanged.listen((viewState) {
       switch (viewState.type) {
         case WebViewState.startLoad:
           widget.emit(kSignalStarted, viewState.url);
@@ -41,6 +41,7 @@ class _State extends State<WebViewU> {
           break;
       }
     });
+
     _self.onUrlChanged.listen((url) {
       widget.emit(kSignalChanged, url);
     });

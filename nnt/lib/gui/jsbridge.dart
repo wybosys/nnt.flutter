@@ -107,10 +107,13 @@ class JsBridge {
       // 放回成功消息
       msg.params = {'ok': ret};
     } catch (err) {
-      logger.warn("jsb的对象运行异常 ${err}");
+      var exp = err as PlatformException;
+      var info = "jsb捕获异常 ${exp.code} ${exp.message}";
+      logger.warn(info);
+
       // 放回失败消息
       msg.params = {
-        'err': {'msg': err.toString(), 'code': STATUS.EXCEPTION}
+        'err': {'msg': info, 'code': STATUS.EXCEPTION}
       };
     }
 

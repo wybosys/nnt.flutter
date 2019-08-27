@@ -61,16 +61,12 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
     signals.register(kSignalAbort);
     signals.register(kSignalDone);
     signals.register(kSignalChanged);
-    signals.register(kSignalWebViewNewPage);
   }
 
   // 加载标准库
   void _loadStdLib() async {
     // 添加默认执行环境
     await eval(JS_ENVIRONMENT);
-
-    // 抛出新页面
-    signals.emit(kSignalWebViewNewPage);
   }
 
   void _cbStarting(Slot s) {
@@ -79,8 +75,6 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
 
   void _cbStarted(Slot s) async {
     print("开始打开 ${s.data}");
-
-    _loadStdLib();
   }
 
   void _cbAbort(Slot s) async {
@@ -106,8 +100,6 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
 
   void _cbChanged(Slot s) {
     print("跳转 ${s.data}");
+    _loadStdLib();
   }
 }
-
-// 当打开新页面时调用
-const kSignalWebViewNewPage = '::nn::webview::newpage';
