@@ -162,7 +162,7 @@ var nnt;
                         s.resolve(p.ok);
                     }
                     else {
-                        s.reject(new Error(p.err.code, p.err.msg));
+                        s.reject(new CodeError(p.err.code, p.err.msg));
                     }
                 }
                 else {
@@ -171,17 +171,17 @@ var nnt;
             };
             return _JsBridge;
         }());
-        var Error = /** @class */ (function () {
-            function Error(code, msg) {
+        var CodeError = /** @class */ (function () {
+            function CodeError(code, msg) {
                 this.code = code;
                 this.msg = msg;
             }
-            Error.prototype.toString = function () {
+            CodeError.prototype.toString = function () {
                 return "code: " + this.code + " msg: " + this.msg;
             };
-            return Error;
+            return CodeError;
         }());
-        flutter.Error = Error;
+        flutter.CodeError = CodeError;
         flutter.jsb = new _JsBridge();
         // Reentrant Promise 可以重入的Promise，解决标准Promise的resolve/reject只能调用一次的问题
         var Promise = /** @class */ (function () {
