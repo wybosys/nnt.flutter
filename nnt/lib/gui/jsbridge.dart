@@ -96,19 +96,29 @@ class JsBridge {
       }
 
       // 需要将ret抓换成标准map对象
-      if (ret != null && ret is Object) {
-        if (!(ret is Map) && ret is ToObject) {
-          ret = ret.toObject();
-        } else {
-          throw new Exception('无法将返回值转换为js标准对象');
+      if (ret != null) {
+        if (!IsPod(ret)) {
+          if (ret is ToObject) {
+            ret = ret.toObject();
+          } else {
+            // 判断是否可以转成json
+            var t = toJson(ret, null);
+            if (t == null) {
+              throw new Exception('无法将返回值转换为js标准对象');
+            }
+          }
         }
       }
 
       // 放回成功消息
       msg.params = {'ok': ret};
     } catch (err) {
-      var exp = err as PlatformException;
-      var info = "jsb捕获异常 ${exp.code} ${exp.message}";
+      String info;
+      if (err is PlatformException) {
+        info = "jsb捕获异常 ${err.code} ${err.message}";
+      } else {
+        info = "jsb捕获异常 ${err.toString()}";
+      }
       logger.warn(info);
 
       // 放回失败消息
