@@ -7,7 +7,7 @@ class OrientationType {
   static var LANDSCAPE = 2; // 横屏
 }
 
-Future<void> SetOrientation(OrientationType typ) {
+Future<void> SetOrientationType(OrientationType typ) {
   if (typ == OrientationType.LANDSCAPE) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
