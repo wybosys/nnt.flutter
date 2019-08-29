@@ -20,7 +20,7 @@ vars['{{name}}'] = Varc('{{name}}', {{&type}}, {{readonly}});
 ''';
 
 const TPL_VARIABLE = '''
-Varc('{{name}}', {{type}}, {{readonly}}, {{optional}}, {{async}})
+Varc('{{name}}', {{&type}}, {{readonly}}, {{optional}}, {{async}})
 ''';
 
 const TPL_REGISTER = '''
