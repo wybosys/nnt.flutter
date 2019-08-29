@@ -2,6 +2,7 @@ part of nnt.gui;
 
 abstract class CWebView extends StatefulWidget with SObject, RefObject {
   CWebView({Key key, this.url, this.userAgent, Map ss}) : super(key: key) {
+    logger.log("实例化一个新的WebView");
     Instances.push(this);
 
     signals.connect(kSignalStarting, _cbStarting);

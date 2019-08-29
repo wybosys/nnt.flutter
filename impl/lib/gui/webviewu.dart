@@ -2,7 +2,7 @@ part of impl.gui;
 
 class WebViewU extends CWebView {
   WebViewU({Key key, String url, String userAgent, Map ss})
-      : super(key: key, url: url, ss: ss, userAgent: userAgent);
+      : super(key: key, url: url, ss: ss, userAgent: userAgent) {}
 
   @override
   State<StatefulWidget> createState() => _State();
@@ -20,9 +20,15 @@ class WebViewU extends CWebView {
 class _State extends State<WebViewU> {
   final FlutterWebviewPlugin _self = new FlutterWebviewPlugin();
 
+  _State() : super() {
+    logger.log("实例化一个新的WebViewState");
+  }
+
   @override
   void initState() {
     super.initState();
+    logger.log("初始化WebViewState");
+
     _self.close();
 
     _self.onStateChanged.listen((viewState) {
