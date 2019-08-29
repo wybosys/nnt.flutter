@@ -131,6 +131,11 @@ class Varc {
   bool async;
 }
 
+// Varc('', Map<dynamic, dynamic>, false, false, true)); 会报错
+class VarcMap {}
+
+class VarcList {}
+
 // 用于注册的类描述
 class Clazz {
   // 类名

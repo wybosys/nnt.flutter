@@ -58,12 +58,6 @@ class _ClazzChildVisitor extends EmptyVisitor<void> {
     vc.name = element.name;
     vc.typeName = element.type.name;
     vc.readonly = element.getter == null;
-    if (vc.typeName == 'Map') {
-      vc.typeName = 'Map<dynamic, dynamic>';
-    }
-    if (vc.typeName == 'List') {
-      vc.typeName = 'List<dynamic>';
-    }
     _clazz.vars[vc.name] = vc;
   }
 
