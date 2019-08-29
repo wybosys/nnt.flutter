@@ -33,6 +33,8 @@ class STATUS {
   static const LIMIT = -971; // 受到限制
   static const PAGED_OVERFLOW = -970; // 超出分页数据的处理能力
   static const NEED_ITEMS = -969; // 需要额外物品
+  static const DECODE_ERROR = -968; // 解码错误
+  static const ENCODE_ERROR = -967; // 编码错误
 
   static const IM_CHECK_FAILED = -899; // IM检查输入的参数失败
   static const IM_NO_RELEATION = -898; // IM检查双方不存在关系
