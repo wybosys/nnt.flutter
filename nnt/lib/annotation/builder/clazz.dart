@@ -9,11 +9,11 @@ proto = {{clazz}};
 instance = ()=>{{clazz}}();
 {{#funcs}}
   funcs['{{name}}'] = Func('{{name}}', 
-    ({{clazz}} obj {{decl}}) => obj.{{name}}({{inps}}), 
+    ({{clazz}} obj {{&decl}}) => obj.{{name}}({{&inps}}), 
     {{&arg}}, {{&ret}});
 {{/funcs}}
 {{#vars}}
-vars['{{name}}'] = Varc('{{name}}', {{type}}, {{readonly}});
+vars['{{name}}'] = Varc('{{name}}', {{&type}}, {{readonly}});
 {{/vars}}
 }
 }
@@ -82,6 +82,12 @@ class _ClazzChildVisitor extends EmptyVisitor<void> {
         v.typeName = rt.displayName.substring(7, rt.displayName.length - 1);
         if (v.typeName == 'void') v.typeName = 'Void';
       }
+      if (v.typeName == 'Map') {
+        v.typeName = 'Map<dynamic, dynamic>';
+      }
+      if (v.typeName == 'List') {
+        v.typeName = 'List<dynamic>';
+      }
       fn.ret = v;
     }
 
@@ -98,6 +104,12 @@ class _ClazzChildVisitor extends EmptyVisitor<void> {
           v.typeName =
               e.type.displayName.substring(7, e.type.displayName.length - 1);
           if (v.typeName == 'void') v.typeName = 'Void';
+        }
+        if (v.typeName == 'Map') {
+          v.typeName = 'Map<dynamic, dynamic>';
+        }
+        if (v.typeName == 'List') {
+          v.typeName = 'List<dynamic>';
         }
         args.add(v);
       });
