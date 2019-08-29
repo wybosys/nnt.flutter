@@ -1,38 +1,35 @@
 part of nnt.gui;
 
-abstract class CWebView extends StatefulWidget with SObject, RefObject {
-  CWebView({Key key, this.url, this.userAgent, Map ss}) : super(key: key) {
+abstract class CWebView extends StatefulWidget {
+  CWebView({Key key, this.url, this.userAgent}) : super(key: key) {
     logger.log("实例化一个新的WebView");
-    Instances.push(this);
+  }
 
+  String url;
+  String userAgent;
+}
+
+abstract class CWebViewState<T extends CWebView> extends State<T> with SObject {
+  CWebViewState() : super() {
     signals.connect(kSignalStarting, _cbStarting);
     signals.connect(kSignalStarted, _cbStarted);
     signals.connect(kSignalAbort, _cbAbort);
     signals.connect(kSignalDone, _cbDone);
     signals.connect(kSignalChanged, _cbChanged);
-
-    // 绑定信号实现
-    signals.connects(ss);
   }
 
-  // 当前运行的webview副本
-  static var Instances = StackedObject<CWebView>();
+  // 初始化信号
+  void initSignals() {
+    signals.register(kSignalStarted);
+    signals.register(kSignalStarting);
+    signals.register(kSignalAbort);
+    signals.register(kSignalDone);
+    signals.register(kSignalChanged);
+  }
 
-  void fin() {
-    Instances.popAll(this);
+  void dispose() {
+    super.dispose();
     disposeSignals();
-  }
-
-  // 执行js代码
-  Future<String> eval(String code);
-
-  // 在当前浏览器中执行代码
-  Future<String> Eval(String code) {
-    var wv = Instances.top();
-    if (wv == null) {
-      throw Exception('当前环境中没有正在运行的WebView');
-    }
-    return wv.eval(code);
   }
 
   // 添加一个交叉对象
@@ -46,29 +43,17 @@ abstract class CWebView extends StatefulWidget with SObject, RefObject {
     // await eval('ptsdk.getDeviceInfo().then(function(res){console.log(res);})');
   }
 
-  // jsb
-  JsBridge jsb = new JsBridge();
-
-  // 地址
-  String url;
-
-  // 用户代理
-  String userAgent;
-
-  // 初始化信号
-  void initSignals() {
-    signals.register(kSignalStarted);
-    signals.register(kSignalStarting);
-    signals.register(kSignalAbort);
-    signals.register(kSignalDone);
-    signals.register(kSignalChanged);
-  }
+  // 执行js代码
+  Future<String> eval(String code);
 
   // 加载标准库
   void _loadStdLib() async {
     // 添加默认执行环境
     await eval(JS_ENVIRONMENT);
   }
+
+  // jsb
+  JsBridge jsb = new JsBridge();
 
   void _cbStarting(Slot s) {
     print("准备打开 ${s.data}");

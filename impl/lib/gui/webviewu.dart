@@ -1,11 +1,11 @@
 part of impl.gui;
 
 class WebViewU extends CWebView {
-  WebViewU({Key key, String url, String userAgent, Map ss})
-      : super(key: key, url: url, ss: ss, userAgent: userAgent) {}
+  WebViewU({Key key, String url, String userAgent})
+      : super(key: key, url: url, userAgent: userAgent) {}
 
   @override
-  State<StatefulWidget> createState() => _State();
+  State<StatefulWidget> createState() => WebViewStateU();
 
   @override
   Future<String> eval(String code) async {
@@ -17,10 +17,10 @@ class WebViewU extends CWebView {
   final FlutterWebviewPlugin _self = new FlutterWebviewPlugin();
 }
 
-class _State extends State<WebViewU> {
+class WebViewStateU<T extends WebViewU> extends CWebViewState<T> {
   final FlutterWebviewPlugin _self = new FlutterWebviewPlugin();
 
-  _State() : super() {
+  WebViewStateU() : super() {
     logger.log("实例化一个新的WebViewState");
   }
 
@@ -28,28 +28,27 @@ class _State extends State<WebViewU> {
   void initState() {
     super.initState();
     logger.log("初始化WebViewState");
-
     _self.close();
 
     _self.onStateChanged.listen((viewState) {
       switch (viewState.type) {
         case WebViewState.startLoad:
-          widget.emit(kSignalStarted, viewState.url);
+          signals.emit(kSignalStarted, viewState.url);
           break;
         case WebViewState.shouldStart:
-          widget.emit(kSignalStarting, viewState.url);
+          signals.emit(kSignalStarting, viewState.url);
           break;
         case WebViewState.finishLoad:
-          widget.emit(kSignalDone, viewState.url);
+          signals.emit(kSignalDone, viewState.url);
           break;
         case WebViewState.abortLoad:
-          widget.emit(kSignalAbort, viewState.url);
+          signals.emit(kSignalAbort, viewState.url);
           break;
       }
     });
 
     _self.onUrlChanged.listen((url) {
-      widget.emit(kSignalChanged, url);
+      signals.emit(kSignalChanged, url);
     });
   }
 
@@ -60,7 +59,6 @@ class _State extends State<WebViewU> {
   void dispose() {
     super.dispose();
     _self.dispose();
-    widget.fin();
   }
 
   @override
@@ -69,8 +67,13 @@ class _State extends State<WebViewU> {
         key: widget.key,
         url: widget.url,
         invalidUrlRegex: "^${SCHEME}://.*",
-        userAgent: '',
+        userAgent: widget.userAgent,
         clearCache: clearCache,
         appCacheEnabled: appCacheEnabled);
+  }
+
+  @override
+  Future<String> eval(String code) {
+    return _self.evalJavascript(code);
   }
 }
