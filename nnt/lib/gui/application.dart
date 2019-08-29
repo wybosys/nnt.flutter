@@ -12,6 +12,10 @@ abstract class GuiApplication extends CoreApplication {
       return false;
     }
 
+    // 设置方向
+    var ori = config.getValueByKeyPath('app.orientation', 0);
+    SetOrientationType(ori);
+
     // 初始化根
     Fullscreen root = new Fullscreen();
 

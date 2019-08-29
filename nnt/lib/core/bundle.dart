@@ -19,6 +19,10 @@ class Bundle {
     return toJsonObj(str, def);
   }
 
+  Future<ByteData> image(String path, [ByteData def = null]) async {
+    return rootBundle.load(path);
+  }
+
   AssetBundle _cur;
 }
 

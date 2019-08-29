@@ -50,6 +50,8 @@ class WebViewStateU<T extends WebViewU> extends CWebViewState<T> {
     _self.onUrlChanged.listen((url) {
       signals.emit(kSignalChanged, url);
     });
+
+    _self.launch(widget.url); //, rect: new Rect.fromLTRB(0, 0, 0, 0));
   }
 
   bool clearCache = true;
@@ -64,12 +66,14 @@ class WebViewStateU<T extends WebViewU> extends CWebViewState<T> {
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
-        key: widget.key,
-        url: widget.url,
-        invalidUrlRegex: "^${SCHEME}://.*",
-        userAgent: widget.userAgent,
-        clearCache: clearCache,
-        appCacheEnabled: appCacheEnabled);
+      key: widget.key,
+      url: '',
+      invalidUrlRegex: "^${SCHEME}://.*",
+      userAgent: widget.userAgent,
+      clearCache: clearCache,
+      appCacheEnabled: appCacheEnabled,
+      hidden: true,
+    );
   }
 
   @override
