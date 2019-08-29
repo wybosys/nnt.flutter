@@ -108,6 +108,8 @@ class JsBridge {
             }
           }
         }
+      } else {
+        ret = {};
       }
 
       // 放回成功消息
