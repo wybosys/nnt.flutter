@@ -105,12 +105,6 @@ class _ClazzChildVisitor extends EmptyVisitor<void> {
               e.type.displayName.substring(7, e.type.displayName.length - 1);
           if (v.typeName == 'void') v.typeName = 'Void';
         }
-        if (v.typeName == 'Map') {
-          v.typeName = 'Map<dynamic, dynamic>';
-        }
-        if (v.typeName == 'List') {
-          v.typeName = 'List<dynamic>';
-        }
         args.add(v);
       });
       fn.args = args;
