@@ -20,7 +20,7 @@ class WebViewU extends CWebView {
 class WebViewStateU<T extends WebViewU> extends CWebViewState<T> {
   final FlutterWebviewPlugin _self = new FlutterWebviewPlugin();
 
-  WebViewStateU() : super() {
+  WebViewStateU() {
     logger.log("实例化一个新的WebViewState");
   }
 

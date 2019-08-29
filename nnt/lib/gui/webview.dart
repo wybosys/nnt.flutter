@@ -10,7 +10,7 @@ abstract class CWebView extends StatefulWidget {
 }
 
 abstract class CWebViewState<T extends CWebView> extends State<T> with SObject {
-  CWebViewState() : super() {
+  CWebViewState() {
     signals.connect(kSignalStarting, _cbStarting);
     signals.connect(kSignalStarted, _cbStarted);
     signals.connect(kSignalAbort, _cbAbort);
@@ -33,7 +33,7 @@ abstract class CWebViewState<T extends CWebView> extends State<T> with SObject {
   }
 
   // 添加一个交叉对象
-  void addJsObj(JsObject obj, String varnm) async {
+  Future<void> addJsObj(JsObject obj, String varnm) async {
     var code = jsb.addJsObj(obj, varnm);
     if (code == null) {
       return;
