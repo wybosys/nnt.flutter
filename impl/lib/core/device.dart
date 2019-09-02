@@ -1,8 +1,8 @@
 part of impl.core;
 
 Future<String> ImpGetIdfa() {
-  var c = Completer();
-  c.complete('');
+  var c = Completer<String>();
+  c.complete("");
   return c.future;
 }
 
