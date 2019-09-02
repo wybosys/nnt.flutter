@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "bin",
+    "module": "commonjs",
+    "target": "esnext",
+    "allowJs": true,
+    "removeComments": true,
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "esnext"
+    ]
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
