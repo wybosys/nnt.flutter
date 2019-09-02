@@ -24,11 +24,11 @@ abstract class CoreApplication {
   }
 
   // 获取设备唯一id
-  String udid() {
-    var r = storage.getString(KEY_APPLICATION_UDID, null);
+  FutureOr<String> udid() async {
+    String r = await storage.getString(KEY_APPLICATION_UDID, null);
     if (r == null) {
-      r = UDID();
-      storage.setString(KEY_APPLICATION_UDID, r);
+      r = await UDID();
+      await storage.setString(KEY_APPLICATION_UDID, r);
     }
     return r;
   }
