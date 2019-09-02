@@ -338,3 +338,5 @@ namespace nnt.flutter {
         });
     }
 }
+
+window['nnt'] = nnt;

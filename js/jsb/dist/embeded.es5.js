@@ -385,6 +385,7 @@ var nnt;
         flutter.OpenInstrument = OpenInstrument;
     })(flutter = nnt.flutter || (nnt.flutter = {}));
 })(nnt || (nnt = {}));
+window['nnt'] = nnt;
 
 
 /***/ })
