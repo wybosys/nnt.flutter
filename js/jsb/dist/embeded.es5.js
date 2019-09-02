@@ -264,66 +264,6 @@ var nnt;
         }());
         flutter.CodeError = CodeError;
         flutter.jsb = new _JsBridge();
-        var Promise = (function () {
-            function Promise(executor) {
-                var _this = this;
-                this._thens = [];
-                this._catchs = [];
-                this._executor = executor;
-                setTimeout(function () {
-                    _this._do();
-                }, 0);
-            }
-            Promise.prototype.then = function (func) {
-                this._thens.push(func);
-                return this;
-            };
-            Promise.prototype.catch = function (func) {
-                this._catchs.push(func);
-                return this;
-            };
-            Promise.prototype._do = function () {
-                var _this = this;
-                try {
-                    this._executor(function (obj) {
-                        _this._thens.forEach(function (e) {
-                            e(obj);
-                        });
-                    }, function (reason) {
-                        if (_this._catchs.length) {
-                            _this._catchs.forEach(function (e) {
-                                try {
-                                    e(reason);
-                                }
-                                catch (err) {
-                                    console.warn(err);
-                                }
-                            });
-                        }
-                        else {
-                            throw reason;
-                        }
-                    });
-                }
-                catch (reason) {
-                    if (this._catchs.length) {
-                        this._catchs.forEach(function (e) {
-                            try {
-                                e(reason);
-                            }
-                            catch (err) {
-                                console.warn(err);
-                            }
-                        });
-                    }
-                    else {
-                        throw reason;
-                    }
-                }
-            };
-            return Promise;
-        }());
-        flutter.Promise = Promise;
         var _JsObject = (function (_super) {
             __extends(_JsObject, _super);
             function _JsObject() {

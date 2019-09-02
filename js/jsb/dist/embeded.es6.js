@@ -244,63 +244,6 @@ var nnt;
         }
         flutter.CodeError = CodeError;
         flutter.jsb = new _JsBridge();
-        class Promise {
-            constructor(executor) {
-                this._thens = [];
-                this._catchs = [];
-                this._executor = executor;
-                setTimeout(() => {
-                    this._do();
-                }, 0);
-            }
-            then(func) {
-                this._thens.push(func);
-                return this;
-            }
-            catch(func) {
-                this._catchs.push(func);
-                return this;
-            }
-            _do() {
-                try {
-                    this._executor(obj => {
-                        this._thens.forEach(e => {
-                            e(obj);
-                        });
-                    }, reason => {
-                        if (this._catchs.length) {
-                            this._catchs.forEach(e => {
-                                try {
-                                    e(reason);
-                                }
-                                catch (err) {
-                                    console.warn(err);
-                                }
-                            });
-                        }
-                        else {
-                            throw reason;
-                        }
-                    });
-                }
-                catch (reason) {
-                    if (this._catchs.length) {
-                        this._catchs.forEach(e => {
-                            try {
-                                e(reason);
-                            }
-                            catch (err) {
-                                console.warn(err);
-                            }
-                        });
-                    }
-                    else {
-                        throw reason;
-                    }
-                }
-            }
-        }
-        flutter.Promise = Promise;
         class _JsObject extends JsObject {
             test() {
                 return false;
