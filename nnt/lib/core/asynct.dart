@@ -3,16 +3,16 @@ part of nnt.core;
 class AsyncT {
   static Future<List<dynamic>> AllThen(List<Function> fns) {
     var done = Completer();
-    List<dynamic> res = [];
+    List<dynamic> result = [];
     if (fns.length == 0) {
-      done.complete(res);
+      done.complete(result);
       return done.future;
     }
     ArrayT.Foreach(fns, (e, idx) {
-      e().then((res) {
-        res[idx] = res;
-        if (res.length == fns.length) {
-          done.complete(res);
+      e().then((code) {
+        result[idx] = code;
+        if (result.length == fns.length) {
+          done.complete(result);
         }
       });
       return true;
