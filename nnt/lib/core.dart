@@ -27,6 +27,7 @@ part 'core/objectt.dart';
 part 'core/sett.dart';
 part 'core/object.dart';
 part 'core/storage.dart';
+part 'core/udid.dart';
 
 part 'core.g.dart';
 

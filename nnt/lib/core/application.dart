@@ -21,6 +21,8 @@ abstract class CoreApplication {
     return $__shared;
   }
 
+  // 获取设备唯一id
+
   // 启动游戏
   Future<bool> start() async {
     if (!await loadConfig()) {
