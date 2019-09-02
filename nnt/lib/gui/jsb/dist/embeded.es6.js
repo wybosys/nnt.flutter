@@ -1,47 +1,124 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/embeded/main.ts");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/embeded/main.ts":
+/*!*****************************!*\
+  !*** ./src/embeded/main.ts ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
 var nnt;
 (function (nnt) {
     var flutter;
     (function (flutter) {
-        // app段匹配的随机数据
-        var SCHEME = 'nf20w';
-        var JsObject = /** @class */ (function () {
-            function JsObject() {
-            }
-            return JsObject;
-        }());
+        const SCHEME = 'nf20w';
+        class JsObject {
+        }
         flutter.JsObject = JsObject;
-        var _msgid = 0;
-        var Message = /** @class */ (function () {
-            function Message(objid, action, params) {
+        let _msgid = 0;
+        class Message {
+            constructor(objid, action, params) {
                 this.objectId = objid;
                 this.action = action;
                 this.params = params;
             }
-            // 序列化和反序列化
-            Message.prototype.serialize = function () {
-                var raw = JSON.stringify({
+            serialize() {
+                let raw = JSON.stringify({
                     o: this.objectId,
                     i: this.id,
                     a: this.action,
                     p: this.params ? this.params : {}
                 });
                 raw = encodeURI(raw);
-                return SCHEME + "://" + raw;
-            };
-            Message.prototype.unserialize = function (raw) {
+                return `${SCHEME}://${raw}`;
+            }
+            unserialize(raw) {
                 raw = raw.substr(SCHEME.length + 3);
                 raw = decodeURI(raw);
                 var obj = JSON.parse(raw);
@@ -49,12 +126,10 @@ var nnt;
                 this.id = obj.i;
                 this.action = obj.a;
                 this.params = obj.p;
-            };
-            return Message;
-        }());
+            }
+        }
         flutter.Message = Message;
-        // 错误码
-        var STATUS;
+        let STATUS;
         (function (STATUS) {
             STATUS[STATUS["UNKNOWN"] = -1000] = "UNKNOWN";
             STATUS[STATUS["EXCEPTION"] = -999] = "EXCEPTION";
@@ -100,64 +175,52 @@ var nnt;
             STATUS[STATUS["FAILED"] = -1] = "FAILED";
             STATUS[STATUS["OK"] = 0] = "OK";
         })(STATUS = flutter.STATUS || (flutter.STATUS = {}));
-        // 用来保存所有从app添加到js的对象
-        var _objects = {};
-        var _JsBridge = /** @class */ (function () {
-            function _JsBridge() {
+        let _objects = {};
+        class _JsBridge {
+            constructor() {
                 this._waitings = {};
             }
-            // 添加对象到js中
-            _JsBridge.prototype.addJsObj = function (obj) {
+            addJsObj(obj) {
                 if (!obj.objectId) {
                     alert('添加没有从JsObject继承的对象');
                     return;
                 }
                 _objects[obj.objectId] = obj;
-            };
-            // 接受从app中传来的消息
-            _JsBridge.prototype.fromApp = function (raw) {
+            }
+            fromApp(raw) {
                 if (raw.indexOf(SCHEME) != 0) {
-                    alert("\u6536\u5230\u4E86\u4E0D\u652F\u6301\u7684\u6570\u636E " + raw);
+                    alert(`收到了不支持的数据 ${raw}`);
                     return;
                 }
-                var msg = new Message(0, null);
+                let msg = new Message(0, null);
                 msg.unserialize(raw);
-                // 查找池子里的对象
-                var obj = _objects[msg.objectId];
+                let obj = _objects[msg.objectId];
                 if (!obj) {
-                    alert("\u627E\u4E0D\u5230\u5BF9\u8C61 " + msg.objectId);
+                    alert(`找不到对象 ${msg.objectId}`);
                     return;
                 }
                 if (!obj[msg.action]) {
-                    alert("\u627E\u4E0D\u5230\u52A8\u4F5C " + msg.action);
+                    alert(`找不到动作 ${msg.action}`);
                     return;
                 }
-                // 执行函数
                 obj[msg.action](msg.params);
-            };
-            // 给app发送消息
-            _JsBridge.prototype.toApp = function (msg) {
-                var _this = this;
-                // 分配新的id
+            }
+            toApp(msg) {
                 msg.id = ++_msgid;
-                var raw = msg.serialize();
-                // 监听消息
-                var pm = new Promise(function (resolve, reject) {
-                    _this._waitings[msg.id] = { resolve: resolve, reject: reject };
+                let raw = msg.serialize();
+                let pm = new Promise((resolve, reject) => {
+                    this._waitings[msg.id] = { resolve, reject };
                 });
-                // app通过拦截href来实现
-                // console.log('msg: ' + raw);
                 location.href = raw;
                 return pm;
-            };
-            // app发送结果
-            _JsBridge.prototype.result = function (raw) {
-                var msg = new Message(0, null);
+            }
+            result(raw) {
+                let msg = new Message(0, null);
                 msg.unserialize(raw);
-                var s = this._waitings[msg.id];
+                let s = this._waitings[msg.id];
                 if (s) {
                     delete this._waitings[msg.id];
-                    var p = msg.params;
+                    let p = msg.params;
                     if (p.ok) {
                         s.resolve(p.ok);
                     }
@@ -168,51 +231,45 @@ var nnt;
                 else {
                     console.log('没有找到数据回调');
                 }
-            };
-            return _JsBridge;
-        }());
-        var CodeError = /** @class */ (function () {
-            function CodeError(code, msg) {
+            }
+        }
+        class CodeError {
+            constructor(code, msg) {
                 this.code = code;
                 this.msg = msg;
             }
-            CodeError.prototype.toString = function () {
-                return "code: " + this.code + " msg: " + this.msg;
-            };
-            return CodeError;
-        }());
+            toString() {
+                return `code: ${this.code} msg: ${this.msg}`;
+            }
+        }
         flutter.CodeError = CodeError;
         flutter.jsb = new _JsBridge();
-        // Reentrant Promise 可以重入的Promise，解决标准Promise的resolve/reject只能调用一次的问题
-        var Promise = /** @class */ (function () {
-            function Promise(executor) {
-                var _this = this;
+        class Promise {
+            constructor(executor) {
                 this._thens = [];
                 this._catchs = [];
                 this._executor = executor;
-                // 延迟执行，业务会设置then等后处理
-                setTimeout(function () {
-                    _this._do();
+                setTimeout(() => {
+                    this._do();
                 }, 0);
             }
-            Promise.prototype.then = function (func) {
+            then(func) {
                 this._thens.push(func);
                 return this;
-            };
-            Promise.prototype.catch = function (func) {
+            }
+            catch(func) {
                 this._catchs.push(func);
                 return this;
-            };
-            Promise.prototype._do = function () {
-                var _this = this;
+            }
+            _do() {
                 try {
-                    this._executor(function (obj) {
-                        _this._thens.forEach(function (e) {
+                    this._executor(obj => {
+                        this._thens.forEach(e => {
                             e(obj);
                         });
-                    }, function (reason) {
-                        if (_this._catchs.length) {
-                            _this._catchs.forEach(function (e) {
+                    }, reason => {
+                        if (this._catchs.length) {
+                            this._catchs.forEach(e => {
                                 try {
                                     e(reason);
                                 }
@@ -228,7 +285,7 @@ var nnt;
                 }
                 catch (reason) {
                     if (this._catchs.length) {
-                        this._catchs.forEach(function (e) {
+                        this._catchs.forEach(e => {
                             try {
                                 e(reason);
                             }
@@ -241,26 +298,18 @@ var nnt;
                         throw reason;
                     }
                 }
-            };
-            return Promise;
-        }());
-        flutter.Promise = Promise;
-        // 为了使ts生成对应的工具头
-        var _JsObject = /** @class */ (function (_super) {
-            __extends(_JsObject, _super);
-            function _JsObject() {
-                return _super !== null && _super.apply(this, arguments) || this;
             }
-            _JsObject.prototype.test = function () {
+        }
+        flutter.Promise = Promise;
+        class _JsObject extends JsObject {
+            test() {
                 return false;
-            };
-            return _JsObject;
-        }(JsObject));
+            }
+        }
         flutter._JsObject = _JsObject;
-        // 基础函数
         function LoadStyle(src) {
-            return new Promise(function (resolve) {
-                var s = document.createElement('link');
+            return new Promise(resolve => {
+                let s = document.createElement('link');
                 s.rel = 'stylesheet';
                 s.href = src;
                 document.body.appendChild(s);
@@ -268,11 +317,9 @@ var nnt;
             });
         }
         flutter.LoadStyle = LoadStyle;
-        function LoadScript(src, async) {
-            if (async === void 0) { async = true; }
-            return new Promise(function (resolve) {
-                var s = document.createElement('script');
-                // 如果默认不是异步
+        function LoadScript(src, async = true) {
+            return new Promise(resolve => {
+                let s = document.createElement('script');
                 if ('async' in s) {
                     s.async = async;
                 }
@@ -281,18 +328,18 @@ var nnt;
                 }
                 s.src = src;
                 if (async) {
-                    var suc_1 = function () {
-                        this.removeEventListener('load', suc_1, false);
-                        this.removeEventListener('error', err_1, false);
+                    let suc = function () {
+                        this.removeEventListener('load', suc, false);
+                        this.removeEventListener('error', err, false);
                         resolve(true);
                     };
-                    var err_1 = function () {
-                        this.removeEventListener('load', suc_1, false);
-                        this.removeEventListener('error', err_1, false);
+                    let err = function () {
+                        this.removeEventListener('load', suc, false);
+                        this.removeEventListener('error', err, false);
                         resolve(false);
                     };
-                    s.addEventListener('load', suc_1, false);
-                    s.addEventListener('error', err_1, false);
+                    s.addEventListener('load', suc, false);
+                    s.addEventListener('error', err, false);
                 }
                 document.body.appendChild(s);
                 if (!async)
@@ -300,13 +347,18 @@ var nnt;
             });
         }
         flutter.LoadScript = LoadScript;
-        // 打开调试
         function OpenInstrument() {
             console.log('打开调试面板');
-            LoadScript('https://cdn.bootcss.com/vConsole/3.3.2/vconsole.min.js').then(function () {
+            LoadScript('https://cdn.bootcss.com/vConsole/3.3.2/vconsole.min.js').then(() => {
                 new VConsole();
             });
         }
         flutter.OpenInstrument = OpenInstrument;
     })(flutter = nnt.flutter || (nnt.flutter = {}));
 })(nnt || (nnt = {}));
+
+
+/***/ })
+
+/******/ });
+//# sourceMappingURL=embeded.es6.js.map
