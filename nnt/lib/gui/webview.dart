@@ -49,7 +49,7 @@ abstract class CWebViewState<T extends CWebView> extends State<T> with SObject {
   // 加载标准库
   void _loadStdLib() async {
     // 添加默认执行环境
-    await eval(JS_ENVIRONMENT);
+    await eval(JS_EMBEDED);
   }
 
   // jsb
