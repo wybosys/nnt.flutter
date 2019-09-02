@@ -1,5 +1,7 @@
 part of nnt.core;
 
+const KEY_APPLICATION_UDID = '::nnt::app::udid';
+
 abstract class CoreApplication {
   static var $__shared;
 
@@ -22,6 +24,14 @@ abstract class CoreApplication {
   }
 
   // 获取设备唯一id
+  String udid() {
+    var r = storage.getString(KEY_APPLICATION_UDID, null);
+    if (r == null) {
+      r = UDID();
+      storage.setString(KEY_APPLICATION_UDID, r);
+    }
+    return r;
+  }
 
   // 启动游戏
   Future<bool> start() async {

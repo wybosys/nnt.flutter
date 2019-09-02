@@ -4,6 +4,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:convert/convert.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +30,9 @@ part 'core/sett.dart';
 part 'core/object.dart';
 part 'core/storage.dart';
 part 'core/udid.dart';
+part 'core/asynct.dart';
+part 'core/arch.dart';
+part 'core/codec.dart';
 
 part 'core.g.dart';
 
