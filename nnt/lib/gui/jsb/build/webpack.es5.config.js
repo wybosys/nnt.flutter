@@ -2,7 +2,6 @@
 const path = require("path");
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const fs = require("fs");
-const com = require("./common");
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -10,10 +9,7 @@ function resolve(dir) {
 
 module.exports = {
   mode: 'production',
-  context: path.resolve(__dirname, '../'),
-  entry: com.ListEntries({
-    nnt: "nnt.ts"
-  }),
+  context: path.resolve(__dirname, '../'),  
   output: {
     filename: "[name].es5.min.js",
     path: resolve("./")

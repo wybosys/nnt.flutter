@@ -1,16 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": "./",
+    "outDir": "bin",
     "module": "commonjs",
-    "removeComments": false,
-    "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "noImplicitUseStrict": true,
-    "noImplicitReturns": true,
-    "sourceMap": false
+    "target": "esnext",
+    "allowJs": true,
+    "removeComments": true,
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "esnext"
+    ]
   },
   "include": [
-    "*.ts"
+    "./*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
-
