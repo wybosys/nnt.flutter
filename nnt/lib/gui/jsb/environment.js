@@ -217,23 +217,28 @@ var nnt;
                                     e(reason);
                                 }
                                 catch (err) {
-                                    console.log(err);
+                                    console.warn(err);
                                 }
                             });
                         }
                         else {
-                            console.log(reason);
+                            console.warn("\u6CA1\u6709\u5904\u7406Promise:" + reason);
                         }
                     });
                 }
-                catch (err) {
+                catch (reason) {
                     if (this._catchs.length) {
                         this._catchs.forEach(function (e) {
-                            e(err);
+                            try {
+                                e(reason);
+                            }
+                            catch (err) {
+                                console.warn(err);
+                            }
                         });
                     }
                     else {
-                        throw err;
+                        console.warn("\u6CA1\u6709\u5904\u7406Promise:" + reason);
                     }
                 }
             };
