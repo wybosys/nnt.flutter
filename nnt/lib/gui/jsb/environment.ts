@@ -256,7 +256,7 @@ namespace nnt.flutter {
                             }
                         });
                     } else {
-                        console.warn(`没有处理Promise:${reason}`);
+                        throw reason;
                     }
                 });
             } catch (reason) {
@@ -269,7 +269,7 @@ namespace nnt.flutter {
                         }
                     });
                 } else {
-                    console.warn(`没有处理Promise:${reason}`);
+                    throw reason;
                 }
             }
         }

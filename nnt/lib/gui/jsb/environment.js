@@ -222,7 +222,7 @@ var nnt;
                             });
                         }
                         else {
-                            console.warn("\u6CA1\u6709\u5904\u7406Promise:" + reason);
+                            throw reason;
                         }
                     });
                 }
@@ -238,7 +238,7 @@ var nnt;
                         });
                     }
                     else {
-                        console.warn("\u6CA1\u6709\u5904\u7406Promise:" + reason);
+                        throw reason;
                     }
                 }
             };
