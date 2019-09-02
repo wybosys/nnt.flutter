@@ -2,8 +2,8 @@ package com.nnt.core;
 
 import android.content.Context
 import android.os.Build
-import android.provider.Settings
 import android.telephony.TelephonyManager
+import com.nnt.core.Device.Companion.GetAndroidId
 import java.util.*
 
 class Udid {
@@ -28,11 +28,6 @@ class Udid {
                 Logger.log(ex.toString());
             }
             return ToString(UUID.randomUUID());
-        }
-
-        @JvmStatic
-        fun GetAndroidId(context: Context): String {
-            return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID);
         }
 
         @JvmStatic
