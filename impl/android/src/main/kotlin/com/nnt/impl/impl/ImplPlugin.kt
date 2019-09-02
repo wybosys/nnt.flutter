@@ -1,5 +1,6 @@
 package com.nnt.impl.impl
 
+import com.nnt.core.Device
 import com.nnt.core.Udid
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -33,6 +34,15 @@ class ImplPlugin : MethodCallHandler {
             }
             "getUdid" -> {
                 result.success(Udid.GetCurrent(Registrar.context()));
+            }
+            "getMAC" -> {
+                result.success(Device.GetMacAddress(Registrar.context()))
+            }
+            "getIMEI" -> {
+                result.success(Device.GetIMEI(Registrar.context()))
+            }
+            "getANDROIDID" -> {
+                result.success(Device.GetAndroidId(Registrar.context()))
             }
             else -> {
                 result.notImplemented()
