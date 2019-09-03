@@ -213,7 +213,7 @@ namespace nnt.flutter {
                 delete this._waitings[msg.id];
                 let p = msg.params;
                 if (p.ok) {
-                    s.resolve(p.ok);
+                    s.resolve(msg.apply(p.ok));
                 } else {
                     s.reject(new CodeError(p.err.code, p.err.msg));
                 }

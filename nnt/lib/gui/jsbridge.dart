@@ -105,7 +105,8 @@ class JsBridge {
             var varnm = "ret_${ret.hashCode}";
             await addJsObj(ret, varnm, true);
             // 回调全局变量
-            ret = 
+            msg.mode = MESSAGEMODETYPE_VAR;
+            ret = "nnt.tmp.$varnm";
           } else {
             // 判断是否可以转成json
             var t = toJson(ret, null);
@@ -149,6 +150,11 @@ class JsBridge {
 const SCHEME = 'nf20w';
 
 // 用于app/js间交换消息
+
+const MESSAGEMODETYPE_EMPTY = 0; // 空
+const MESSAGEMODETYPE_EVAL = 1; // 执行ok返回的语句
+const MESSAGEMODETYPE_VAR = 2; // ok返回的是全局变量名
+
 class Message {
   Message(this.objectId, this.action, [this.params]);
 
@@ -161,6 +167,9 @@ class Message {
   // 动作
   String action;
 
+  // 类型
+  int mode = MESSAGEMODETYPE_EMPTY;
+
   // 数据
   Map<String, dynamic> params;
 
@@ -170,7 +179,8 @@ class Message {
       'o': objectId,
       'a': action,
       'p': (params != null ? params : {}),
-      'i': id
+      'i': id,
+      'm': mode
     });
     raw = Uri.encodeFull(raw);
     return "$SCHEME://$raw";
@@ -184,5 +194,6 @@ class Message {
     action = obj['a'];
     params = obj['p'];
     id = obj['i'];
+    mode = obj['m'];
   }
 }
