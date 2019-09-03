@@ -43,6 +43,15 @@ abstract class CWebViewState<T extends CWebView> extends State<T> with SObject {
     // await eval('ptsdk.getDeviceInfo().then(function(res){console.log(res);})');
   }
 
+  Future<void> addJsClazz(JsObject obj) async {
+    var code = jsb.codeClazz(obj);
+    if (code == null) {
+      return;
+    }
+
+    await eval(code);
+  }
+
   // 执行js代码
   Future<String> eval(String code);
 
