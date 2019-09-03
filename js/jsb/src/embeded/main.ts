@@ -129,6 +129,11 @@ namespace nnt.flutter {
             _objects[obj.objectId] = obj;
         }
 
+        // 删除对象
+        removeJsObj(obj: JsObject) {
+            delete _objects[obj.objectId];
+        }
+
         // 接受从app中传来的消息
         fromApp(raw: string) {
             if (raw.indexOf(SCHEME) != 0) {

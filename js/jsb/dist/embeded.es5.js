@@ -204,6 +204,9 @@ var nnt;
                 }
                 _objects[obj.objectId] = obj;
             };
+            _JsBridge.prototype.removeJsObj = function (obj) {
+                delete _objects[obj.objectId];
+            };
             _JsBridge.prototype.fromApp = function (raw) {
                 if (raw.indexOf(SCHEME) != 0) {
                     alert("\u6536\u5230\u4E86\u4E0D\u652F\u6301\u7684\u6570\u636E " + raw);

@@ -187,6 +187,9 @@ var nnt;
                 }
                 _objects[obj.objectId] = obj;
             }
+            removeJsObj(obj) {
+                delete _objects[obj.objectId];
+            }
             fromApp(raw) {
                 if (raw.indexOf(SCHEME) != 0) {
                     alert(`收到了不支持的数据 ${raw}`);
