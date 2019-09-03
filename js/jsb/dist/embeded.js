@@ -145,7 +145,7 @@ var nnt;
                 }
                 if (this.mode == MessageMode.VAR) {
                     let t = ValueByKeyPath(window, ok);
-                    alert(t);
+                    alert(t + ok);
                     return t;
                 }
                 return ok;
