@@ -160,7 +160,9 @@ var nnt;
                     return eval(ok);
                 }
                 if (this.mode == MessageMode.VAR) {
-                    return ValueByKeyPath(window, ok);
+                    var t = ValueByKeyPath(window, ok);
+                    alert(t);
+                    return t;
                 }
                 return ok;
             };

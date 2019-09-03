@@ -18,17 +18,26 @@ class JsBridge {
 
     // 实例化对象
     var clz = ClazzOfName(obj.className);
-    if (tpl_var == null) {
-      tpl_var = new Template(tmp ? TPL_TMP_VARIABLE : TPL_VARIABLE);
+    if (tmp) {
+      if (tpl_tmpvar == null) {
+        tpl_tmpvar = new Template(TPL_TMP_VARIABLE);
+      }
+      codes.add(tpl_tmpvar.renderString(
+          {'name': varnm, 'clazz': clz.name, 'objid': obj.objectId}));
+    } else {
+      if (tpl_var == null) {
+        tpl_var = new Template(TPL_VARIABLE);
+      }
+      codes.add(tpl_var.renderString(
+          {'name': varnm, 'clazz': clz.name, 'objid': obj.objectId}));
     }
-    codes.add(tpl_var.renderString(
-        {'name': varnm, 'clazz': clz.name, 'objid': obj.objectId}));
 
     return codes.length != 0 ? codes.join(';\n') : null;
   }
 
   static Template tpl_clazz;
   static Template tpl_var;
+  static Template tpl_tmpvar;
 
   // 生成类的代码
   String codeClazz(JsObject obj) {
@@ -102,7 +111,7 @@ class JsBridge {
             ret = ret.toObject();
           } else if (ret is JsObject) {
             // 返回值变成全局变量
-            var varnm = "ret_${ret.hashCode}";
+            var varnm = "ret_${ret.objectId}";
             await addJsObj(ret, varnm, true);
             // 回调全局变量
             msg.mode = MESSAGEMODETYPE_VAR;
