@@ -300,7 +300,7 @@ namespace nnt.flutter {
     }
 
     export function ValueByKeyPath(obj: any, kp: string) {
-        let s = kp.split(',');
+        let s = kp.split('.');
         s.forEach(e => {
             obj = obj[e];
         });
