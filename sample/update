@@ -37,6 +37,7 @@ def FlushApp():
     ybuild = yaml.load(open('pubspec.yaml'))
     assets = listfiles('assets', whitelist=WL_ASSETS)
     node = GetKeypath(ybuild, 'flutter.assets', [])
+    node.clear()
     for e in assets:
         if e not in node:
             node.append(e)
