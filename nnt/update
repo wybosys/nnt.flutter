@@ -169,11 +169,10 @@ def listdirs(dir, rets = None, blacklist = None, depth = -1):
 # 缩放图片并保存
 def ResizeImage(src, dst, size):    
     src = Image.open(src)
-    src_sz = src.size        
-    # 计算居中拉伸
+    src_sz = src.size            
     rx = size[0] / src_sz[0]
     ry = size[1] / src_sz[1]
-    r = min(rx, ry)
+    r = max(rx, ry)
     dst_sz = (int(src_sz[0] * r), int(src_sz[1] * r))
     src = src.resize(dst_sz)
     wb = Image.new('RGBA', size, (0, 0, 0, 0))
