@@ -10,12 +10,16 @@ open class Application : FlutterApplication() {
             get() {
                 return _shared as Application
             }
+
+        // 通用配置参数
+        val CONFIGKEY_DEBUG = "DEBUG"
+        val CONFIGKEY_ORIENTATION = "ORIENTATION"
     }
 
     init {
         _shared = this
 
         // 设置基本配置参数
-        Config.shared.override(mapOf("DEBUG" to false))
+        Config.shared.override(mapOf(CONFIGKEY_DEBUG to false, CONFIGKEY_ORIENTATION to OrientationType.AUTOADAPT))
     }
 }

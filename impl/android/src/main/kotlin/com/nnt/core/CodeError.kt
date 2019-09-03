@@ -1,15 +1,15 @@
 package com.nnt.core;
 
-class CodeError(val code: Int, val _msg: String?) {
+class CodeError(val code: Int, val _msg: String?) : Throwable(_msg) {
 
     val msg: String
         get() {
-            if (_msg == null)
+            if (message == null)
                 return ""
-            return _msg
+            return message as String
         }
 
     override fun toString(): String {
-        return "error: ${code} ${_msg}"
+        return "error: $code $_msg"
     }
 }
