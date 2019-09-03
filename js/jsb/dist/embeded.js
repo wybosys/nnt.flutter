@@ -317,7 +317,7 @@ var nnt;
         }
         flutter.LoadScript = LoadScript;
         function ValueByKeyPath(obj, kp) {
-            let s = kp.split(',');
+            let s = kp.split('.');
             s.forEach(e => {
                 obj = obj[e];
             });
