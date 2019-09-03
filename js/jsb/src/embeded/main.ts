@@ -205,7 +205,7 @@ namespace nnt.flutter {
             this.code = code;
             this.msg = msg;
         }
-        
+
         toString() {
             return `code: ${this.code} msg: ${this.msg}`;
         }
@@ -279,6 +279,9 @@ namespace nnt.flutter {
             new VConsole();
         });
     }
+
+    // 承载临时变量
+    export let tmp = {};
 }
 
 window['nnt'] = nnt;

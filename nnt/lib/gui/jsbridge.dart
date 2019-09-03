@@ -100,7 +100,15 @@ class JsBridge {
         if (!IsPod(ret)) {
           if (ret is ToObject) {
             ret = ret.toObject();
-          } else {
+          }
+          else if (ret is JsObject) {
+            // 返回值变成全局变量
+            var varnm = "ret_${ret.hashCode}";
+            await addJsObj(ret, varnm);
+            // 回调全局变量
+            
+          }
+          else {
             // 判断是否可以转成json
             var t = toJson(ret, null);
             if (t == null) {

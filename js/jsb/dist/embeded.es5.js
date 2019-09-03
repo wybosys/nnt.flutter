@@ -326,6 +326,7 @@ var nnt;
             });
         }
         flutter.OpenInstrument = OpenInstrument;
+        flutter.tmp = {};
     })(flutter = nnt.flutter || (nnt.flutter = {}));
 })(nnt || (nnt = {}));
 window['nnt'] = nnt;
