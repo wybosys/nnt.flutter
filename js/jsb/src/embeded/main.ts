@@ -19,6 +19,12 @@ namespace nnt.flutter {
         objectId: int;
     }
 
+    export enum MessageMode {
+        EMPTY = 0, // 空
+        EVAL = 1, // 执行ok返回的语句
+        VAR = 2, // ok返回的是全局变量名
+    }
+
     let _msgid = 0;
 
     export class Message {
@@ -41,13 +47,17 @@ namespace nnt.flutter {
         // 数据
         params: IndexedObject;
 
+        // 模式
+        mode: int = MessageMode.EMPTY;
+
         // 序列化和反序列化
         serialize(): string {
             let raw = JSON.stringify({
                 o: this.objectId,
                 i: this.id,
                 a: this.action,
-                p: this.params ? this.params : {}
+                p: this.params ? this.params : {},
+                m: this.mode
             });
             raw = encodeURI(raw);
             return `${SCHEME}://${raw}`;
@@ -61,6 +71,21 @@ namespace nnt.flutter {
             this.id = obj.i;
             this.action = obj.a;
             this.params = obj.p;
+            this.mode = obj.m;
+        }
+
+        // 根据mode恢复ok
+        apply(ok: string) {
+            if (this.mode == MessageMode.EMPTY) {
+                return ok;
+            }
+            if (this.mode == MessageMode.EVAL) {
+                return eval(ok);
+            }
+            if (this.mode == MessageMode.VAR) {
+                return ValueByKeyPath(window, ok);
+            }
+            return ok;
         }
     }
 
@@ -270,6 +295,14 @@ namespace nnt.flutter {
             if (!async)
                 resolve(true);
         });
+    }
+
+    export function ValueByKeyPath(obj: any, kp: string) {
+        let s = kp.split(',');
+        s.forEach(e => {
+            obj = obj[e];
+        });
+        return obj;
     }
 
     // 打开调试

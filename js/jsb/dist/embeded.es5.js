@@ -117,9 +117,16 @@ var nnt;
             return JsObject;
         }());
         flutter.JsObject = JsObject;
+        var MessageMode;
+        (function (MessageMode) {
+            MessageMode[MessageMode["EMPTY"] = 0] = "EMPTY";
+            MessageMode[MessageMode["EVAL"] = 1] = "EVAL";
+            MessageMode[MessageMode["VAR"] = 2] = "VAR";
+        })(MessageMode = flutter.MessageMode || (flutter.MessageMode = {}));
         var _msgid = 0;
         var Message = (function () {
             function Message(objid, action, params) {
+                this.mode = MessageMode.EMPTY;
                 this.objectId = objid;
                 this.action = action;
                 this.params = params;
@@ -129,7 +136,8 @@ var nnt;
                     o: this.objectId,
                     i: this.id,
                     a: this.action,
-                    p: this.params ? this.params : {}
+                    p: this.params ? this.params : {},
+                    m: this.mode
                 });
                 raw = encodeURI(raw);
                 return SCHEME + "://" + raw;
@@ -142,6 +150,19 @@ var nnt;
                 this.id = obj.i;
                 this.action = obj.a;
                 this.params = obj.p;
+                this.mode = obj.m;
+            };
+            Message.prototype.apply = function (ok) {
+                if (this.mode == MessageMode.EMPTY) {
+                    return ok;
+                }
+                if (this.mode == MessageMode.EVAL) {
+                    return eval(ok);
+                }
+                if (this.mode == MessageMode.VAR) {
+                    return ValueByKeyPath(window, ok);
+                }
+                return ok;
             };
             return Message;
         }());
@@ -319,6 +340,14 @@ var nnt;
             });
         }
         flutter.LoadScript = LoadScript;
+        function ValueByKeyPath(obj, kp) {
+            var s = kp.split(',');
+            s.forEach(function (e) {
+                obj = obj[e];
+            });
+            return obj;
+        }
+        flutter.ValueByKeyPath = ValueByKeyPath;
         function OpenInstrument() {
             console.log('打开调试面板');
             LoadScript('https://cdn.bootcss.com/vConsole/3.3.2/vconsole.min.js').then(function () {

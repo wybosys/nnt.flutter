@@ -32,3 +32,8 @@ const TPL_VARIABLE = '''
 var {{name}} = new {{clazz}}();
 {{name}}.objectId = {{objid}};
 ''';
+
+const TPL_TMP_VARIABLE = '''
+nnt.tmp.{{name}} = new {{clazz}}();
+nnt.tmp.{{name}}.objectId = {{objid}};
+''';

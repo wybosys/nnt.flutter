@@ -2,7 +2,7 @@ part of nnt.gui;
 
 class JsBridge {
   // 添加一个js实例，返回需要浏览器运行的代码
-  String addJsObj(JsObject obj, String varnm) {
+  String addJsObj(JsObject obj, String varnm, [bool tmp = false]) {
     if (_jsobjects.containsKey(obj.objectId)) {
       return null;
     }
@@ -19,7 +19,7 @@ class JsBridge {
     // 实例化对象
     var clz = ClazzOfName(obj.className);
     if (tpl_var == null) {
-      tpl_var = new Template(TPL_VARIABLE);
+      tpl_var = new Template(tmp ? TPL_TMP_VARIABLE : TPL_VARIABLE);
     }
     codes.add(tpl_var.renderString(
         {'name': varnm, 'clazz': clz.name, 'objid': obj.objectId}));
@@ -100,15 +100,13 @@ class JsBridge {
         if (!IsPod(ret)) {
           if (ret is ToObject) {
             ret = ret.toObject();
-          }
-          else if (ret is JsObject) {
+          } else if (ret is JsObject) {
             // 返回值变成全局变量
             var varnm = "ret_${ret.hashCode}";
-            await addJsObj(ret, varnm);
+            await addJsObj(ret, varnm, true);
             // 回调全局变量
-            
-          }
-          else {
+            ret = 
+          } else {
             // 判断是否可以转成json
             var t = toJson(ret, null);
             if (t == null) {
