@@ -34,6 +34,6 @@ var {{name}} = new {{clazz}}();
 ''';
 
 const TPL_TMP_VARIABLE = '''
-nnt.tmp.{{name}} = new {{clazz}}();
-nnt.tmp.{{name}}.objectId = {{objid}};
+nnt.flutter.tmp.{{name}} = new {{clazz}}();
+nnt.flutter.tmp.{{name}}.objectId = {{objid}};
 ''';

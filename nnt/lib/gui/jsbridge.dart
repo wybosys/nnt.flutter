@@ -94,8 +94,12 @@ class JsBridge {
       return null;
     }
 
+    // 执行函数
     Func func = clz.funcs[msg.action];
-    String code;
+
+    // 附加的需要执行的js代码
+    List<String> codes = [];
+
     try {
       dynamic ret;
       if (func.ret.async) {
@@ -112,10 +116,11 @@ class JsBridge {
           } else if (ret is JsObject) {
             // 返回值变成全局变量
             var varnm = "ret_${ret.objectId}";
-            await addJsObj(ret, varnm, true);
+            codes.add(addJsObj(ret, varnm, true));
+
             // 回调全局变量
             msg.mode = MESSAGEMODETYPE_VAR;
-            ret = "nnt.tmp.$varnm";
+            ret = "nnt.flutter.tmp.$varnm";
           } else {
             // 判断是否可以转成json
             var t = toJson(ret, null);
@@ -145,7 +150,9 @@ class JsBridge {
       };
     }
 
-    return '''nnt.flutter.jsb.result("${msg.serialize()}");''';
+    codes.add('''nnt.flutter.jsb.result("${msg.serialize()}");''');
+
+    return codes.join(';');
   }
 
   // 当前保存的jsobj
