@@ -83,9 +83,7 @@ namespace nnt.flutter {
                 return eval(ok);
             }
             if (this.mode == MessageMode.VAR) {
-                let t = ValueByKeyPath(window, ok);
-                alert(t + ok);                
-                return t;
+                return ValueByKeyPath(window, ok);
             }
             return ok;
         }
