@@ -186,7 +186,7 @@ namespace nnt.flutter {
         }
 
         // 给app发送消息
-        toApp(msg: Message) {
+        async toApp(msg: Message): Promise<any> {
             // 分配新的id
             msg.id = ++_msgid;
             let raw = msg.serialize();

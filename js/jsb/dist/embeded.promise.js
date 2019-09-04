@@ -229,7 +229,7 @@ var nnt;
                 }
                 obj[msg.action](msg.params);
             }
-            toApp(msg) {
+            async toApp(msg) {
                 msg.id = ++_msgid;
                 let raw = msg.serialize();
                 let pm = new Promise((resolve, reject) => {
