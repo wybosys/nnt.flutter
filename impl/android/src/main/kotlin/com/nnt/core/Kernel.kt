@@ -31,6 +31,31 @@ fun toInt(v: Any?, def: Int = 0): Int {
     return def
 }
 
+fun toFloat(v: Any?, def: Float = 0.0F): Float {
+    if (v == null) {
+        return def
+    }
+    if (v is Int) {
+        return v.toFloat()
+    }
+    if (v is Double) {
+        return v.toFloat()
+    }
+    if (v is Float) {
+        return v
+    }
+    if (v is Number) {
+        return v.toFloat()
+    }
+    if (v is Boolean) {
+        return if (v) 1.0F else 0.0F
+    }
+    if (v is String) {
+        return v.toFloatOrNull() ?: def
+    }
+    return def
+}
+
 fun toDouble(v: Any?, def: Double = 0.0): Double {
     if (v == null) {
         return def
@@ -39,7 +64,7 @@ fun toDouble(v: Any?, def: Double = 0.0): Double {
         return v.toDouble()
     }
     if (v is Double) {
-        return v.toDouble()
+        return v
     }
     if (v is Float) {
         return v.toDouble()
@@ -56,7 +81,7 @@ fun toDouble(v: Any?, def: Double = 0.0): Double {
     return def
 }
 
-fun toString(v:Any?, def: String = ""):String {
+fun toString(v: Any?, def: String = ""): String {
     if (v == null) {
         return def
     }
