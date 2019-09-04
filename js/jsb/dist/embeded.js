@@ -261,11 +261,11 @@ var nnt;
                 if (s) {
                     delete this._waitings[msg.id];
                     let p = msg.params;
-                    if (p.ok) {
-                        s.resolve(msg.apply(p.ok));
+                    if (p.err) {
+                        s.reject(new CodeError(p.err.code, p.err.msg));
                     }
                     else {
-                        s.reject(new CodeError(p.err.code, p.err.msg));
+                        s.resolve(msg.apply(p.ok));
                     }
                 }
                 else {

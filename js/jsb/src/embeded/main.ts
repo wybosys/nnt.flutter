@@ -220,10 +220,10 @@ namespace nnt.flutter {
             if (s) {
                 delete this._waitings[msg.id];
                 let p = msg.params;
-                if (p.ok) {
-                    s.resolve(msg.apply(p.ok));
-                } else {
+                if (p.err) {
                     s.reject(new CodeError(p.err.code, p.err.msg));
+                } else {
+                    s.resolve(msg.apply(p.ok));
                 }
             } else {
                 console.log('没有找到数据回调');
