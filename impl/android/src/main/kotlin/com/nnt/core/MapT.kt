@@ -3,6 +3,12 @@ package com.nnt.core;
 class MapT {
 
     companion object {
+        fun Get(o: AnyMap, k: Any, def: Any? = null): Any? {
+            if (o.containsKey(k))
+                return o[k]
+            return def
+        }
+
         /** 根据查询路径获取值 */
         fun GetValueByKeyPath(o: AnyMap?, kp: KeyPath, def: Any? = null): Any? {
             if (o == null) {

@@ -75,7 +75,7 @@ namespace nnt.flutter {
         }
 
         // 根据mode恢复ok
-        apply(ok: string) {
+        apply(ok: any) {
             if (this.mode == MessageMode.EMPTY) {
                 return ok;
             }

@@ -1,10 +1,10 @@
 part of nnt.core;
 
 class MapT {
-
-  static V? Get<K, V>(Map<K, V> map, K k, [V def = null]) {
-    if (map.containsKey(k))
+  static V Get<K, V>(Map<K, V> map, K k, [V def = null]) {
+    if (map.containsKey(k)) {
       return map[k];
+    }
     return def;
   }
 
