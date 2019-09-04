@@ -198,7 +198,15 @@ namespace nnt.flutter {
 
             // app通过拦截href来实现
             // console.log('msg: ' + raw);
-            location.href = raw;
+            // location.href = raw;
+
+            // 使用创建iframe的形式来打开，避免location速度过慢
+            let t = document.createElement('iframe')
+            t.src = raw
+            document.body.appendChild(t)
+            setTimeout(() => {
+                t.remove();
+            }, 0);
 
             return pm;
         }

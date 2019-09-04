@@ -97,13 +97,18 @@
 
 Object.defineProperty(exports, "__esModule", { value: true });
 class Test extends nnt.flutter.JsObject {
-    hello() {
-        return nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, 'hello'));
+    hello(abc) {
+        return nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, abc));
     }
 }
 exports.Test = Test;
 var test = new Test();
 test.objectId = 123;
+test.hello("haha").then(res => {
+    console.log(res);
+}).catch(err => {
+    console.error(err);
+});
 
 
 /***/ })

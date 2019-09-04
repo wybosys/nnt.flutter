@@ -114,14 +114,19 @@ var Test = (function (_super) {
     function Test() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Test.prototype.hello = function () {
-        return nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, 'hello'));
+    Test.prototype.hello = function (abc) {
+        return nnt.flutter.jsb.toApp(new nnt.flutter.Message(this.objectId, abc));
     };
     return Test;
 }(nnt.flutter.JsObject));
 exports.Test = Test;
 var test = new Test();
 test.objectId = 123;
+test.hello("haha").then(function (res) {
+    console.log(res);
+}).catch(function (err) {
+    console.error(err);
+});
 
 
 /***/ })

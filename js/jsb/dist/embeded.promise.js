@@ -235,7 +235,12 @@ var nnt;
                 let pm = new Promise((resolve, reject) => {
                     this._waitings[msg.id] = { resolve, reject };
                 });
-                location.href = raw;
+                let t = document.createElement('iframe');
+                t.src = raw;
+                document.body.appendChild(t);
+                setTimeout(() => {
+                    t.remove();
+                }, 0);
                 return pm;
             }
             result(raw) {

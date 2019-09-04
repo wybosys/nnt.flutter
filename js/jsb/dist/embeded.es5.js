@@ -284,7 +284,7 @@ var nnt;
             };
             _JsBridge.prototype.toApp = function (msg) {
                 return __awaiter(this, void 0, void 0, function () {
-                    var raw, pm;
+                    var raw, pm, t;
                     var _this = this;
                     return __generator(this, function (_a) {
                         msg.id = ++_msgid;
@@ -292,7 +292,12 @@ var nnt;
                         pm = new Promise(function (resolve, reject) {
                             _this._waitings[msg.id] = { resolve: resolve, reject: reject };
                         });
-                        location.href = raw;
+                        t = document.createElement('iframe');
+                        t.src = raw;
+                        document.body.appendChild(t);
+                        setTimeout(function () {
+                            t.remove();
+                        }, 0);
                         return [2, pm];
                     });
                 });
