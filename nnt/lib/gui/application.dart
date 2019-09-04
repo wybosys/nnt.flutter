@@ -1,6 +1,10 @@
 part of nnt.gui;
 
 abstract class GuiApplication extends CoreApplication {
+  GuiApplication() {
+    config.override({});
+  }
+
   // 返回Gui的单件
   static GuiApplication get shared {
     return CoreApplication.$__shared;
@@ -17,13 +21,16 @@ abstract class GuiApplication extends CoreApplication {
     SetOrientationType(ori);
 
     // 初始化根
-    Fullscreen root = new Fullscreen();
+    rootWidget = new Fullscreen();
 
     // 显示基础UI
-    runApp(root);
+    runApp(rootWidget);
 
     return true;
   }
+
+  // 根元素
+  RootWidget rootWidget;
 
   // 读取配置
   Future<bool> loadConfig() async {

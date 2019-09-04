@@ -16,6 +16,7 @@ part 'gui/jsbridge.dart';
 part 'gui/jsbridge.raw.dart';
 part 'gui/jsbridge.tpl.dart';
 part 'gui/screen.dart';
+part 'gui/rootwidget.dart';
 
 part 'gui.g.dart';
 
