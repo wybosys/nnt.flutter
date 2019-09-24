@@ -17,7 +17,7 @@ class MapT {
             val ks = kp.split('.');
             var r = o as Any?
             for (k in ks) {
-                if (!(r is AnyMap)) {
+                if (!(r is MapType)) {
                     return def;
                 }
                 r = r[k]

@@ -1,6 +1,7 @@
 package com.nnt.core;
 
-typealias AnyMap = Map<*, *>
+typealias AnyMap = Map<*, Any?>
+typealias MapType = Map<*, *>
 typealias IndexedObject = AnyMap
 typealias KeyPath = String
 

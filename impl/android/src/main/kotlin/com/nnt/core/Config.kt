@@ -13,7 +13,7 @@ class Config {
 
     fun override(cfg: AnyMap): Config {
         cfg.forEach {
-            _cfg.set(it.key as String, it.value as Any)
+            _cfg.set(it.key as String, it.value)
         }
         return this
     }
@@ -36,5 +36,5 @@ class Config {
         return MapT.GetValueByKeyPath(_cfg, kp, def)
     }
 
-    private var _cfg = mutableMapOf<String, Any>()
+    private var _cfg = mutableMapOf<String, Any?>()
 }

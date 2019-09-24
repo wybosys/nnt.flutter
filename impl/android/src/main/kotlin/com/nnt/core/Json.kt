@@ -2,7 +2,7 @@ package com.nnt.core;
 
 import com.google.gson.Gson
 
-typealias JsObj = Map<String, Any>
+typealias JsObj = Map<String, Any?>
 typealias JsObjOrStr = Any; // JSONObject or String
 typealias JsStr = String;
 
