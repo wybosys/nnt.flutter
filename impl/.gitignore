@@ -5,3 +5,14 @@
 .pub/
 
 build/
+
+android/local.properties
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Generated.xcconfig
+
+.flutter-plugins
+*.lock
+*.iml
+.fuse_*
+
+node_modules
