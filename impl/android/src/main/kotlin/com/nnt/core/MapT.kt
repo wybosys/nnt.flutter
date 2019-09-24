@@ -29,3 +29,15 @@ class MapT {
         }
     }
 }
+
+fun toMap(o: Any?, def: Map<*, *>? = null): Map<*, *>? {
+    if (o == null)
+        return def
+    if (o is Map<*, *>) {
+        return o
+    }
+    if (o is String) {
+        return toJsonObj(o)
+    }
+    return def
+}
