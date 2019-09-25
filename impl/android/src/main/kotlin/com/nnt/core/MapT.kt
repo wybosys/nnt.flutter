@@ -27,6 +27,17 @@ class MapT {
             }
             return r
         }
+
+        // 获得地一个不为null的key
+        fun ValueAtFirstExistsKey(o: AnyMap?, ks: List<String>, def: Any? = null): Any? {
+            if (o == null)
+                return def
+            ks.forEach {
+                if (o.containsKey(it))
+                    return o[it]
+            }
+            return def
+        }
     }
 }
 

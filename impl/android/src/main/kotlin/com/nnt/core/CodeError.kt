@@ -2,7 +2,7 @@ package com.nnt.core;
 
 import io.flutter.plugin.common.MethodChannel.Result
 
-class CodeError(val code: Int, val _msg: String?) : Throwable(_msg) {
+class CodeError(val code: Int, val _msg: String?) : Exception(_msg) {
 
     val msg: String
         get() {
