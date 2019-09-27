@@ -12,7 +12,7 @@ import android.telephony.TelephonyManager
 class Device {
 
     companion object {
-        @JvmStatic
+
         fun GetAndroidId(context: Context, def: String = ""): String {
             try {
                 return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID);
@@ -22,7 +22,6 @@ class Device {
             return def;
         }
 
-        @JvmStatic
         fun GetMacAddress(context: Context, def: String = ""): String {
             if (!IsWifiConnected(context))
                 return def;
@@ -37,7 +36,6 @@ class Device {
         }
 
         @SuppressLint("NewApi")
-        @JvmStatic
         fun GetIMEI(context: Context, def: String = ""): String {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             try {
@@ -58,7 +56,6 @@ class Device {
             return def;
         }
 
-        @JvmStatic
         fun IsWifiConnected(context: Context, def: Boolean = false): Boolean {
             try {
                 val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
