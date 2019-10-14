@@ -9,6 +9,9 @@ abstract class CWebView extends StatefulWidget {
   String userAgent;
 }
 
+// 用于额外加载js
+const kSignalJsHook = '::nn::wv::jshook';
+
 abstract class CWebViewState<T extends CWebView> extends State<T> with SObject {
   CWebViewState() {
     signals.connect(kSignalStarting, _cbStarting);
@@ -25,6 +28,7 @@ abstract class CWebViewState<T extends CWebView> extends State<T> with SObject {
     signals.register(kSignalAbort);
     signals.register(kSignalDone);
     signals.register(kSignalChanged);
+    signals.register(kSignalJsHook);
   }
 
   void dispose() {

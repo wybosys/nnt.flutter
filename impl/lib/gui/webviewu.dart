@@ -40,6 +40,7 @@ class WebViewStateU<T extends WebViewU> extends CWebViewState<T> {
           break;
         case WebViewState.finishLoad:
           signals.emit(kSignalDone, viewState.url);
+          signals.emit(kSignalJsHook);
           break;
         case WebViewState.abortLoad:
           signals.emit(kSignalAbort, viewState.url);
@@ -49,6 +50,7 @@ class WebViewStateU<T extends WebViewU> extends CWebViewState<T> {
 
     _self.onUrlChanged.listen((url) {
       signals.emit(kSignalChanged, url);
+      signals.emit(kSignalJsHook);
     });
   }
 
