@@ -11,7 +11,7 @@ class UrlT {
                 run {
                     val sk = URLEncoder.encode(k.toString())
                     val sv = URLEncoder.encode(v.toString())
-                    params.add("$k=$v")
+                    params.add("$sk=$sv")
                 }
             }
             return params.joinToString("&")

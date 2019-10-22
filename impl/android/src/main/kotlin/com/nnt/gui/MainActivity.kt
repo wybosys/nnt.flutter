@@ -5,10 +5,7 @@ import android.widget.FrameLayout
 open class MainActivity : Activity() {
     companion object {
         private var _shared: MainActivity? = null
-        val shared: MainActivity
-            get() {
-                return _shared as MainActivity
-            }
+        val shared: MainActivity get() = _shared as MainActivity
     }
 
     init {
