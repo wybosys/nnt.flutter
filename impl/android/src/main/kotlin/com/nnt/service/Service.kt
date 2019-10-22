@@ -38,7 +38,7 @@ fun Fetch(domain: String, action: String, args: AnyMap): Any? {
             throw CodeError(STATUS.FORMAT_ERROR, conn.body)
         } else {
             val code = toInt(raw["code"])
-            val payload = MapT.ValueAtFirstExistsKey(raw, listOf("message", "data")) as Any?
+            val payload = MapT.ValueAtFirstExistsKey(raw, listOf("message", "data"), {}) as Any?
             if (code != STATUS.OK) {
                 throw CodeError(code, toJson(payload))
             } else {
