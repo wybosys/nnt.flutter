@@ -2,7 +2,7 @@ package com.nnt.service
 
 import com.nnt.core.*
 
-fun Get(domain: String, action: String, args: AnyMap): Any? {
+fun Get(domain: String, action: String, args: AnyMap): AnyMap? {
     try {
         return Fetch(domain, action, args)
     } catch (e: Exception) {
@@ -11,7 +11,7 @@ fun Get(domain: String, action: String, args: AnyMap): Any? {
     return null
 }
 
-fun Fetch(domain: String, action: String, args: AnyMap): Any? {
+fun Fetch(domain: String, action: String, args: AnyMap): AnyMap? {
     // 拼装url
     var url = Config.shared.get("PROTOCOL") as String + "//" + Config.shared.get("SDK_HOST") + "/" + domain + "/?action=" + action
 
@@ -38,7 +38,7 @@ fun Fetch(domain: String, action: String, args: AnyMap): Any? {
             throw CodeError(STATUS.FORMAT_ERROR, conn.body)
         } else {
             val code = toInt(raw["code"])
-            val payload = MapT.ValueAtFirstExistsKey(raw, listOf("message", "data"), {}) as Any?
+            val payload = MapT.ValueAtFirstExistsKey(raw, listOf("message", "data"), {}) as AnyMap?
             if (code != STATUS.OK) {
                 throw CodeError(code, toJson(payload))
             } else {
