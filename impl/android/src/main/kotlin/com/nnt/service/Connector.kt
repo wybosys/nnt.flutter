@@ -6,6 +6,7 @@ import com.nnt.core.StringT
 import com.nnt.core.UrlT
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
@@ -84,13 +85,15 @@ class Connector {
 
     // 返回协程中的处理
     fun send() {
-        GlobalScope.launch {
-            try {
-                _send()
-            } catch (e: Exception) {
-                errno = 404
-                _errmsg = e.localizedMessage
-            }
+        runBlocking {
+            GlobalScope.launch {
+                try {
+                    _send()
+                } catch (e: Exception) {
+                    errno = 404
+                    _errmsg = e.localizedMessage
+                }
+            }.join()
         }
     }
 
@@ -171,7 +174,7 @@ class Connector {
 
     // 消息主体
     private var _body: String? = null
-    val body get() = _body as String
+    val body get() = if (_body == null) "" else _body
 
     companion object {
         private fun GetResponse(inp: InputStream): String {

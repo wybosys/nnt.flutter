@@ -6,7 +6,7 @@ fun Get(domain: String, action: String, args: AnyMap): Any? {
     try {
         return Fetch(domain, action, args)
     } catch (e: Exception) {
-        // pass
+        Logger.warn(e.toString())
     }
     return null
 }
