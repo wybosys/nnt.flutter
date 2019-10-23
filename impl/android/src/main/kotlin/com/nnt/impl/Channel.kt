@@ -17,7 +17,7 @@ open abstract class Method(name: String, ui: Boolean = true) {
     val ui = ui
 
     // 绑定执行器
-    protected fun bindResult(result: MethodChannel.Result) {
+    fun bindResult(result: MethodChannel.Result) {
         _result = result
     }
 
@@ -38,22 +38,17 @@ open abstract class Method(name: String, ui: Boolean = true) {
 
     // 实现调用
     abstract fun invoke(call: MethodCall)
-
-    protected fun _invoke(call: MethodCall) {
-        if (ui) {
-            val act = MainActivity.shared
-            act.runOnUiThread(fun() {
-                invoke(call)
-            })
-        } else {
-            invoke(call)
-        }
-    }
 }
 
-private interface _Method {
-    fun bindResult(result: MethodChannel.Result)
-    fun _invoke(call: MethodCall)
+private fun Invoke(mth: Method, call: MethodCall) {
+    if (mth.ui) {
+        val act = MainActivity.shared
+        act.runOnUiThread(fun() {
+            mth.invoke(call)
+        })
+    } else {
+        mth.invoke(call)
+    }
 }
 
 open class Channel(registrar: Registrar, channname: String) : MethodChannel.MethodCallHandler {
@@ -99,10 +94,10 @@ open class Channel(registrar: Registrar, channname: String) : MethodChannel.Meth
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         Logger.log("收到原生请求 ${call.method}")
 
-        val mth = _methods[call.method] as _Method
+        val mth = _methods[call.method]
         if (mth != null) {
             mth.bindResult(result)
-            mth._invoke(call)
+            Invoke(mth, call)
         } else {
             result.notImplemented()
         }
