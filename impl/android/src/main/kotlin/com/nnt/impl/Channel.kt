@@ -3,17 +3,21 @@ package com.nnt.impl;
 import com.nnt.core.CodeError
 import com.nnt.core.Logger
 import com.nnt.gui.Activity
+import com.nnt.gui.MainActivity
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-open abstract class Method(name: String) {
+open abstract class Method(name: String, ui: Boolean = true) {
 
     // 方法名
     val name = name
 
+    // 主线程
+    val ui = ui
+
     // 绑定执行器
-    fun bindResult(result: MethodChannel.Result) {
+    protected fun bindResult(result: MethodChannel.Result) {
         _result = result
     }
 
@@ -34,6 +38,22 @@ open abstract class Method(name: String) {
 
     // 实现调用
     abstract fun invoke(call: MethodCall)
+
+    protected fun _invoke(call: MethodCall) {
+        if (ui) {
+            val act = MainActivity.shared
+            act.runOnUiThread(fun() {
+                invoke(call)
+            })
+        } else {
+            invoke(call)
+        }
+    }
+}
+
+private interface _Method {
+    fun bindResult(result: MethodChannel.Result)
+    fun _invoke(call: MethodCall)
 }
 
 open class Channel(registrar: Registrar, channname: String) : MethodChannel.MethodCallHandler {
@@ -79,10 +99,10 @@ open class Channel(registrar: Registrar, channname: String) : MethodChannel.Meth
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         Logger.log("收到原生请求 ${call.method}")
 
-        val mth = _methods[call.method]
+        val mth = _methods[call.method] as _Method
         if (mth != null) {
             mth.bindResult(result)
-            mth.invoke(call)
+            mth._invoke(call)
         } else {
             result.notImplemented()
         }
