@@ -90,6 +90,15 @@ open class Channel(registrar: Registrar, channname: String) : MethodChannel.Meth
         _methods.remove(name)
     }
 
+    fun call(call: MethodCall) {
+        val mth = _methods[call.method]
+        if (mth != null) {
+            Invoke(mth, call)
+        } else {
+            Logger.fatal("请求了一个没有注册的原生命令 ${call.method}")
+        }
+    }
+
     // 实现方法回调
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         Logger.log("收到原生请求 ${call.method}")
