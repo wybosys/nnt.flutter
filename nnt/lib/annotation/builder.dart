@@ -10,6 +10,7 @@ import 'package:mustache/mustache.dart';
 import 'package:nnt/annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
+part 'builder.g.dart';
 part 'builder/clazz.dart';
 part 'builder/log.dart';
 part 'builder/util.dart';
