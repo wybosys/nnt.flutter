@@ -1,19 +1,19 @@
 author: wybosys@gmail.com
 dependencies:
-  ansicolor: ^1.0.2
+  ansicolor: ^2.0.1
   flutter:
     sdk: flutter
   reflected_mustache: ^1.0.11
-  shared_preferences: ^0.5.4
+  shared_preferences: ^2.0.11
 description: Nn Toolkit.
 dev_dependencies:
-  build_runner: ^1.8.0
+  build_runner: ^2.1.7
   flutter_test:
     sdk: flutter
   mustache: ^1.1.1
-  source_gen: ^0.9.5
+  source_gen: ^1.2.1
 environment:
-  sdk: '>=2.1.0 <3.0.0'
+  sdk: '>=2.15.0 <3.0.0'
 flutter: null
 homepage: github.com/wybosys
 name: nnt
