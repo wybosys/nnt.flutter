@@ -6,7 +6,5 @@
 |---|---|
 |nnt|dart基础库|
 |nnt-os|nnt系统依赖|
-|nnt-ios|ios系统依赖|
-|nnt-android|android系统依赖|
 |nnt-jsb|jsb层|
 |sample|示例项目|
